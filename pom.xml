@@ -8,7 +8,7 @@
   <packaging>jar</packaging>
 
   <name>strip-elf-section-header</name>
-  <description>PHP 5 X509 Library Project.</description>
+  <description>Strip SectionHeader from ELF-file.</description>
   <url>https://github.com/kkkon/strip-elf-section-header</url>
   <inceptionYear>2013</inceptionYear>
 

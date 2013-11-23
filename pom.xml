@@ -8,7 +8,36 @@
   <packaging>jar</packaging>
 
   <name>strip-elf-section-header</name>
-  <url>http://maven.apache.org</url>
+  <description>PHP 5 X509 Library Project.</description>
+  <url>https://github.com/kkkon/strip-elf-section-header</url>
+  <inceptionYear>2013</inceptionYear>
+
+  <issueManagement>
+    <url>https://github.com/kkkon/strip-elf-section-header/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <licenses>
+    <license>
+      <name>The MIT license</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:ssh://github.com/kkkon/strip-elf-section-header.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/kkkon/strip-elf-section-header.git</developerConnection>
+    <url>https://github.com/kkkon/strip-elf-section-header</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>kkkon</id>
+      <name>Kiyofumi Kondoh</name>
+    </developer>
+  </developers>
 
   <properties>
     <maven.compiler.encoding>UTF-8</maven.compiler.encoding>

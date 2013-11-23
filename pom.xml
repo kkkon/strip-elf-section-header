@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>jp.ne.sakura.kkkon</groupId>
-  <artifactId>stip-elf-section-header</artifactId>
+  <artifactId>strip-elf-section-header</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 

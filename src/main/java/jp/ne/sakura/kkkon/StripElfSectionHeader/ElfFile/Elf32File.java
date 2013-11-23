@@ -7,7 +7,10 @@ package jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.EI_NINDENT;
 import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.isElf32;
 import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.isElfMagic;
@@ -20,7 +23,7 @@ import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.isElfLitt
  */
 public class Elf32File {
 
-    static final class Header
+    static final class ElfHeader
     {
         byte[]  e_ident = new byte[ElfFile.EI_NINDENT];
         short   e_type;
@@ -64,13 +67,28 @@ public class Elf32File {
         
     }
     
+    static final class SectionHeader
+    {
+        int     sh_name;
+        int     sh_type;
+        int     sh_flags;
+        int     sh_addr;
+        int     sh_offset;
+        int     sh_size;
+        int     sh_link;
+        int     sh_info;
+        int     sh_addralign;
+        int     sh_entsize;
+    }
+    
     public static boolean stripSectionHeader( final String path )
     {
         boolean isStripped = false;
 
         File file = new File(path);
         {
-            FileInputStream inStream = null;
+            InputStream inStream = null;
+            OutputStream outStream = null;
 
             byte[] buff = new byte[EI_NINDENT];
             try
@@ -87,7 +105,7 @@ public class Elf32File {
                     {
                         if ( isElf32( buff ) )
                         {
-                            Header  header = new Header();
+                            ElfHeader  header = new ElfHeader();
                             System.arraycopy( buff, 0, header.e_ident, 0, buff.length );
                             if ( isElfBigEndian( buff ) )
                             {
@@ -464,8 +482,197 @@ public class Elf32File {
                                 }
                                 
                             }
-                            
+
                             System.out.println( header.toString() );
+                            File tempFile = File.createTempFile( "kkkon_strip", ".tmp" );
+                            outStream = new FileOutputStream( tempFile );
+
+                            header.e_shentsize = 0;
+                            header.e_shnum = 0;
+                            header.e_shstrndx = 0;
+
+                            inStream.close();
+                            inStream = new FileInputStream( file );
+                            inStream.skip( header.e_ehsize );
+                            
+                            outStream.write(header.e_ident);
+                            if ( isElfBigEndian( buff ) )
+                            {
+                                byte[] byte2 = new byte[2];
+                                byte[] byte4 = new byte[4];
+                                {
+                                    byte2[0] = (byte)((header.e_type >> 8) & 0xFF);
+                                    byte2[1] = (byte)((header.e_type >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[0] = (byte)((header.e_machine >> 8) & 0xFF);
+                                    byte2[1] = (byte)((header.e_machine >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte4[0] = (byte)((header.e_version >> 24) & 0xFF);
+                                    byte4[1] = (byte)((header.e_version >> 16) & 0xFF);
+                                    byte4[2] = (byte)((header.e_version >>  8) & 0xFF);
+                                    byte4[3] = (byte)((header.e_version >>  0) & 0xFF);
+                                    outStream.write( byte4 );
+                                }
+                                {
+                                    byte4[0] = (byte)((header.e_entry >> 24) & 0xFF);
+                                    byte4[1] = (byte)((header.e_entry >> 16) & 0xFF);
+                                    byte4[2] = (byte)((header.e_entry >>  8) & 0xFF);
+                                    byte4[3] = (byte)((header.e_entry >>  0) & 0xFF);
+                                    outStream.write( byte4 );
+                                }
+                                {
+                                    byte4[0] = (byte)((header.e_phoff >> 24) & 0xFF);
+                                    byte4[1] = (byte)((header.e_phoff >> 16) & 0xFF);
+                                    byte4[2] = (byte)((header.e_phoff >>  8) & 0xFF);
+                                    byte4[3] = (byte)((header.e_phoff >>  0) & 0xFF);
+                                    outStream.write( byte4 );
+                                }
+                                {
+                                    byte4[0] = (byte)((header.e_shoff >> 24) & 0xFF);
+                                    byte4[1] = (byte)((header.e_shoff >> 16) & 0xFF);
+                                    byte4[2] = (byte)((header.e_shoff >>  8) & 0xFF);
+                                    byte4[3] = (byte)((header.e_shoff >>  0) & 0xFF);
+                                    outStream.write( byte4 );
+                                }
+                                {
+                                    byte4[0] = (byte)((header.e_flags >> 24) & 0xFF);
+                                    byte4[1] = (byte)((header.e_flags >> 16) & 0xFF);
+                                    byte4[2] = (byte)((header.e_flags >>  8) & 0xFF);
+                                    byte4[3] = (byte)((header.e_flags >>  0) & 0xFF);
+                                    outStream.write( byte4 );
+                                }
+                                {
+                                    byte2[0] = (byte)((header.e_ehsize >> 8) & 0xFF);
+                                    byte2[1] = (byte)((header.e_ehsize >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[0] = (byte)((header.e_phentsize >> 8) & 0xFF);
+                                    byte2[1] = (byte)((header.e_phentsize >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[0] = (byte)((header.e_phnum >> 8) & 0xFF);
+                                    byte2[1] = (byte)((header.e_phnum >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[0] = (byte)((header.e_shentsize >> 8) & 0xFF);
+                                    byte2[1] = (byte)((header.e_shentsize >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[0] = (byte)((header.e_shnum >> 8) & 0xFF);
+                                    byte2[1] = (byte)((header.e_shnum >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[0] = (byte)((header.e_shstrndx >> 8) & 0xFF);
+                                    byte2[1] = (byte)((header.e_shstrndx >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                            }
+                            else
+                            if ( isElfLittleEndian( buff ) )
+                            {
+                                byte[] byte2 = new byte[2];
+                                byte[] byte4 = new byte[4];
+                                {
+                                    byte2[1] = (byte)((header.e_type >> 8) & 0xFF);
+                                    byte2[0] = (byte)((header.e_type >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[1] = (byte)((header.e_machine >> 8) & 0xFF);
+                                    byte2[0] = (byte)((header.e_machine >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte4[3] = (byte)((header.e_version >> 24) & 0xFF);
+                                    byte4[2] = (byte)((header.e_version >> 16) & 0xFF);
+                                    byte4[1] = (byte)((header.e_version >>  8) & 0xFF);
+                                    byte4[0] = (byte)((header.e_version >>  0) & 0xFF);
+                                    outStream.write( byte4 );
+                                }
+                                {
+                                    byte4[3] = (byte)((header.e_entry >> 24) & 0xFF);
+                                    byte4[2] = (byte)((header.e_entry >> 16) & 0xFF);
+                                    byte4[1] = (byte)((header.e_entry >>  8) & 0xFF);
+                                    byte4[0] = (byte)((header.e_entry >>  0) & 0xFF);
+                                    outStream.write( byte4 );
+                                }
+                                {
+                                    byte4[3] = (byte)((header.e_phoff >> 24) & 0xFF);
+                                    byte4[2] = (byte)((header.e_phoff >> 16) & 0xFF);
+                                    byte4[1] = (byte)((header.e_phoff >>  8) & 0xFF);
+                                    byte4[0] = (byte)((header.e_phoff >>  0) & 0xFF);
+                                    outStream.write( byte4 );
+                                }
+                                {
+                                    byte4[3] = (byte)((header.e_shoff >> 24) & 0xFF);
+                                    byte4[2] = (byte)((header.e_shoff >> 16) & 0xFF);
+                                    byte4[1] = (byte)((header.e_shoff >>  8) & 0xFF);
+                                    byte4[0] = (byte)((header.e_shoff >>  0) & 0xFF);
+                                    outStream.write( byte4 );
+                                }
+                                {
+                                    byte4[3] = (byte)((header.e_flags >> 24) & 0xFF);
+                                    byte4[2] = (byte)((header.e_flags >> 16) & 0xFF);
+                                    byte4[1] = (byte)((header.e_flags >>  8) & 0xFF);
+                                    byte4[0] = (byte)((header.e_flags >>  0) & 0xFF);
+                                    outStream.write( byte4 );
+                                }
+                                {
+                                    byte2[1] = (byte)((header.e_ehsize >> 8) & 0xFF);
+                                    byte2[0] = (byte)((header.e_ehsize >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[1] = (byte)((header.e_phentsize >> 8) & 0xFF);
+                                    byte2[0] = (byte)((header.e_phentsize >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[1] = (byte)((header.e_phnum >> 8) & 0xFF);
+                                    byte2[0] = (byte)((header.e_phnum >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[1] = (byte)((header.e_shentsize >> 8) & 0xFF);
+                                    byte2[0] = (byte)((header.e_shentsize >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[1] = (byte)((header.e_shnum >> 8) & 0xFF);
+                                    byte2[0] = (byte)((header.e_shnum >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                                {
+                                    byte2[1] = (byte)((header.e_shstrndx >> 8) & 0xFF);
+                                    byte2[0] = (byte)((header.e_shstrndx >> 0) & 0xFF);
+                                    outStream.write( byte2 );
+                                }
+                            }
+
+                            long size = header.e_shoff;
+                            long fileSize = file.length();
+                            if ( size < 0 || fileSize < size )
+                            {
+                                size = fileSize;
+                            }
+                            else
+                            {
+                            }
+                            size -= header.e_ehsize;
+
+                            byte[] temp = new byte[(int)size];
+                            inStream.read( temp );
+                            outStream.write( temp );
+
                         }
                     }
                 }
@@ -482,6 +689,10 @@ public class Elf32File {
             if ( null != inStream )
             {
                 try { inStream.close(); } catch ( Exception e ) { }
+            }
+            if ( null != outStream )
+            {
+                try { outStream.close(); } catch ( Exception e ) { }
             }
         }
         

@@ -483,7 +483,7 @@ public class Elf32File {
                                 
                             }
 
-                            System.out.println( header.toString() );
+                            //System.out.println( header.toString() );
                             File tempFile = File.createTempFile( "kkkon_strip", ".tmp" );
                             outStream = new FileOutputStream( tempFile );
 
@@ -673,6 +673,26 @@ public class Elf32File {
                             inStream.read( temp );
                             outStream.write( temp );
 
+                            inStream.close();
+                            outStream.flush();
+                            outStream.close();
+
+                            File fileBackup = new File(file.getAbsoluteFile() + ".bak" );
+                            if ( file.renameTo( fileBackup ) )
+                            {
+                                if ( tempFile.renameTo( file.getAbsoluteFile() ) )
+                                {
+                                }
+                                else
+                                {
+                                    System.err.println( "Failed. '" + tempFile.getAbsoluteFile() + "' renameTo '" + file.getAbsolutePath() + "'" );
+                                }
+                            }
+                            else
+                            {
+                                System.err.println( "Failed. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
+                            }
+                            
                         }
                     }
                 }

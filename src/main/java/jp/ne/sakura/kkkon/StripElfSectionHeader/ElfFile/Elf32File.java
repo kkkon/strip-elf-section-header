@@ -85,7 +85,34 @@ public class Elf32File {
         }
         
     }
-    
+
+    static final class ProgramHeader
+    {
+        int     p_type;
+        int     p_offset;
+        int     p_vaddr;
+        int     p_paddr;
+        int     p_filesz;
+        int     p_memsz;
+        int     p_flags;
+        int     p_align;
+
+        @Override
+        public String toString() {
+            return "ProgramHeader{"
+                    + "p_type=" + Integer.toHexString(p_type)
+                    + ", p_offset=" + Integer.toHexString(p_offset)
+                    + ", p_vaddr=" + Integer.toHexString(p_vaddr)
+                    + ", p_paddr=" + Integer.toHexString(p_paddr)
+                    + ", p_filesz=" + Integer.toHexString(p_filesz)
+                    + ", p_memsz=" + Integer.toHexString(p_memsz)
+                    + ", p_flags=" + Integer.toHexString(p_flags)
+                    + ", p_align=" + Integer.toHexString(p_align)
+                    + '}';
+        }
+        
+    }
+
     static final class SectionHeader
     {
         int     sh_name;

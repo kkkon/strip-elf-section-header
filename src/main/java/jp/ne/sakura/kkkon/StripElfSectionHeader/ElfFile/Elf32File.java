@@ -98,6 +98,23 @@ public class Elf32File {
         int     sh_info;
         int     sh_addralign;
         int     sh_entsize;
+
+        @Override
+        public String toString() {
+            return "SectionHeader{"
+                    + "sh_name=" + Integer.toHexString(sh_name)
+                    + ", sh_type=" + Integer.toHexString(sh_type)
+                    + ", sh_flags=" + Integer.toHexString(sh_flags)
+                    + ", sh_addr=" + Integer.toHexString(sh_addr)
+                    + ", sh_offset=" + Integer.toHexString(sh_offset)
+                    + ", sh_size=" + Integer.toHexString(sh_size)
+                    + ", sh_link=" + Integer.toHexString(sh_link)
+                    + ", sh_info=" + Integer.toHexString(sh_info)
+                    + ", sh_addralign=" + Integer.toHexString(sh_addralign)
+                    + ", sh_entsize=" + Integer.toHexString(sh_entsize)
+                    + '}';
+        }
+        
     }
     
     public static boolean stripSectionHeader( final String path )
@@ -502,7 +519,385 @@ public class Elf32File {
                                 
                             }
 
+                            inStream.close();
                             //System.out.println( header.toString() );
+
+                            inStream = new FileInputStream( file );
+                            inStream.skip( header.e_shoff );
+                            int offsetSectionHeader_StringTable = -1;
+                            if ( 0 < header.e_shentsize )
+                            {
+                                SectionHeader   sectionHeader = new SectionHeader();
+                                for ( int i = 0; i < header.e_shnum; ++i )
+                                {
+                                    if ( isElfBigEndian( buff ) )
+                                    {
+                                        byte[] byte4 = new byte[4];
+
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[0] << 24 ) & 0xFF000000)
+                                                        + ((byte4[1] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[2] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[3] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_name = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[0] << 24 ) & 0xFF000000)
+                                                        + ((byte4[1] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[2] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[3] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_type = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[0] << 24 ) & 0xFF000000)
+                                                        + ((byte4[1] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[2] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[3] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_flags = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[0] << 24 ) & 0xFF000000)
+                                                        + ((byte4[1] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[2] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[3] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_addr = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[0] << 24 ) & 0xFF000000)
+                                                        + ((byte4[1] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[2] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[3] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_offset = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[0] << 24 ) & 0xFF000000)
+                                                        + ((byte4[1] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[2] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[3] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_size = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[0] << 24 ) & 0xFF000000)
+                                                        + ((byte4[1] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[2] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[3] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_link = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[0] << 24 ) & 0xFF000000)
+                                                        + ((byte4[1] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[2] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[3] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_info = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[0] << 24 ) & 0xFF000000)
+                                                        + ((byte4[1] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[2] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[3] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_addralign = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[0] << 24 ) & 0xFF000000)
+                                                        + ((byte4[1] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[2] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[3] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_entsize = data;
+                                            }
+                                        }
+
+                                    }
+                                    else
+                                    if ( isElfLittleEndian( buff ) )
+                                    {
+                                        byte[] byte4 = new byte[4];
+
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[3] << 24 ) & 0xFF000000)
+                                                        + ((byte4[2] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[1] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[0] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_name = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[3] << 24 ) & 0xFF000000)
+                                                        + ((byte4[2] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[1] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[0] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_type = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[3] << 24 ) & 0xFF000000)
+                                                        + ((byte4[2] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[1] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[0] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_flags = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[3] << 24 ) & 0xFF000000)
+                                                        + ((byte4[2] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[1] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[0] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_addr = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[3] << 24 ) & 0xFF000000)
+                                                        + ((byte4[2] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[1] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[0] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_offset = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[3] << 24 ) & 0xFF000000)
+                                                        + ((byte4[2] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[1] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[0] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_size = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[3] << 24 ) & 0xFF000000)
+                                                        + ((byte4[2] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[1] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[0] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_link = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[3] << 24 ) & 0xFF000000)
+                                                        + ((byte4[2] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[1] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[0] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_info = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[3] << 24 ) & 0xFF000000)
+                                                        + ((byte4[2] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[1] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[0] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_addralign = data;
+                                            }
+                                        }
+                                        {
+                                            final int read4 = inStream.read(byte4);
+                                            if ( 4 != read4 )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                int data = (int)(
+                                                        (  (byte4[3] << 24 ) & 0xFF000000)
+                                                        + ((byte4[2] << 16 ) & 0x00FF0000)
+                                                        + ((byte4[1] <<  8 ) & 0x0000FF00)
+                                                        + ((byte4[0] <<  0 ) & 0x000000FF)
+                                                    );
+                                                sectionHeader.sh_entsize = data;
+                                            }
+                                        }
+
+                                    }
+                                    //System.out.println( sectionHeader.toString() );
+                                    if ( ElfFile.SHT_STRTAB == sectionHeader.sh_type )
+                                    {
+                                        if ( 0 == sectionHeader.sh_flags )
+                                        {
+                                            // TODO check ".shstrtab"
+                                            if ( offsetSectionHeader_StringTable < sectionHeader.sh_offset )
+                                            {
+                                                offsetSectionHeader_StringTable = sectionHeader.sh_offset;
+                                            }
+                                        }
+                                    }
+                                } // for
+                            }
+
                             File tempFile = File.createTempFile( "kkkon_strip", ".tmp" );
                             outStream = new FileOutputStream( tempFile );
 
@@ -678,13 +1073,18 @@ public class Elf32File {
                             }
 
                             long size = header.e_shoff;
-                            long fileSize = file.length();
+                            final long fileSize = file.length();
                             if ( size < 0 || fileSize < size )
                             {
                                 size = fileSize;
                             }
                             else
                             {
+                            }
+
+                            if ( offsetSectionHeader_StringTable < size )
+                            {
+                                size = offsetSectionHeader_StringTable;
                             }
                             size -= header.e_ehsize;
 
@@ -696,6 +1096,7 @@ public class Elf32File {
                             outStream.flush();
                             outStream.close();
 
+                            /*
                             File fileBackup = new File(file.getAbsoluteFile() + ".bak" );
                             if ( file.renameTo( fileBackup ) )
                             {
@@ -711,6 +1112,7 @@ public class Elf32File {
                             {
                                 System.err.println( "Failed. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
                             }
+                            */
                             
                         }
                     }

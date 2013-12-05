@@ -25,16 +25,7 @@
 package jp.ne.sakura.kkkon.StripElfSectionHeader;
 
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
 
 /**
  *
@@ -42,120 +33,6 @@ import org.apache.commons.cli.PosixParser;
  */
 public class App 
 {
-    private static class MyOption
-    {
-        public boolean batchRun = false;
-        public boolean dryRun = false;
-        public boolean keepBackup = true;
-        public String output = null;
-        public boolean recursive = false;
-        public boolean verbose = false;
-        public String[] args = null;
-
-        protected Options options = null;
-        protected CommandLine commandLine = null;
-
-        public void createOptions()
-        {
-            Options opts = new Options();
-
-            {
-                Option o = new Option("B", "batch", false, "batch mode. non interactive.");
-                opts.addOption( o );
-            }
-            {
-                Option o = new Option(null, "dry-run", false, "dry run");
-                opts.addOption( o );
-            }
-            {
-                Option o = new Option(null, "no-keep", false, "no keep backup");
-                opts.addOption( o );
-            }
-            {
-                Option o = new Option("o", "output", true, "output file or directory" );
-                o.setArgName("dest");
-                opts.addOption( o );
-            }
-            opts.addOption("r", "recursive", false, "recursive directory" );
-            opts.addOption("v", "verbose", false, "verbose display" );
-
-            this.options = opts;
-        }
-
-        public void showUsage()
-        {
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp( "strip-elf-section-header", this.options );
-        }
-        public boolean parseOption( final String args[] )
-        {
-            CommandLineParser parser = new PosixParser();
-
-            CommandLine cmdLine = null;
-            try {
-                cmdLine = parser.parse( this.options, args );
-            } catch (ParseException ex) {
-                Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if ( null == cmdLine )
-            {
-                return false;
-            }
-
-            this.commandLine = cmdLine;
-            return true;
-        }
-        public boolean applyOption()
-        {
-            if ( null == this.commandLine )
-            {
-                return false;
-            }
-
-            {
-                this.batchRun = false;
-                if ( this.commandLine.hasOption("batch") )
-                {
-                    this.batchRun = true;
-                }
-            }
-            {
-                this.dryRun = false;
-                if ( this.commandLine.hasOption("dry-run") )
-                {
-                    this.dryRun = true;
-                }
-            }
-            {
-                this.keepBackup = true;
-                if ( this.commandLine.hasOption("no-keep") )
-                {
-                    this.keepBackup = false;
-                }
-            }
-            {
-                this.output = this.commandLine.getOptionValue("o");
-            }
-            {
-                this.recursive = false;
-                if ( this.commandLine.hasOption("r") )
-                {
-                    this.recursive = true;
-                }
-            }
-            {
-                this.verbose = false;
-                if ( this.commandLine.hasOption("verbose") )
-                {
-                    this.verbose = true;
-                }
-            }
-            
-            this.args = this.commandLine.getArgs();
-
-            return true;
-        }
-    }
 
     public static void stripRecursive( final String path )
     {
@@ -196,19 +73,19 @@ public class App
 
     public static void main( String[] args )
     {
-        MyOption myOpt = new MyOption();
-        myOpt.createOptions();
-        myOpt.parseOption( args );
-        myOpt.applyOption();
+        AppOption appOpt = new AppOption();
+        appOpt.createOptions();
+        appOpt.parseOption( args );
+        appOpt.applyOption();
 
         if ( null == args )
         {
-            myOpt.showUsage();
+            appOpt.showUsage();
             return;
         }
         if ( args.length < 1 )
         {
-            myOpt.showUsage();
+            appOpt.showUsage();
             return;
         }
 

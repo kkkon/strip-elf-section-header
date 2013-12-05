@@ -44,8 +44,13 @@ public class App
 {
     private static class MyOption
     {
-        public boolean keepBackup = false;
+        public boolean batchRun = false;
+        public boolean dryRun = false;
+        public boolean keepBackup = true;
         public String output = null;
+        public boolean recursive = false;
+        public boolean verbose = false;
+        public String[] args = null;
 
         protected Options options = null;
         protected CommandLine commandLine = null;
@@ -53,9 +58,26 @@ public class App
         public void createOptions()
         {
             Options opts = new Options();
-            Option keep = new Option("k", "keep", false, "keep backup");
-            opts.addOption( keep );
-            opts.addOption("o", "output", true, "output file or directory" );
+
+            {
+                Option o = new Option("B", "batch", false, "batch mode. non interactive.");
+                opts.addOption( o );
+            }
+            {
+                Option o = new Option(null, "dry-run", false, "dry run");
+                opts.addOption( o );
+            }
+            {
+                Option o = new Option(null, "no-keep", false, "no keep backup");
+                opts.addOption( o );
+            }
+            {
+                Option o = new Option("o", "output", true, "output file or directory" );
+                o.setArgName("dest");
+                opts.addOption( o );
+            }
+            opts.addOption("r", "recursive", false, "recursive directory" );
+            opts.addOption("v", "verbose", false, "verbose display" );
 
             this.options = opts;
         }
@@ -89,17 +111,47 @@ public class App
             {
                 return false;
             }
-            
+
             {
-                this.keepBackup = false;
-                if ( this.commandLine.hasOption("k") )
+                this.batchRun = false;
+                if ( this.commandLine.hasOption("batch") )
                 {
-                    this.keepBackup = true;
+                    this.batchRun = true;
+                }
+            }
+            {
+                this.dryRun = false;
+                if ( this.commandLine.hasOption("dry-run") )
+                {
+                    this.dryRun = true;
+                }
+            }
+            {
+                this.keepBackup = true;
+                if ( this.commandLine.hasOption("no-keep") )
+                {
+                    this.keepBackup = false;
                 }
             }
             {
                 this.output = this.commandLine.getOptionValue("o");
             }
+            {
+                this.recursive = false;
+                if ( this.commandLine.hasOption("r") )
+                {
+                    this.recursive = true;
+                }
+            }
+            {
+                this.verbose = false;
+                if ( this.commandLine.hasOption("verbose") )
+                {
+                    this.verbose = true;
+                }
+            }
+            
+            this.args = this.commandLine.getArgs();
 
             return true;
         }
@@ -151,10 +203,12 @@ public class App
 
         if ( null == args )
         {
+            myOpt.showUsage();
             return;
         }
         if ( args.length < 1 )
         {
+            myOpt.showUsage();
             return;
         }
 

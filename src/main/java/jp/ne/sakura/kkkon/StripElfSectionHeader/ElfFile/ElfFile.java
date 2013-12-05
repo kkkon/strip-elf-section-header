@@ -279,4 +279,19 @@ public class ElfFile
 
         return isStripped;
     }
+    
+
+    static final int SHT_NULL = 0;
+    static final int SHT_PROGBITS = 1;
+    static final int SHT_SYMTAB = 2;
+    static final int SHT_STRTAB = 3;
+    static final int SHT_RELA = 4;
+    static final int SHT_HASH = 5;
+    static final int SHT_DYNAMIC = 6;
+    static final int SHT_NOTE = 7;
+    static final int SHT_NOBITS = 8;
+    static final int SHT_REL = 9;
+    static final int SHT_SHLIB = 10;
+    static final int SHT_DYNSYM = 11;
+    
 }

@@ -125,6 +125,23 @@ public class Elf32File {
         int     sh_info;
         int     sh_addralign;
         int     sh_entsize;
+
+        @Override
+        public String toString() {
+            return "SectionHeader{"
+                    + "sh_name=" + Integer.toHexString(sh_name)
+                    + ", sh_type=" + Integer.toHexString(sh_type)
+                    + ", sh_flags=" + Integer.toHexString(sh_flags)
+                    + ", sh_addr=" + Integer.toHexString(sh_addr)
+                    + ", sh_offset=" + Integer.toHexString(sh_offset)
+                    + ", sh_size=" + Integer.toHexString(sh_size)
+                    + ", sh_link=" + Integer.toHexString(sh_link)
+                    + ", sh_info=" + Integer.toHexString(sh_info)
+                    + ", sh_addralign=" + Integer.toHexString(sh_addralign)
+                    + ", sh_entsize=" + Integer.toHexString(sh_entsize)
+                    + '}';
+        }
+        
     }
     
     public static boolean stripSectionHeader( final String path )
@@ -153,383 +170,84 @@ public class Elf32File {
                         {
                             ElfHeader  header = new ElfHeader();
                             System.arraycopy( buff, 0, header.e_ident, 0, buff.length );
-                            if ( isElfBigEndian( buff ) )
-                            {
-                                byte[] byte2 = new byte[2];
-                                byte[] byte4 = new byte[4];
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[0] << 8) & 0xFF00) + ((byte2[1] << 0 ) & 0x00FF));
-                                        header.e_type = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[0] << 8) & 0xFF00) + ((byte2[1] << 0 ) & 0x00FF));
-                                        header.e_machine = data;
-                                    }
-                                }
-                                {
-                                    final int read4 = inStream.read(byte4);
-                                    if ( 4 != read4 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        int data = (int)(
-                                                (  (byte4[0] << 24 ) & 0xFF000000)
-                                                + ((byte4[1] << 16 ) & 0x00FF0000)
-                                                + ((byte4[2] <<  8 ) & 0x0000FF00)
-                                                + ((byte4[3] <<  0 ) & 0x000000FF)
-                                            );
-                                        header.e_version = data;
-                                    }
-                                }
-                                {
-                                    final int read4 = inStream.read(byte4);
-                                    if ( 4 != read4 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        int data = (int)(
-                                                (  (byte4[0] << 24 ) & 0xFF000000)
-                                                + ((byte4[1] << 16 ) & 0x00FF0000)
-                                                + ((byte4[2] <<  8 ) & 0x0000FF00)
-                                                + ((byte4[3] <<  0 ) & 0x000000FF)
-                                            );
-                                        header.e_entry = data;
-                                    }
-                                }
-                                {
-                                    final int read4 = inStream.read(byte4);
-                                    if ( 4 != read4 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        int data = (int)(
-                                                (  (byte4[0] << 24 ) & 0xFF000000)
-                                                + ((byte4[1] << 16 ) & 0x00FF0000)
-                                                + ((byte4[2] <<  8 ) & 0x0000FF00)
-                                                + ((byte4[3] <<  0 ) & 0x000000FF)
-                                            );
-                                        header.e_phoff = data;
-                                    }
-                                }
-                                {
-                                    final int read4 = inStream.read(byte4);
-                                    if ( 4 != read4 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        int data = (int)(
-                                                (  (byte4[0] << 24 ) & 0xFF000000)
-                                                + ((byte4[1] << 16 ) & 0x00FF0000)
-                                                + ((byte4[2] <<  8 ) & 0x0000FF00)
-                                                + ((byte4[3] <<  0 ) & 0x000000FF)
-                                            );
-                                        header.e_shoff = data;
-                                    }
-                                }
-                                {
-                                    final int read4 = inStream.read(byte4);
-                                    if ( 4 != read4 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        int data = (int)(
-                                                (  (byte4[0] << 24 ) & 0xFF000000)
-                                                + ((byte4[1] << 16 ) & 0x00FF0000)
-                                                + ((byte4[2] <<  8 ) & 0x0000FF00)
-                                                + ((byte4[3] <<  0 ) & 0x000000FF)
-                                            );
-                                        header.e_flags = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[0] << 8) & 0xFF00) + ((byte2[1] << 0 ) & 0x00FF));
-                                        header.e_ehsize = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[0] << 8) & 0xFF00) + ((byte2[1] << 0 ) & 0x00FF));
-                                        header.e_phentsize = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[0] << 8) & 0xFF00) + ((byte2[1] << 0 ) & 0x00FF));
-                                        header.e_phnum = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[0] << 8) & 0xFF00) + ((byte2[1] << 0 ) & 0x00FF));
-                                        header.e_shentsize = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[0] << 8) & 0xFF00) + ((byte2[1] << 0 ) & 0x00FF));
-                                        header.e_shnum = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[0] << 8) & 0xFF00) + ((byte2[1] << 0 ) & 0x00FF));
-                                        header.e_shstrndx = data;
-                                    }
-                                }
 
-                            }
-                            else
-                            if ( isElfLittleEndian( buff ) )
+                            final boolean isBigEndian = isElfBigEndian( buff );
+                            final boolean isLittleEndian = isElfLittleEndian( buff );
                             {
-                                byte[] byte2 = new byte[2];
-                                byte[] byte4 = new byte[4];
+                                if ( isBigEndian || isLittleEndian )
                                 {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[1] << 8) & 0xFF00) + ((byte2[0] << 0 ) & 0x00FF));
-                                        header.e_type = data;
-                                    }
                                 }
+                                else
                                 {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[1] << 8) & 0xFF00) + ((byte2[0] << 0 ) & 0x00FF));
-                                        header.e_machine = data;
-                                    }
+                                    throw new RuntimeException("unknown endian");
                                 }
+                            }
+                            {
+                                if ( isBigEndian || isLittleEndian )
                                 {
-                                    final int read4 = inStream.read(byte4);
-                                    if ( 4 != read4 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        int data = (int)(
-                                                (  (byte4[3] << 24 ) & 0xFF000000)
-                                                + ((byte4[2] << 16 ) & 0x00FF0000)
-                                                + ((byte4[1] <<  8 ) & 0x0000FF00)
-                                                + ((byte4[0] <<  0 ) & 0x000000FF)
-                                            );
-                                        header.e_version = data;
-                                    }
+                                    byte[] byte4 = new byte[4];
+
+                                    header.e_type       = Util.read2byte( byte4, inStream, isLittleEndian );
+                                    header.e_machine    = Util.read2byte( byte4, inStream, isLittleEndian );
+                                    header.e_version    = Util.read4byte( byte4, inStream, isLittleEndian );
+                                    header.e_entry      = Util.read4byte( byte4, inStream, isLittleEndian );
+                                    header.e_phoff      = Util.read4byte( byte4, inStream, isLittleEndian );
+                                    header.e_shoff      = Util.read4byte( byte4, inStream, isLittleEndian );
+                                    header.e_flags      = Util.read4byte( byte4, inStream, isLittleEndian );
+                                    header.e_ehsize     = Util.read2byte( byte4, inStream, isLittleEndian );
+                                    header.e_phentsize  = Util.read2byte( byte4, inStream, isLittleEndian );
+                                    header.e_phnum      = Util.read2byte( byte4, inStream, isLittleEndian );
+                                    header.e_shentsize  = Util.read2byte( byte4, inStream, isLittleEndian );
+                                    header.e_shnum      = Util.read2byte( byte4, inStream, isLittleEndian );
+                                    header.e_shstrndx   = Util.read2byte( byte4, inStream, isLittleEndian );
                                 }
+                                //System.out.println( header.toString() );
+                            }
+                            inStream.close();
+
+                            SectionHeader[] sectionHeaders = new SectionHeader[header.e_shnum];
+                            
+                            inStream = new FileInputStream( file );
+                            inStream.skip( header.e_shoff );
+                            int offsetSectionHeader_StringTable = -1;
+                            if ( 0 < header.e_shentsize )
+                            {
+                                SectionHeader   sectionHeader = new SectionHeader();
+                                for ( int index = 0; index < header.e_shnum; ++index )
                                 {
-                                    final int read4 = inStream.read(byte4);
-                                    if ( 4 != read4 )
                                     {
-                                        
+                                        if ( isBigEndian || isLittleEndian )
+                                        {
+                                            byte[] byte4 = new byte[4];
+
+                                            sectionHeader.sh_name = Util.read4byte( byte4, inStream, isLittleEndian );
+                                            sectionHeader.sh_type = Util.read4byte( byte4, inStream, isLittleEndian );
+                                            sectionHeader.sh_flags = Util.read4byte( byte4, inStream, isLittleEndian );
+                                            sectionHeader.sh_addr = Util.read4byte( byte4, inStream, isLittleEndian );
+                                            sectionHeader.sh_offset = Util.read4byte( byte4, inStream, isLittleEndian );
+                                            sectionHeader.sh_size = Util.read4byte( byte4, inStream, isLittleEndian );
+                                            sectionHeader.sh_link = Util.read4byte( byte4, inStream, isLittleEndian );
+                                            sectionHeader.sh_info = Util.read4byte( byte4, inStream, isLittleEndian );
+                                            sectionHeader.sh_addralign = Util.read4byte( byte4, inStream, isLittleEndian );
+                                            sectionHeader.sh_entsize = Util.read4byte( byte4, inStream, isLittleEndian );
+                                        }
+                                        //System.out.println( sectionHeader.toString() );
+                                        sectionHeaders[index] = sectionHeader;
                                     }
-                                    else
+                                    if ( ElfFile.SHT_STRTAB == sectionHeader.sh_type )
                                     {
-                                        int data = (int)(
-                                                (  (byte4[3] << 24 ) & 0xFF000000)
-                                                + ((byte4[2] << 16 ) & 0x00FF0000)
-                                                + ((byte4[1] <<  8 ) & 0x0000FF00)
-                                                + ((byte4[0] <<  0 ) & 0x000000FF)
-                                            );
-                                        header.e_entry = data;
+                                        if ( 0 == sectionHeader.sh_flags )
+                                        {
+                                            // TODO check ".shstrtab"
+                                            if ( offsetSectionHeader_StringTable < sectionHeader.sh_offset )
+                                            {
+                                                offsetSectionHeader_StringTable = sectionHeader.sh_offset;
+                                            }
+                                        }
                                     }
-                                }
-                                {
-                                    final int read4 = inStream.read(byte4);
-                                    if ( 4 != read4 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        int data = (int)(
-                                                (  (byte4[3] << 24 ) & 0xFF000000)
-                                                + ((byte4[2] << 16 ) & 0x00FF0000)
-                                                + ((byte4[1] <<  8 ) & 0x0000FF00)
-                                                + ((byte4[0] <<  0 ) & 0x000000FF)
-                                            );
-                                        header.e_phoff = data;
-                                    }
-                                }
-                                {
-                                    final int read4 = inStream.read(byte4);
-                                    if ( 4 != read4 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        int data = (int)(
-                                                (  (byte4[3] << 24 ) & 0xFF000000)
-                                                + ((byte4[2] << 16 ) & 0x00FF0000)
-                                                + ((byte4[1] <<  8 ) & 0x0000FF00)
-                                                + ((byte4[0] <<  0 ) & 0x000000FF)
-                                            );
-                                        header.e_shoff = data;
-                                    }
-                                }
-                                {
-                                    final int read4 = inStream.read(byte4);
-                                    if ( 4 != read4 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        int data = (int)(
-                                                (  (byte4[3] << 24 ) & 0xFF000000)
-                                                + ((byte4[2] << 16 ) & 0x00FF0000)
-                                                + ((byte4[1] <<  8 ) & 0x0000FF00)
-                                                + ((byte4[0] <<  0 ) & 0x000000FF)
-                                            );
-                                        header.e_flags = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[1] << 8) & 0xFF00) + ((byte2[0] << 0 ) & 0x00FF));
-                                        header.e_ehsize = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[1] << 8) & 0xFF00) + ((byte2[0] << 0 ) & 0x00FF));
-                                        header.e_phentsize = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[1] << 8) & 0xFF00) + ((byte2[0] << 0 ) & 0x00FF));
-                                        header.e_phnum = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[1] << 8) & 0xFF00) + ((byte2[0] << 0 ) & 0x00FF));
-                                        header.e_shentsize = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[1] << 8) & 0xFF00) + ((byte2[0] << 0 ) & 0x00FF));
-                                        header.e_shnum = data;
-                                    }
-                                }
-                                {
-                                    final int read2 = inStream.read(byte2);
-                                    if ( 2 != read2 )
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
-                                        short data = (short)(((byte2[1] << 8) & 0xFF00) + ((byte2[0] << 0 ) & 0x00FF));
-                                        header.e_shstrndx = data;
-                                    }
-                                }
-                                
+                                } // for
                             }
 
-                            //System.out.println( header.toString() );
                             File tempFile = File.createTempFile( "kkkon_strip", ".tmp" );
                             outStream = new FileOutputStream( tempFile );
 
@@ -542,176 +260,40 @@ public class Elf32File {
                             inStream.skip( header.e_ehsize );
                             
                             outStream.write(header.e_ident);
-                            if ( isElfBigEndian( buff ) )
                             {
-                                byte[] byte2 = new byte[2];
-                                byte[] byte4 = new byte[4];
+                                if ( isBigEndian || isLittleEndian )
                                 {
-                                    byte2[0] = (byte)((header.e_type >> 8) & 0xFF);
-                                    byte2[1] = (byte)((header.e_type >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[0] = (byte)((header.e_machine >> 8) & 0xFF);
-                                    byte2[1] = (byte)((header.e_machine >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte4[0] = (byte)((header.e_version >> 24) & 0xFF);
-                                    byte4[1] = (byte)((header.e_version >> 16) & 0xFF);
-                                    byte4[2] = (byte)((header.e_version >>  8) & 0xFF);
-                                    byte4[3] = (byte)((header.e_version >>  0) & 0xFF);
-                                    outStream.write( byte4 );
-                                }
-                                {
-                                    byte4[0] = (byte)((header.e_entry >> 24) & 0xFF);
-                                    byte4[1] = (byte)((header.e_entry >> 16) & 0xFF);
-                                    byte4[2] = (byte)((header.e_entry >>  8) & 0xFF);
-                                    byte4[3] = (byte)((header.e_entry >>  0) & 0xFF);
-                                    outStream.write( byte4 );
-                                }
-                                {
-                                    byte4[0] = (byte)((header.e_phoff >> 24) & 0xFF);
-                                    byte4[1] = (byte)((header.e_phoff >> 16) & 0xFF);
-                                    byte4[2] = (byte)((header.e_phoff >>  8) & 0xFF);
-                                    byte4[3] = (byte)((header.e_phoff >>  0) & 0xFF);
-                                    outStream.write( byte4 );
-                                }
-                                {
-                                    byte4[0] = (byte)((header.e_shoff >> 24) & 0xFF);
-                                    byte4[1] = (byte)((header.e_shoff >> 16) & 0xFF);
-                                    byte4[2] = (byte)((header.e_shoff >>  8) & 0xFF);
-                                    byte4[3] = (byte)((header.e_shoff >>  0) & 0xFF);
-                                    outStream.write( byte4 );
-                                }
-                                {
-                                    byte4[0] = (byte)((header.e_flags >> 24) & 0xFF);
-                                    byte4[1] = (byte)((header.e_flags >> 16) & 0xFF);
-                                    byte4[2] = (byte)((header.e_flags >>  8) & 0xFF);
-                                    byte4[3] = (byte)((header.e_flags >>  0) & 0xFF);
-                                    outStream.write( byte4 );
-                                }
-                                {
-                                    byte2[0] = (byte)((header.e_ehsize >> 8) & 0xFF);
-                                    byte2[1] = (byte)((header.e_ehsize >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[0] = (byte)((header.e_phentsize >> 8) & 0xFF);
-                                    byte2[1] = (byte)((header.e_phentsize >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[0] = (byte)((header.e_phnum >> 8) & 0xFF);
-                                    byte2[1] = (byte)((header.e_phnum >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[0] = (byte)((header.e_shentsize >> 8) & 0xFF);
-                                    byte2[1] = (byte)((header.e_shentsize >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[0] = (byte)((header.e_shnum >> 8) & 0xFF);
-                                    byte2[1] = (byte)((header.e_shnum >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[0] = (byte)((header.e_shstrndx >> 8) & 0xFF);
-                                    byte2[1] = (byte)((header.e_shstrndx >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                            }
-                            else
-                            if ( isElfLittleEndian( buff ) )
-                            {
-                                byte[] byte2 = new byte[2];
-                                byte[] byte4 = new byte[4];
-                                {
-                                    byte2[1] = (byte)((header.e_type >> 8) & 0xFF);
-                                    byte2[0] = (byte)((header.e_type >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[1] = (byte)((header.e_machine >> 8) & 0xFF);
-                                    byte2[0] = (byte)((header.e_machine >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte4[3] = (byte)((header.e_version >> 24) & 0xFF);
-                                    byte4[2] = (byte)((header.e_version >> 16) & 0xFF);
-                                    byte4[1] = (byte)((header.e_version >>  8) & 0xFF);
-                                    byte4[0] = (byte)((header.e_version >>  0) & 0xFF);
-                                    outStream.write( byte4 );
-                                }
-                                {
-                                    byte4[3] = (byte)((header.e_entry >> 24) & 0xFF);
-                                    byte4[2] = (byte)((header.e_entry >> 16) & 0xFF);
-                                    byte4[1] = (byte)((header.e_entry >>  8) & 0xFF);
-                                    byte4[0] = (byte)((header.e_entry >>  0) & 0xFF);
-                                    outStream.write( byte4 );
-                                }
-                                {
-                                    byte4[3] = (byte)((header.e_phoff >> 24) & 0xFF);
-                                    byte4[2] = (byte)((header.e_phoff >> 16) & 0xFF);
-                                    byte4[1] = (byte)((header.e_phoff >>  8) & 0xFF);
-                                    byte4[0] = (byte)((header.e_phoff >>  0) & 0xFF);
-                                    outStream.write( byte4 );
-                                }
-                                {
-                                    byte4[3] = (byte)((header.e_shoff >> 24) & 0xFF);
-                                    byte4[2] = (byte)((header.e_shoff >> 16) & 0xFF);
-                                    byte4[1] = (byte)((header.e_shoff >>  8) & 0xFF);
-                                    byte4[0] = (byte)((header.e_shoff >>  0) & 0xFF);
-                                    outStream.write( byte4 );
-                                }
-                                {
-                                    byte4[3] = (byte)((header.e_flags >> 24) & 0xFF);
-                                    byte4[2] = (byte)((header.e_flags >> 16) & 0xFF);
-                                    byte4[1] = (byte)((header.e_flags >>  8) & 0xFF);
-                                    byte4[0] = (byte)((header.e_flags >>  0) & 0xFF);
-                                    outStream.write( byte4 );
-                                }
-                                {
-                                    byte2[1] = (byte)((header.e_ehsize >> 8) & 0xFF);
-                                    byte2[0] = (byte)((header.e_ehsize >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[1] = (byte)((header.e_phentsize >> 8) & 0xFF);
-                                    byte2[0] = (byte)((header.e_phentsize >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[1] = (byte)((header.e_phnum >> 8) & 0xFF);
-                                    byte2[0] = (byte)((header.e_phnum >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[1] = (byte)((header.e_shentsize >> 8) & 0xFF);
-                                    byte2[0] = (byte)((header.e_shentsize >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[1] = (byte)((header.e_shnum >> 8) & 0xFF);
-                                    byte2[0] = (byte)((header.e_shnum >> 0) & 0xFF);
-                                    outStream.write( byte2 );
-                                }
-                                {
-                                    byte2[1] = (byte)((header.e_shstrndx >> 8) & 0xFF);
-                                    byte2[0] = (byte)((header.e_shstrndx >> 0) & 0xFF);
-                                    outStream.write( byte2 );
+                                    byte[] byte4 = new byte[4];
+                                    
+                                    Util.write2byte( byte4, header.e_type, outStream, isLittleEndian );
+                                    Util.write2byte( byte4, header.e_machine, outStream, isLittleEndian );
+                                    Util.write4byte( byte4, header.e_version, outStream, isLittleEndian );
+                                    Util.write4byte( byte4, header.e_entry, outStream, isLittleEndian );
+                                    Util.write4byte( byte4, header.e_phoff, outStream, isLittleEndian );
+                                    Util.write4byte( byte4, header.e_shoff, outStream, isLittleEndian );
+                                    Util.write4byte( byte4, header.e_flags, outStream, isLittleEndian );
+                                    Util.write2byte( byte4, header.e_ehsize, outStream, isLittleEndian );
+                                    Util.write2byte( byte4, header.e_phentsize, outStream, isLittleEndian );
+                                    Util.write2byte( byte4, header.e_phnum, outStream, isLittleEndian );
+                                    Util.write2byte( byte4, header.e_shentsize, outStream, isLittleEndian );
+                                    Util.write2byte( byte4, header.e_shnum, outStream, isLittleEndian );
+                                    Util.write2byte( byte4, header.e_shstrndx, outStream, isLittleEndian );
                                 }
                             }
 
                             long size = header.e_shoff;
-                            long fileSize = file.length();
+                            final long fileSize = file.length();
                             if ( size < 0 || fileSize < size )
                             {
                                 size = fileSize;
                             }
                             else
                             {
+                            }
+
+                            if ( offsetSectionHeader_StringTable < size )
+                            {
+                                size = offsetSectionHeader_StringTable;
                             }
                             size -= header.e_ehsize;
 
@@ -723,6 +305,7 @@ public class Elf32File {
                             outStream.flush();
                             outStream.close();
 
+                            /*
                             File fileBackup = new File(file.getAbsoluteFile() + ".bak" );
                             if ( file.renameTo( fileBackup ) )
                             {
@@ -738,6 +321,7 @@ public class Elf32File {
                             {
                                 System.err.println( "Failed. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
                             }
+                            */
                             
                         }
                     }

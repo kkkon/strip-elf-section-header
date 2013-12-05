@@ -25,7 +25,16 @@
 package jp.ne.sakura.kkkon.StripElfSectionHeader;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
 
 /**
  *
@@ -33,6 +42,68 @@ import jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile;
  */
 public class App 
 {
+    private static class MyOption
+    {
+        public boolean keepBackup = false;
+        public String output = null;
+
+        protected Options options = null;
+        protected CommandLine commandLine = null;
+
+        public void createOptions()
+        {
+            Options opts = new Options();
+            Option keep = new Option("k", "keep", false, "keep backup");
+            opts.addOption( keep );
+            opts.addOption("o", "output", true, "output file or directory" );
+
+            this.options = opts;
+        }
+
+        public void showUsage()
+        {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp( "strip-elf-section-header", this.options );
+        }
+        public boolean parseOption( final String args[] )
+        {
+            CommandLineParser parser = new PosixParser();
+
+            CommandLine cmdLine = null;
+            try {
+                cmdLine = parser.parse( this.options, args );
+            } catch (ParseException ex) {
+                Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if ( null == cmdLine )
+            {
+                return false;
+            }
+
+            this.commandLine = cmdLine;
+            return true;
+        }
+        public boolean applyOption()
+        {
+            if ( null == this.commandLine )
+            {
+                return false;
+            }
+            
+            {
+                this.keepBackup = false;
+                if ( this.commandLine.hasOption("k") )
+                {
+                    this.keepBackup = true;
+                }
+            }
+            {
+                this.output = this.commandLine.getOptionValue("o");
+            }
+
+            return true;
+        }
+    }
 
     public static void stripRecursive( final String path )
     {
@@ -73,6 +144,11 @@ public class App
 
     public static void main( String[] args )
     {
+        MyOption myOpt = new MyOption();
+        myOpt.createOptions();
+        myOpt.parseOption( args );
+        myOpt.applyOption();
+
         if ( null == args )
         {
             return;

@@ -212,9 +212,9 @@ public class Elf32File {
                             int offsetSectionHeader_StringTable = -1;
                             if ( 0 < header.e_shentsize )
                             {
-                                SectionHeader   sectionHeader = new SectionHeader();
                                 for ( int index = 0; index < header.e_shnum; ++index )
                                 {
+                                    SectionHeader   sectionHeader = new SectionHeader();
                                     {
                                         if ( isBigEndian || isLittleEndian )
                                         {
@@ -234,9 +234,15 @@ public class Elf32File {
                                         //System.out.println( sectionHeader.toString() );
                                         sectionHeaders[index] = sectionHeader;
                                     }
-                                    if ( ElfFile.SHT_STRTAB == sectionHeader.sh_type )
+                                } // for
+                                
+                                {
+                                    final int count = sectionHeaders.length;
+                                    final int index = header.e_shstrndx;
+                                    if ( 0 <= index && index < count )
                                     {
-                                        if ( 0 == sectionHeader.sh_flags )
+                                        final SectionHeader sectionHeader = sectionHeaders[index];
+                                        if ( ElfFile.SHT_STRTAB == sectionHeader.sh_type )
                                         {
                                             // TODO check ".shstrtab"
                                             if ( offsetSectionHeader_StringTable < sectionHeader.sh_offset )
@@ -245,7 +251,11 @@ public class Elf32File {
                                             }
                                         }
                                     }
-                                } // for
+                                    else
+                                    {
+                                        throw new IndexOutOfBoundsException("e_shstrndx out of bounds");
+                                    }
+                                }
                             }
 
                             File tempFile = File.createTempFile( "kkkon_strip", ".tmp" );

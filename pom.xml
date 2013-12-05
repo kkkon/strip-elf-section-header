@@ -66,6 +66,16 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${basedir}</directory>
+        <includes>
+          <include>LICENSE.txt</include>
+        </includes>
+        <targetPath>META-INF/kkkon</targetPath>
+      </resource>
+    </resources>
+ 
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

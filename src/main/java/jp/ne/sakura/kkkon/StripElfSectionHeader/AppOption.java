@@ -40,13 +40,13 @@ import org.apache.commons.cli.PosixParser;
  */
 class AppOption
 {
-    public boolean batchRun = false;
-    public boolean dryRun = false;
-    public boolean keepBackup = true;
-    public String output = null;
-    public boolean recursive = false;
-    public boolean verbose = false;
-    public String[] args = null;
+    private boolean batchRun = false;
+    private boolean dryRun = false;
+    private boolean keepBackup = true;
+    private String output = null;
+    private boolean recursive = false;
+    private boolean verbose = false;
+    private String[] args = null;
 
     protected Options options = null;
     protected CommandLine commandLine = null;
@@ -151,5 +151,34 @@ class AppOption
 
         return true;
     }
+
+    public boolean isBatchRun() {
+        return batchRun;
+    }
+
+    public boolean isDryRun() {
+        return dryRun;
+    }
+
+    public boolean isKeepBackup() {
+        return keepBackup;
+    }
+
+    public String getOutput() {
+        return output;
+    }
+
+    public boolean isRecursive() {
+        return recursive;
+    }
+
+    public boolean isVerbose() {
+        return verbose;
+    }
+
+    public String[] getArgs() {
+        return args;
+    }
+    
 }
 

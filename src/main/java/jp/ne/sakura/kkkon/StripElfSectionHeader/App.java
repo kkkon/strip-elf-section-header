@@ -33,10 +33,33 @@ import jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile;
  */
 public class App 
 {
-
-    public static void stripRecursive( final String path )
+    public static void stripRecursive( final AppOption option, final String rootPath, final String path )
     {
-        File file = new File( path );
+        final File file = new File( path );
+        String rootDir = null;
+        {
+            if ( null != rootPath )
+            {
+                rootDir = rootPath;
+            }
+            else
+            {
+                rootDir = file.getAbsolutePath();
+                if ( file.isDirectory() )
+                {
+                    // nothing
+                }
+                else
+                {
+                    final int index = rootDir.lastIndexOf( File.separatorChar );
+                    if ( 0 < index )
+                    {
+                        rootDir = rootDir.substring( 0, index );
+                    }
+                }
+            }
+        }
+
         if ( file.isDirectory() )
         {
             final File[] files = file.listFiles();
@@ -59,13 +82,44 @@ public class App
                     {
                         continue;
                     }
-                    stripRecursive( files[index].getAbsolutePath() );
+
+                    {
+                        boolean needCall = false;
+                        final File f = new File( files[index].getPath() );
+                        if ( f.isDirectory() )
+                        {
+                            if ( option.isRecursive() )
+                            {
+                                needCall = true;
+                            }
+                        }
+                        else
+                        {
+                            needCall = true;
+                        }
+                        
+                        if ( needCall )
+                        {
+                            stripRecursive( option, rootDir, files[index].getPath() );
+                        }
+                    }
                 }
             }
         }
         else
         {
-            final boolean isElfFile = ElfFile.stripElfSectionHeader( path );
+            String relativePath = null;
+            {
+                final int indexStart = rootDir.length() + 1;
+                final int indexLast = path.lastIndexOf( File.separatorChar );
+                if ( 0 < indexStart && 0 < indexLast && indexStart < indexLast )
+                {
+                    relativePath = path.substring( indexStart, indexLast );
+                }
+                //System.err.println( relativePath );
+            }
+            
+            final boolean isElfFile = ElfFile.stripElfSectionHeader( option, relativePath, path );
             System.err.println( path + ": " + isElfFile );
         }
         
@@ -73,15 +127,40 @@ public class App
 
     public static void main( String[] args )
     {
+        AppOption appOpt = new AppOption();
+        appOpt.createOptions();
+        {
+            final boolean result = appOpt.parseOption( args );
+            if ( false == result )
+            {
+                appOpt.showUsage();
+                return;
+            }
+        }
+        appOpt.applyOption();
+
         if ( null == args )
         {
+            appOpt.showUsage();
             return;
         }
         if ( args.length < 1 )
         {
+            appOpt.showUsage();
             return;
         }
 
-        stripRecursive( args[0] );
+        {
+            final String[] remain_args = appOpt.getArgs();
+            if ( null != remain_args )
+            {
+                final int count = remain_args.length;
+                for ( int index = 0; index < count; ++index )
+                {
+                    final String arg = remain_args[index];
+                    stripRecursive( appOpt, null, arg );
+                }
+            }
+        }
     }
 }

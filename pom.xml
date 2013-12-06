@@ -46,7 +46,7 @@
     <maven.findbugs.enable>true</maven.findbugs.enable>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
-    <maven.test.skip>true</maven.test.skip>
+    <maven.test.skip>false</maven.test.skip>
   </properties>
 
   <dependencies>
@@ -75,6 +75,17 @@
         <targetPath>META-INF/kkkon</targetPath>
       </resource>
     </resources>
+
+    <testResources>
+      <testResource>
+        <directory>testsrc/android</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>**/*.so</include>
+        </includes>
+        <targetPath>${project.build.testOutputDirectory}/elf/android</targetPath>
+      </testResource>
+    </testResources>
  
     <plugins>
       <plugin>
@@ -127,7 +138,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
     </plugins>
   </build>  
 

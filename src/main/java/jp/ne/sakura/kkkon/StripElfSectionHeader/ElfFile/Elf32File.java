@@ -101,7 +101,7 @@ public class Elf32File {
         int     sh_entsize;
     }
     
-    public static boolean stripSectionHeader( final AppOption option, final String path )
+    public static boolean stripSectionHeader( final AppOption option, final String relativePath, final String path )
     {
         boolean isStripped = false;
 
@@ -113,6 +113,40 @@ public class Elf32File {
                 System.out.println( "skip " + file.getPath() );
             }
             return false;
+        }
+
+        String fileName = null;
+        {
+            final int index = path.lastIndexOf( File.separatorChar );
+            if ( 0 < index )
+            {
+                fileName = path.substring( index );
+            }
+        }
+
+        String destPath = null;
+        {
+            final String outputDir = option.getOutput();
+            if ( null == outputDir )
+            {
+                final int index = path.lastIndexOf( File.separatorChar );
+                if ( 0 < index )
+                {
+                    destPath = path.substring( 0, index );
+                }
+            }
+            else
+            {
+                destPath = outputDir + File.separator + relativePath;
+                final File destDir = new File( destPath );
+                if ( ! destDir.exists() )
+                {
+                    if ( ! option.isDryRun() )
+                    {
+                        destDir.mkdirs();
+                    }
+                }
+            }
         }
 
         {
@@ -712,100 +746,17 @@ public class Elf32File {
                             }
                             else
                             {
-                                boolean readyRenameBackup = false;
-                                File fileBackup = new File(file.getPath() + ".bak" );
-                                if ( fileBackup.exists() )
+                                if ( null != option.getOutput() )
                                 {
-                                    boolean readyDelete = false;
-
-                                    if ( option.isBatchRun() )
+                                    File fileDest = new File( destPath + File.separator + fileName );
+                                    if ( fileDest.exists() )
                                     {
-                                        if ( option.isKeepBackup() )
-                                        {
-                                            
-                                        }
-                                        else
-                                        {
-                                            readyDelete = true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        while ( true )
-                                        {
-                                            System.out.println("do you want to delete ? (Y/N) " + fileBackup.getPath() );
-                                            final int c = System.in.read();
-                                            if ( 'Y' == c || 'y' == c )
-                                            {
-                                                readyDelete = true;
-                                            }
-                                            else
-                                            if ( 'N' == c || 'n' == c )
-                                            {
-                                                break;
-                                            }
-                                        }
-                                        while ( true )
-                                        {
-                                            if ( 0 < System.in.available() )
-                                            {
-                                                System.in.read();
-                                            }
-                                            else
-                                            {
-                                                break;
-                                            }
-                                        }
+                                        fileDest.delete();
                                     }
 
-                                    if ( readyDelete )
-                                    {
-                                        if ( fileBackup.canWrite() )
-                                        {
-                                            readyRenameBackup = fileBackup.delete();
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    readyRenameBackup = true;
-                                }
-
-                                boolean successReanmeToBackup = false;
-                                if ( readyRenameBackup )
-                                {
-                                    successReanmeToBackup = file.renameTo( fileBackup );
-                                    if ( successReanmeToBackup )
-                                    {
-                                        successReanmeToBackup = true;
-                                    }
-                                    else
-                                    {
-                                        successReanmeToBackup = false;
-                                        System.err.println( "Failed. rename original to backup. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
-                                    }
-                                }
-                                if ( false == successReanmeToBackup && !option.isKeepBackup() )
-                                {
-                                    file.delete();
-                                }
-
-                                if ( successReanmeToBackup || (false == successReanmeToBackup && !option.isKeepBackup() ) )
-                                {
-                                    if ( tempFile.renameTo( file.getAbsoluteFile() ) )
+                                    if ( tempFile.renameTo( fileDest.getAbsoluteFile() ) )
                                     {
                                         isStripped = true;
-
-                                        if ( option.isKeepBackup() )
-                                        {
-                                        }
-                                        else
-                                        {
-                                            if ( fileBackup.canWrite() )
-                                            {
-                                                fileBackup.delete();
-                                            }
-                                        }
                                     }
                                     else
                                     {
@@ -814,7 +765,111 @@ public class Elf32File {
                                 }
                                 else
                                 {
-                                    System.err.println( "Failed. rename to backup. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
+                                    boolean readyRenameBackup = false;
+                                    File fileBackup = new File(file.getPath() + ".bak" );
+                                    if ( fileBackup.exists() )
+                                    {
+                                        boolean readyDelete = false;
+
+                                        if ( option.isBatchRun() )
+                                        {
+                                            if ( option.isKeepBackup() )
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                readyDelete = true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            while ( true )
+                                            {
+                                                System.out.println("do you want to delete ? (Y/N) " + fileBackup.getPath() );
+                                                final int c = System.in.read();
+                                                if ( 'Y' == c || 'y' == c )
+                                                {
+                                                    readyDelete = true;
+                                                }
+                                                else
+                                                if ( 'N' == c || 'n' == c )
+                                                {
+                                                    break;
+                                                }
+                                            }
+                                            while ( true )
+                                            {
+                                                if ( 0 < System.in.available() )
+                                                {
+                                                    System.in.read();
+                                                }
+                                                else
+                                                {
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        if ( readyDelete )
+                                        {
+                                            if ( fileBackup.canWrite() )
+                                            {
+                                                readyRenameBackup = fileBackup.delete();
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        readyRenameBackup = true;
+                                    }
+
+                                    boolean successReanmeToBackup = false;
+                                    if ( readyRenameBackup )
+                                    {
+                                        successReanmeToBackup = file.renameTo( fileBackup );
+                                        if ( successReanmeToBackup )
+                                        {
+                                            successReanmeToBackup = true;
+                                        }
+                                        else
+                                        {
+                                            successReanmeToBackup = false;
+                                            System.err.println( "Failed. rename original to backup. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
+                                        }
+                                    }
+                                    if ( false == successReanmeToBackup && !option.isKeepBackup() )
+                                    {
+                                        file.delete();
+                                    }
+
+                                    if ( successReanmeToBackup || (false == successReanmeToBackup && !option.isKeepBackup() ) )
+                                    {
+                                        File fileDest = new File( destPath + File.separator + fileName );
+                                        if ( tempFile.renameTo( fileDest.getAbsoluteFile() ) )
+                                        {
+                                            isStripped = true;
+
+                                            if ( option.isKeepBackup() )
+                                            {
+                                            }
+                                            else
+                                            {
+                                                if ( fileBackup.canWrite() )
+                                                {
+                                                    fileBackup.delete();
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            System.err.println( "Failed. rename tempFile to original '" + tempFile.getAbsoluteFile() + "' renameTo '" + file.getAbsolutePath() + "'" );
+                                        }
+                                    }
+                                    else
+                                    {
+                                        System.err.println( "Failed. rename to backup. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
+                                    }
                                 }
 
                                 if ( tempFile.exists() )

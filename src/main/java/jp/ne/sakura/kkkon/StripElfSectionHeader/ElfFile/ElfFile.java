@@ -214,7 +214,7 @@ public class ElfFile
         return isElfFile;
     }
 
-    public static boolean stripElfSectionHeader( final AppOption option, final String path )
+    public static boolean stripElfSectionHeader( final AppOption option, final String relativePath, final String path )
     {
         boolean isStripped = false;
 
@@ -271,7 +271,7 @@ public class ElfFile
             switch ( ElfClass )
             {
                 case ELFCLASS32:
-                    isStripped = Elf32File.stripSectionHeader( option, path );
+                    isStripped = Elf32File.stripSectionHeader( option, relativePath, path );
                     break;
                 case ELFCLASS64:
                     System.err.println( "Not implemented ElfClass64" );

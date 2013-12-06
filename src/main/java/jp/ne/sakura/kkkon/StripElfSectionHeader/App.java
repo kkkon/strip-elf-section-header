@@ -95,7 +95,14 @@ public class App
     {
         AppOption appOpt = new AppOption();
         appOpt.createOptions();
-        appOpt.parseOption( args );
+        {
+            final boolean result = appOpt.parseOption( args );
+            if ( false == result )
+            {
+                appOpt.showUsage();
+                return;
+            }
+        }
         appOpt.applyOption();
 
         if ( null == args )

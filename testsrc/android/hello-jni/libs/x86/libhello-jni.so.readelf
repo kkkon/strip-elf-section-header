@@ -1,0 +1,148 @@
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              DYN (Shared object file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x0
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          4368 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         7
+  Size of section headers:           40 (bytes)
+  Number of section headers:         21
+  Section header string table index: 20
+
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            00000000 000000 000000 00      0   0  0
+  [ 1] .dynsym           DYNSYM          00000114 000114 0000c0 10   A  2   1  4
+  [ 2] .dynstr           STRTAB          000001d4 0001d4 000105 00   A  0   0  1
+  [ 3] .hash             HASH            000002dc 0002dc 000044 04   A  1   0  4
+  [ 4] .rel.dyn          REL             00000320 000320 000028 08   A  1   0  4
+  [ 5] .rel.plt          REL             00000348 000348 000028 08   A  1   6  4
+  [ 6] .plt              PROGBITS        00000370 000370 000060 04  AX  0   0  4
+  [ 7] .text             PROGBITS        000003d0 0003d0 000138 00  AX  0   0 16
+  [ 8] .rodata           PROGBITS        00000508 000508 000011 00   A  0   0  1
+  [ 9] .eh_frame         PROGBITS        0000051c 00051c 000040 00   A  0   0  4
+  [10] .eh_frame_hdr     PROGBITS        0000055c 00055c 000014 00   A  0   0  4
+  [11] .init_array       INIT_ARRAY      00001edc 000edc 00000c 00  WA  0   0  4
+  [12] .fini_array       FINI_ARRAY      00001ee8 000ee8 00000c 00  WA  0   0  4
+  [13] .dynamic          DYNAMIC         00001ef4 000ef4 0000f8 08  WA  2   0  4
+  [14] .got              PROGBITS        00001fec 000fec 000008 00  WA  0   0  4
+  [15] .got.plt          PROGBITS        00001ff4 000ff4 000020 00  WA  0   0  4
+  [16] .data             PROGBITS        00002014 001014 000004 00  WA  0   0  4
+  [17] .bss              NOBITS          00002018 001018 00001c 00  WA  0   0  4
+  [18] .comment          PROGBITS        00000000 001018 000026 01  MS  0   0  1
+  [19] .note.gnu.gold-ve NOTE            00000000 001040 00001c 00      0   0  4
+  [20] .shstrtab         STRTAB          00000000 00105c 0000b3 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings)
+  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)
+  O (extra OS processing required) o (OS specific), p (processor specific)
+
+There are no section groups in this file.
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  PHDR           0x000034 0x00000034 0x00000034 0x000e0 0x000e0 R   0x4
+  LOAD           0x000000 0x00000000 0x00000000 0x00570 0x00570 R E 0x1000
+  LOAD           0x000edc 0x00001edc 0x00001edc 0x0013c 0x00158 RW  0x1000
+  DYNAMIC        0x000ef4 0x00001ef4 0x00001ef4 0x000f8 0x000f8 RW  0x4
+  GNU_EH_FRAME   0x00055c 0x0000055c 0x0000055c 0x00014 0x00014 R   0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0
+  GNU_RELRO      0x000edc 0x00001edc 0x00001edc 0x00124 0x00124 RW  0x4
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     
+   01     .dynsym .dynstr .hash .rel.dyn .rel.plt .plt .text .rodata .eh_frame .eh_frame_hdr 
+   02     .init_array .fini_array .dynamic .got .got.plt .data .bss 
+   03     .dynamic 
+   04     .eh_frame_hdr 
+   05     
+   06     .init_array .fini_array .dynamic .got 
+
+Dynamic section at offset 0xef4 contains 26 entries:
+  Tag        Type                         Name/Value
+ 0x00000003 (PLTGOT)                     0x1ff4
+ 0x00000002 (PLTRELSZ)                   40 (bytes)
+ 0x00000017 (JMPREL)                     0x348
+ 0x00000014 (PLTREL)                     REL
+ 0x00000011 (REL)                        0x320
+ 0x00000012 (RELSZ)                      40 (bytes)
+ 0x00000013 (RELENT)                     8 (bytes)
+ 0x6ffffffa (RELCOUNT)                   3
+ 0x00000006 (SYMTAB)                     0x114
+ 0x0000000b (SYMENT)                     16 (bytes)
+ 0x00000005 (STRTAB)                     0x1d4
+ 0x0000000a (STRSZ)                      261 (bytes)
+ 0x00000004 (HASH)                       0x2dc
+ 0x00000001 (NEEDED)                     Shared library: [libstdc++.so]
+ 0x00000001 (NEEDED)                     Shared library: [libm.so]
+ 0x00000001 (NEEDED)                     Shared library: [libc.so]
+ 0x00000001 (NEEDED)                     Shared library: [libdl.so]
+ 0x0000000e (SONAME)                     Library soname: [libhello-jni.so]
+ 0x00000019 (INIT_ARRAY)                 0x1edc
+ 0x0000001b (INIT_ARRAYSZ)               12 (bytes)
+ 0x0000001a (FINI_ARRAY)                 0x1ee8
+ 0x0000001c (FINI_ARRAYSZ)               12 (bytes)
+ 0x00000010 (SYMBOLIC)                   0x0
+ 0x0000001e (FLAGS)                      SYMBOLIC BIND_NOW
+ 0x6ffffffb (FLAGS_1)                    Flags: NOW
+ 0x00000000 (NULL)                       0x0
+
+Relocation section '.rel.dyn' at offset 0x320 contains 5 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00001ee0  00000008 R_386_RELATIVE   
+00001eec  00000008 R_386_RELATIVE   
+00002014  00000008 R_386_RELATIVE   
+00001fec  00000406 R_386_GLOB_DAT    00000000   __deregister_frame_inf
+00001ff0  00000506 R_386_GLOB_DAT    00000000   __register_frame_info_
+
+Relocation section '.rel.plt' at offset 0x348 contains 5 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00002000  00000307 R_386_JUMP_SLOT   00000000   __cxa_finalize
+00002004  00000407 R_386_JUMP_SLOT   00000000   __deregister_frame_inf
+00002008  00000507 R_386_JUMP_SLOT   00000000   __register_frame_info_
+0000200c  00000607 R_386_JUMP_SLOT   00000000   __cxa_atexit
+00002010  00000707 R_386_JUMP_SLOT   00000000   __stack_chk_fail
+
+There are no unwind sections in this file.
+
+Symbol table '.dynsym' contains 12 entries:
+   Num:    Value  Size Type    Bind   Vis      Ndx Name
+     0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND 
+     1: 00001edc     0 OBJECT  GLOBAL DEFAULT   11 __INIT_ARRAY__
+     2: 00001ee8     0 OBJECT  GLOBAL DEFAULT   12 __FINI_ARRAY__
+     3: 00000000     0 FUNC    GLOBAL DEFAULT  UND __cxa_finalize
+     4: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __deregister_frame_info_b
+     5: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __register_frame_info_bas
+     6: 00000000     0 FUNC    GLOBAL DEFAULT  UND __cxa_atexit
+     7: 00000000     0 FUNC    GLOBAL DEFAULT  UND __stack_chk_fail
+     8: 000004d0    55 FUNC    GLOBAL DEFAULT    7 Java_com_example_hellojni
+     9: 00002018     0 NOTYPE  GLOBAL DEFAULT  ABS _edata
+    10: 00002018     0 NOTYPE  GLOBAL DEFAULT  ABS __bss_start
+    11: 00002034     0 NOTYPE  GLOBAL DEFAULT  ABS _end
+
+Histogram for bucket list length (total of 3 buckets):
+ Length  Number     % of total  Coverage
+      0  0          (  0.0%)
+      1  0          (  0.0%)      0.0%
+      2  1          ( 33.3%)     18.2%
+      3  1          ( 33.3%)     45.5%
+      4  0          (  0.0%)     45.5%
+      5  0          (  0.0%)     45.5%
+      6  1          ( 33.3%)    100.0%
+
+No version information found in this file.
+
+Notes at offset 0x00001040 with length 0x0000001c:
+  Owner		Data size	Description
+  GNU		0x00000009	NT_GNU_GOLD_VERSION (gold version)

@@ -1,0 +1,462 @@
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              DYN (Shared object file)
+  Machine:                           ARM
+  Version:                           0x1
+  Entry point address:               0x0
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          56780 (bytes into file)
+  Flags:                             0x5000000, Version5 EABI
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         8
+  Size of section headers:           40 (bytes)
+  Number of section headers:         34
+  Section header string table index: 33
+
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            00000000 000000 000000 00      0   0  0
+  [ 1] .interp           PROGBITS        00000134 000134 000013 00   A  0   0  1
+  [ 2] .dynsym           DYNSYM          00000148 000148 000370 10   A  3   1  4
+  [ 3] .dynstr           STRTAB          000004b8 0004b8 0004c1 00   A  0   0  1
+  [ 4] .hash             HASH            0000097c 00097c 000178 04   A  2   0  4
+  [ 5] .rel.dyn          REL             00000af4 000af4 000040 08   A  2   0  4
+  [ 6] .rel.plt          REL             00000b34 000b34 000038 08   A  2   0  4
+  [ 7] .plt              PROGBITS        00000b6c 000b6c 000068 00  AX  0   0  4
+  [ 8] .text             PROGBITS        00000bd4 000bd4 0015c0 00  AX  0   0  4
+  [ 9] .ARM.extab        PROGBITS        00002194 002194 000024 00   A  0   0  4
+  [10] .ARM.exidx        ARM_EXIDX       000021b8 0021b8 0000e8 08  AL  8   0  4
+  [11] .rodata           PROGBITS        000022a0 0022a0 000011 01 AMS  0   0  1
+  [12] .fini_array       FINI_ARRAY      00003eb8 002eb8 000008 00  WA  0   0  4
+  [13] .init_array       INIT_ARRAY      00003ec0 002ec0 000004 00  WA  0   0  1
+  [14] .dynamic          DYNAMIC         00003ec4 002ec4 0000f8 08  WA  3   0  4
+  [15] .got              PROGBITS        00003fbc 002fbc 000044 00  WA  0   0  4
+  [16] .data             PROGBITS        00004000 003000 000004 00  WA  0   0  4
+  [17] .bss              NOBITS          00004004 003004 000000 00  WA  0   0  1
+  [18] .comment          PROGBITS        00000000 003004 000035 01  MS  0   0  1
+  [19] .debug_info       PROGBITS        00000000 003039 004fed 00      0   0  1
+  [20] .debug_abbrev     PROGBITS        00000000 008026 00079f 00      0   0  1
+  [21] .debug_aranges    PROGBITS        00000000 0087c8 000060 00      0   0  8
+  [22] .debug_macinfo    PROGBITS        00000000 008828 000000 00      0   0  1
+  [23] .debug_line       PROGBITS        00000000 008828 0007a6 00      0   0  1
+  [24] .debug_loc        PROGBITS        00000000 008fce 001938 00      0   0  1
+  [25] .debug_pubtypes   PROGBITS        00000000 00a906 000000 00      0   0  1
+  [26] .debug_str        PROGBITS        00000000 00a906 0021e4 01  MS  0   0  1
+  [27] .debug_ranges     PROGBITS        00000000 00caea 000088 00      0   0  1
+  [28] .debug_frame      PROGBITS        00000000 00cb74 0003a4 00      0   0  4
+  [29] .note.gnu.gold-ve NOTE            00000000 00cf18 00001c 00      0   0  4
+  [30] .ARM.attributes   ARM_ATTRIBUTES  00000000 00cf34 000036 00      0   0  1
+  [31] .symtab           SYMTAB          00000000 00cf6c 0006a0 10     32  52  4
+  [32] .strtab           STRTAB          00000000 00d60c 00066a 00      0   0  1
+  [33] .shstrtab         STRTAB          00000000 00dc76 000155 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings)
+  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)
+  O (extra OS processing required) o (OS specific), p (processor specific)
+
+There are no section groups in this file.
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  PHDR           0x000034 0x00000034 0x00000034 0x00100 0x00100 R   0x4
+  INTERP         0x000134 0x00000134 0x00000134 0x00013 0x00013 R   0x1
+      [Requesting program interpreter: /system/bin/linker]
+  LOAD           0x000000 0x00000000 0x00000000 0x022b1 0x022b1 R E 0x1000
+  LOAD           0x002eb8 0x00003eb8 0x00003eb8 0x0014c 0x0014c RW  0x1000
+  DYNAMIC        0x002ec4 0x00003ec4 0x00003ec4 0x000f8 0x000f8 RW  0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0
+  EXIDX          0x0021b8 0x000021b8 0x000021b8 0x000e8 0x000e8 R   0x4
+  GNU_RELRO      0x002eb8 0x00003eb8 0x00003eb8 0x00148 0x00148 RW  0x4
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     
+   01     .interp 
+   02     .interp .dynsym .dynstr .hash .rel.dyn .rel.plt .plt .text .ARM.extab .ARM.exidx .rodata 
+   03     .fini_array .init_array .dynamic .got .data 
+   04     .dynamic 
+   05     
+   06     .ARM.exidx 
+   07     .fini_array .init_array .dynamic .got 
+
+Dynamic section at offset 0x2ec4 contains 26 entries:
+  Tag        Type                         Name/Value
+ 0x00000003 (PLTGOT)                     0x3fd8
+ 0x00000002 (PLTRELSZ)                   56 (bytes)
+ 0x00000017 (JMPREL)                     0xb34
+ 0x00000014 (PLTREL)                     REL
+ 0x00000011 (REL)                        0xaf4
+ 0x00000012 (RELSZ)                      64 (bytes)
+ 0x00000013 (RELENT)                     8 (bytes)
+ 0x6ffffffa (RELCOUNT)                   6
+ 0x00000006 (SYMTAB)                     0x148
+ 0x0000000b (SYMENT)                     16 (bytes)
+ 0x00000005 (STRTAB)                     0x4b8
+ 0x0000000a (STRSZ)                      1217 (bytes)
+ 0x00000004 (HASH)                       0x97c
+ 0x00000001 (NEEDED)                     Shared library: [libc.so]
+ 0x00000001 (NEEDED)                     Shared library: [libm.so]
+ 0x00000001 (NEEDED)                     Shared library: [libstdc++.so]
+ 0x00000001 (NEEDED)                     Shared library: [libdl.so]
+ 0x0000000e (SONAME)                     Library soname: [libhello-jni.so]
+ 0x0000001a (FINI_ARRAY)                 0x3eb8
+ 0x0000001c (FINI_ARRAYSZ)               8 (bytes)
+ 0x00000019 (INIT_ARRAY)                 0x3ec0
+ 0x0000001b (INIT_ARRAYSZ)               4 (bytes)
+ 0x00000010 (SYMBOLIC)                   0x0
+ 0x0000001e (FLAGS)                      SYMBOLIC BIND_NOW
+ 0x6ffffffb (FLAGS_1)                    Flags: NOW
+ 0x00000000 (NULL)                       0x0
+
+Relocation section '.rel.dyn' at offset 0xaf4 contains 8 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00003eb8  00000017 R_ARM_RELATIVE   
+00003fbc  00000017 R_ARM_RELATIVE   
+00003fc0  00000017 R_ARM_RELATIVE   
+00003fc4  00000017 R_ARM_RELATIVE   
+00003fcc  00000017 R_ARM_RELATIVE   
+00003fd0  00000017 R_ARM_RELATIVE   
+00003fc8  00000715 R_ARM_GLOB_DAT    00000000   __gnu_Unwind_Find_exid
+00003fd4  00001d15 R_ARM_GLOB_DAT    00000000   __cxa_call_unexpected
+
+Relocation section '.rel.plt' at offset 0xb34 contains 7 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00003fe4  00000216 R_ARM_JUMP_SLOT   00000000   __cxa_atexit
+00003fe8  00000116 R_ARM_JUMP_SLOT   00000000   __cxa_finalize
+00003fec  00000716 R_ARM_JUMP_SLOT   00000000   __gnu_Unwind_Find_exid
+00003ff0  00000d16 R_ARM_JUMP_SLOT   00000000   abort
+00003ff4  00000f16 R_ARM_JUMP_SLOT   00000000   memcpy
+00003ff8  00001a16 R_ARM_JUMP_SLOT   00000000   __cxa_begin_cleanup
+00003ffc  00001b16 R_ARM_JUMP_SLOT   00000000   __cxa_type_match
+
+Unwind table index '.ARM.exidx' at offset 0x21b8 contains 29 entries:
+
+0xbf8 <Java_com_example_hellojni_HelloJni_stringFromJNI>: 0x809b8480
+  Compact model 0
+  0x9b      vsp = r11
+  0x84 0x80 pop {r11, r14}
+
+0xc5c <selfrel_offset31>: 0x1 [cantunwind]
+
+0xd74 <get_eit_entry>: 0x80b107a9
+  Compact model 0
+  0xb1 0x07 pop {r0, r1, r2}
+  0xa9      pop {r4, r5r14}
+
+0xe88 <restore_non_core_regs>: 0x80a8b0b0
+  Compact model 0
+  0xa8      pop {r4r14}
+  0xb0      finish
+  0xb0      finish
+
+0xef4 <_Unwind_decode_typeinfo_ptr.isra.0>: 0x1 [cantunwind]
+
+0xf14 <unwind_phase2>: 0x80aab0b0
+  Compact model 0
+  0xaa      pop {r4, r5, r6r14}
+  0xb0      finish
+  0xb0      finish
+
+0xf78 <unwind_phase2_forced>: 0x80b272af
+  Compact model 0
+  0xb2 0x72 vsp = vsp + 972
+  0xaf      pop {r4, r5, r6, r7, r8, r9, r10, r11r14}
+
+0x109c <_Unwind_GetCFA>: 0x1 [cantunwind]
+
+0x10a4 <__gnu_Unwind_RaiseException>: 0x80383fab
+  Compact model 0
+  0x38      vsp = vsp + 228
+  0x3f      vsp = vsp + 256
+  0xab      pop {r4, r5, r6, r7r14}
+
+0x1148 <__gnu_Unwind_ForcedUnwind>: 0x1 [cantunwind]
+
+0x1164 <__gnu_Unwind_Resume>: 0x80aab0b0
+  Compact model 0
+  0xaa      pop {r4, r5, r6r14}
+  0xb0      finish
+  0xb0      finish
+
+0x11d8 <__gnu_Unwind_Resume_or_Rethrow>: 0x1 [cantunwind]
+
+0x11fc <_Unwind_DeleteException>: @0x2194
+  Compact model 1
+  0xb1 0x08 pop {r3}
+  0x84 0x00 pop {r14}
+  0xb0      finish
+  0xb0      finish
+
+0x121c <_Unwind_VRS_Get>: 0x1 [cantunwind]
+
+0x1278 <_Unwind_GetGR>: 0x80b10fa8
+  Compact model 0
+  0xb1 0x0f pop {r0, r1, r2, r3}
+  0xa8      pop {r4r14}
+
+0x12a0 <_Unwind_VRS_Set>: 0x1 [cantunwind]
+
+0x12fc <_Unwind_SetGR>: 0x80b10fa8
+  Compact model 0
+  0xb1 0x0f pop {r0, r1, r2, r3}
+  0xa8      pop {r4r14}
+
+0x1328 <__gnu_Unwind_Backtrace>: 0x80b20dac
+  Compact model 0
+  0xb2 0x0d vsp = vsp + 568
+  0xac      pop {r4, r5, r6, r7, r8r14}
+
+0x13ec <__gnu_unwind_pr_common>: 0x800aafb0
+  Compact model 0
+  0x0a      vsp = vsp + 44
+  0xaf      pop {r4, r5, r6, r7, r8, r9, r10, r11r14}
+  0xb0      finish
+
+0x1804 <__aeabi_unwind_cpp_pr0>: 0x1 [cantunwind]
+
+0x181c <_Unwind_VRS_Pop>: 0x80023fad
+  Compact model 0
+  0x02      vsp = vsp + 12
+  0x3f      vsp = vsp + 256
+  0xad      pop {r4, r5, r6, r7, r8, r9r14}
+
+0x1b68 <restore_core_regs>: 0x1 [cantunwind]
+
+0x1d70 <_Unwind_GetGR.constprop.0>: 0x80b10fa8
+  Compact model 0
+  0xb1 0x0f pop {r0, r1, r2, r3}
+  0xa8      pop {r4r14}
+
+0x1d98 <unwind_UCB_from_context>: 0x1 [cantunwind]
+
+0x1d9c <__gnu_unwind_execute>: 0x80b10fae
+  Compact model 0
+  0xb1 0x0f pop {r0, r1, r2, r3}
+  0xae      pop {r4, r5, r6, r7, r8, r9, r10r14}
+
+0x2118 <__gnu_unwind_frame>: 0x80b10fa8
+  Compact model 0
+  0xb1 0x0f pop {r0, r1, r2, r3}
+  0xa8      pop {r4r14}
+
+0x2158 <_Unwind_GetRegionStart>: @0x21a0
+  Compact model 1
+  0xb1 0x08 pop {r3}
+  0x84 0x00 pop {r14}
+  0xb0      finish
+  0xb0      finish
+
+0x2168 <_Unwind_GetLanguageSpecificData>: @0x21ac
+  Compact model 1
+  0xb1 0x08 pop {r3}
+  0x84 0x00 pop {r14}
+  0xb0      finish
+  0xb0      finish
+
+0x2184 <_Unwind_GetDataRelBase>: 0x1 [cantunwind]
+
+
+Symbol table '.dynsym' contains 55 entries:
+   Num:    Value  Size Type    Bind   Vis      Ndx Name
+     0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND 
+     1: 00000000     0 FUNC    GLOBAL DEFAULT  UND __cxa_finalize
+     2: 00000000     0 FUNC    GLOBAL DEFAULT  UND __cxa_atexit
+     3: 00000bf8   100 FUNC    GLOBAL DEFAULT    8 Java_com_example_hellojni
+     4: 00001804     8 FUNC    GLOBAL DEFAULT    8 __aeabi_unwind_cpp_pr0
+     5: 0000180c     8 FUNC    WEAK   DEFAULT    8 __aeabi_unwind_cpp_pr1
+     6: 00001814     8 FUNC    WEAK   DEFAULT    8 __aeabi_unwind_cpp_pr2
+     7: 00000000     0 FUNC    WEAK   DEFAULT  UND __gnu_Unwind_Find_exidx
+     8: 00001b8c     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Restore_VFP_
+     9: 00001b7c     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Restore_VFP
+    10: 00001b9c     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Restore_VFP_
+    11: 00001bac     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Restore_WMMX
+    12: 00001c34     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Restore_WMMX
+    13: 00000000     0 FUNC    GLOBAL DEFAULT  UND abort
+    14: 00001b68    20 FUNC    GLOBAL DEFAULT    8 restore_core_regs
+    15: 00000000     0 FUNC    GLOBAL DEFAULT  UND memcpy
+    16: 0000109c     8 FUNC    GLOBAL DEFAULT    8 _Unwind_GetCFA
+    17: 000010a4   164 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_RaiseExcepti
+    18: 00001148    28 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_ForcedUnwind
+    19: 00001164   116 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Resume
+    20: 000011d8    32 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Resume_or_Re
+    21: 000011f8     4 FUNC    GLOBAL DEFAULT    8 _Unwind_Complete
+    22: 000011fc    32 FUNC    GLOBAL DEFAULT    8 _Unwind_DeleteException
+    23: 0000121c    92 FUNC    GLOBAL DEFAULT    8 _Unwind_VRS_Get
+    24: 000012a0    92 FUNC    GLOBAL DEFAULT    8 _Unwind_VRS_Set
+    25: 00001328   196 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Backtrace
+    26: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __cxa_begin_cleanup
+    27: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __cxa_type_match
+    28: 00001d9c   892 FUNC    GLOBAL DEFAULT    8 __gnu_unwind_execute
+    29: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __cxa_call_unexpected
+    30: 0000181c   844 FUNC    GLOBAL DEFAULT    8 _Unwind_VRS_Pop
+    31: 00001b94     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Save_VFP_D
+    32: 00001b84     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Save_VFP
+    33: 00001ba4     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Save_VFP_D_1
+    34: 00001bf0     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Save_WMMXD
+    35: 00001c48     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Save_WMMXC
+    36: 00001b68    20 FUNC    GLOBAL DEFAULT    8 __restore_core_regs
+    37: 00001c5c    36 FUNC    GLOBAL DEFAULT    8 ___Unwind_RaiseException
+    38: 00001c5c    36 FUNC    GLOBAL DEFAULT    8 _Unwind_RaiseException
+    39: 00001c80    36 FUNC    GLOBAL DEFAULT    8 ___Unwind_Resume
+    40: 00001c80    36 FUNC    GLOBAL DEFAULT    8 _Unwind_Resume
+    41: 00001ca4    36 FUNC    GLOBAL DEFAULT    8 ___Unwind_Resume_or_Rethr
+    42: 00001ca4    36 FUNC    GLOBAL DEFAULT    8 _Unwind_Resume_or_Rethrow
+    43: 00001cc8    36 FUNC    GLOBAL DEFAULT    8 ___Unwind_ForcedUnwind
+    44: 00001cc8    36 FUNC    GLOBAL DEFAULT    8 _Unwind_ForcedUnwind
+    45: 00001cec    36 FUNC    GLOBAL DEFAULT    8 ___Unwind_Backtrace
+    46: 00001cec    36 FUNC    GLOBAL DEFAULT    8 _Unwind_Backtrace
+    47: 00002118    64 FUNC    GLOBAL DEFAULT    8 __gnu_unwind_frame
+    48: 00002158    16 FUNC    GLOBAL DEFAULT    8 _Unwind_GetRegionStart
+    49: 00002168    28 FUNC    GLOBAL DEFAULT    8 _Unwind_GetLanguageSpecif
+    50: 00002184     8 FUNC    GLOBAL DEFAULT    8 _Unwind_GetDataRelBase
+    51: 0000218c     8 FUNC    GLOBAL DEFAULT    8 _Unwind_GetTextRelBase
+    52: 00004004     0 NOTYPE  GLOBAL DEFAULT  ABS _edata
+    53: 00004004     0 NOTYPE  GLOBAL DEFAULT  ABS __bss_start
+    54: 00004004     0 NOTYPE  GLOBAL DEFAULT  ABS _end
+
+Symbol table '.symtab' contains 106 entries:
+   Num:    Value  Size Type    Bind   Vis      Ndx Name
+     0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND 
+     1: 00000000     0 FILE    LOCAL  DEFAULT  ABS crtbegin_so.c
+     2: 00000bd4     0 NOTYPE  LOCAL  DEFAULT    8 $a
+     3: 00000be0     0 NOTYPE  LOCAL  DEFAULT    8 $d
+     4: 00003eb8     0 NOTYPE  LOCAL  DEFAULT   12 $d
+     5: 00000be4     0 NOTYPE  LOCAL  DEFAULT    8 $a
+     6: 00000bf4     0 NOTYPE  LOCAL  DEFAULT    8 $d
+     7: 00004000     0 NOTYPE  LOCAL  DEFAULT   16 $d
+     8: 00000000     0 FILE    LOCAL  DEFAULT  ABS jni/hello-jni.c
+     9: 00000bf8     0 NOTYPE  LOCAL  DEFAULT    8 $a
+    10: 00000c54     0 NOTYPE  LOCAL  DEFAULT    8 $d
+    11: 000021b8     0 NOTYPE  LOCAL  DEFAULT   10 $d
+    12: 00000000     0 FILE    LOCAL  DEFAULT  ABS unwind-arm.c
+    13: 00000c5c     0 NOTYPE  LOCAL  DEFAULT    8 $a
+    14: 00000c5c    24 FUNC    LOCAL  DEFAULT    8 selfrel_offset31
+    15: 000021c0     0 NOTYPE  LOCAL  DEFAULT   10 $d
+    16: 00000c74   172 FUNC    LOCAL  DEFAULT    8 search_EIT_table
+    17: 00000d20    84 FUNC    LOCAL  DEFAULT    8 __gnu_unwind_get_pr_addr
+    18: 00000d64     0 NOTYPE  LOCAL  DEFAULT    8 $d
+    19: 00000d74     0 NOTYPE  LOCAL  DEFAULT    8 $a
+    20: 00000d74   276 FUNC    LOCAL  DEFAULT    8 get_eit_entry
+    21: 00000e78     0 NOTYPE  LOCAL  DEFAULT    8 $d
+    22: 00000e88     0 NOTYPE  LOCAL  DEFAULT    8 $a
+    23: 00000e88   108 FUNC    LOCAL  DEFAULT    8 restore_non_core_regs
+    24: 00000ef4    20 FUNC    LOCAL  DEFAULT    8 _Unwind_decode_typeinfo_p
+    25: 00000f08     8 FUNC    LOCAL  DEFAULT    8 __gnu_unwind_24bit.isra.1
+    26: 00000f10     4 FUNC    LOCAL  DEFAULT    8 _Unwind_DebugHook
+    27: 00000f14   100 FUNC    LOCAL  DEFAULT    8 unwind_phase2
+    28: 00000f78   292 FUNC    LOCAL  DEFAULT    8 unwind_phase2_forced
+    29: 00002194     0 NOTYPE  LOCAL  DEFAULT    9 $d
+    30: 00001278    40 FUNC    LOCAL  DEFAULT    8 _Unwind_GetGR
+    31: 000012fc    44 FUNC    LOCAL  DEFAULT    8 _Unwind_SetGR
+    32: 000013ec  1048 FUNC    LOCAL  DEFAULT    8 __gnu_unwind_pr_common
+    33: 000017fc     0 NOTYPE  LOCAL  DEFAULT    8 $d
+    34: 00001804     0 NOTYPE  LOCAL  DEFAULT    8 $a
+    35: 00000010     0 NOTYPE  LOCAL  DEFAULT   28 $d
+    36: 00001b68     0 NOTYPE  LOCAL  DEFAULT    8 $a
+    37: 0000002c     0 NOTYPE  LOCAL  DEFAULT   21 $d
+    38: 00000000     0 FILE    LOCAL  DEFAULT  ABS pr-support.c
+    39: 00001d10     0 NOTYPE  LOCAL  DEFAULT    8 $a
+    40: 00001d10    96 FUNC    LOCAL  DEFAULT    8 next_unwind_byte
+    41: 00001d70    40 FUNC    LOCAL  DEFAULT    8 _Unwind_GetGR.constprop.0
+    42: 00001d98     4 FUNC    LOCAL  DEFAULT    8 unwind_UCB_from_context
+    43: 000021a0     0 NOTYPE  LOCAL  DEFAULT    9 $d
+    44: 000002b8     0 NOTYPE  LOCAL  DEFAULT   28 $d
+    45: 00000bd4    16 FUNC    LOCAL  HIDDEN     8 __on_dlclose
+    46: 00000be4    20 FUNC    LOCAL  HIDDEN     8 atexit
+    47: 00004000     4 OBJECT  LOCAL  HIDDEN    16 __dso_handle
+    48: 00003ec4   248 OBJECT  LOCAL  HIDDEN    14 _DYNAMIC
+    49: 000021b8     0 NOTYPE  LOCAL  HIDDEN    10 __exidx_start
+    50: 000022a0     0 NOTYPE  LOCAL  HIDDEN    10 __exidx_end
+    51: 00003fd8     0 OBJECT  LOCAL  HIDDEN    15 _GLOBAL_OFFSET_TABLE_
+    52: 00000000     0 FUNC    GLOBAL DEFAULT  UND __cxa_finalize
+    53: 00000000     0 FUNC    GLOBAL DEFAULT  UND __cxa_atexit
+    54: 00000bf8   100 FUNC    GLOBAL DEFAULT    8 Java_com_example_hellojni
+    55: 00001804     8 FUNC    GLOBAL DEFAULT    8 __aeabi_unwind_cpp_pr0
+    56: 0000180c     8 FUNC    WEAK   DEFAULT    8 __aeabi_unwind_cpp_pr1
+    57: 00001814     8 FUNC    WEAK   DEFAULT    8 __aeabi_unwind_cpp_pr2
+    58: 00000000     0 FUNC    WEAK   DEFAULT  UND __gnu_Unwind_Find_exidx
+    59: 00001b8c     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Restore_VFP_
+    60: 00001b7c     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Restore_VFP
+    61: 00001b9c     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Restore_VFP_
+    62: 00001bac     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Restore_WMMX
+    63: 00001c34     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Restore_WMMX
+    64: 00000000     0 FUNC    GLOBAL DEFAULT  UND abort
+    65: 00001b68    20 FUNC    GLOBAL DEFAULT    8 restore_core_regs
+    66: 00000000     0 FUNC    GLOBAL DEFAULT  UND memcpy
+    67: 0000109c     8 FUNC    GLOBAL DEFAULT    8 _Unwind_GetCFA
+    68: 000010a4   164 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_RaiseExcepti
+    69: 00001148    28 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_ForcedUnwind
+    70: 00001164   116 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Resume
+    71: 000011d8    32 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Resume_or_Re
+    72: 000011f8     4 FUNC    GLOBAL DEFAULT    8 _Unwind_Complete
+    73: 000011fc    32 FUNC    GLOBAL DEFAULT    8 _Unwind_DeleteException
+    74: 0000121c    92 FUNC    GLOBAL DEFAULT    8 _Unwind_VRS_Get
+    75: 000012a0    92 FUNC    GLOBAL DEFAULT    8 _Unwind_VRS_Set
+    76: 00001328   196 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Backtrace
+    77: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __cxa_begin_cleanup
+    78: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __cxa_type_match
+    79: 00001d9c   892 FUNC    GLOBAL DEFAULT    8 __gnu_unwind_execute
+    80: 00000000     0 NOTYPE  WEAK   DEFAULT  UND __cxa_call_unexpected
+    81: 0000181c   844 FUNC    GLOBAL DEFAULT    8 _Unwind_VRS_Pop
+    82: 00001b94     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Save_VFP_D
+    83: 00001b84     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Save_VFP
+    84: 00001ba4     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Save_VFP_D_1
+    85: 00001bf0     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Save_WMMXD
+    86: 00001c48     0 FUNC    GLOBAL DEFAULT    8 __gnu_Unwind_Save_WMMXC
+    87: 00001b68    20 FUNC    GLOBAL DEFAULT    8 __restore_core_regs
+    88: 00001c5c    36 FUNC    GLOBAL DEFAULT    8 ___Unwind_RaiseException
+    89: 00001c5c    36 FUNC    GLOBAL DEFAULT    8 _Unwind_RaiseException
+    90: 00001c80    36 FUNC    GLOBAL DEFAULT    8 ___Unwind_Resume
+    91: 00001c80    36 FUNC    GLOBAL DEFAULT    8 _Unwind_Resume
+    92: 00001ca4    36 FUNC    GLOBAL DEFAULT    8 ___Unwind_Resume_or_Rethr
+    93: 00001ca4    36 FUNC    GLOBAL DEFAULT    8 _Unwind_Resume_or_Rethrow
+    94: 00001cc8    36 FUNC    GLOBAL DEFAULT    8 ___Unwind_ForcedUnwind
+    95: 00001cc8    36 FUNC    GLOBAL DEFAULT    8 _Unwind_ForcedUnwind
+    96: 00001cec    36 FUNC    GLOBAL DEFAULT    8 ___Unwind_Backtrace
+    97: 00001cec    36 FUNC    GLOBAL DEFAULT    8 _Unwind_Backtrace
+    98: 00002118    64 FUNC    GLOBAL DEFAULT    8 __gnu_unwind_frame
+    99: 00002158    16 FUNC    GLOBAL DEFAULT    8 _Unwind_GetRegionStart
+   100: 00002168    28 FUNC    GLOBAL DEFAULT    8 _Unwind_GetLanguageSpecif
+   101: 00002184     8 FUNC    GLOBAL DEFAULT    8 _Unwind_GetDataRelBase
+   102: 0000218c     8 FUNC    GLOBAL DEFAULT    8 _Unwind_GetTextRelBase
+   103: 00004004     0 NOTYPE  GLOBAL DEFAULT  ABS _edata
+   104: 00004004     0 NOTYPE  GLOBAL DEFAULT  ABS __bss_start
+   105: 00004004     0 NOTYPE  GLOBAL DEFAULT  ABS _end
+
+Histogram for bucket list length (total of 37 buckets):
+ Length  Number     % of total  Coverage
+      0  8          ( 21.6%)
+      1  13         ( 35.1%)     24.1%
+      2  9          ( 24.3%)     57.4%
+      3  5          ( 13.5%)     85.2%
+      4  2          (  5.4%)    100.0%
+
+No version information found in this file.
+
+Notes at offset 0x0000cf18 with length 0x0000001c:
+  Owner		Data size	Description
+  GNU		0x00000009	NT_GNU_GOLD_VERSION (gold version)
+Attribute Section: aeabi
+File Attributes
+  Tag_CPU_name: "ARM v7"
+  Tag_CPU_arch: v7
+  Tag_CPU_arch_profile: Application
+  Tag_ARM_ISA_use: Yes
+  Tag_THUMB_ISA_use: Thumb-2
+  Tag_FP_arch: VFPv3
+  Tag_ABI_PCS_wchar_t: 4
+  Tag_ABI_FP_denormal: Needed
+  Tag_ABI_FP_exceptions: Needed
+  Tag_ABI_FP_number_model: IEEE 754
+  Tag_ABI_align_needed: 8-byte
+  Tag_ABI_enum_size: int
+  Tag_ABI_optimization_goals: Aggressive Speed
+  Tag_CPU_unaligned_access: v6
+  Tag_DIV_use: Not allowed
+  Tag_Virtualization_use: TrustZone

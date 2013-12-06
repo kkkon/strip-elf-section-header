@@ -1,0 +1,5 @@
+_*.bat
+_*.sh
+*.o.d
+gdb.setup
+gdbserver

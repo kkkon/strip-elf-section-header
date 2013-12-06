@@ -23,39 +23,89 @@
  */
 package jp.ne.sakura.kkkon.StripElfSectionHeader;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- * Unit test for simple App.
+ *
+ * @author Kiyofumi Kondoh
  */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+public class AppTest {
+    
+    public AppTest() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
     }
 
     /**
-     * @return the suite of tests being tested
+     * Test of stripRecursive method, of class App.
      */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    //@Test
+    public void testStripRecursive() {
+        System.out.println("stripRecursive");
+        AppOption option = null;
+        String rootPath = "";
+        String path = "";
+        App.stripRecursive(option, rootPath, path);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Rigourous Test :-)
+     * Test of main method, of class App.
      */
-    public void testApp()
-    {
-        assertTrue( true );
+    @Test
+    public void testMain() {
+        System.out.println("main");
+        String[] args = null;
+        App.main(args);
+    }
+
+    /**
+     * Test of main method, of class App.
+     */
+    @Test
+    public void testMainAndroidDryRun() {
+        System.out.println("mainAndroidDryRun");
+        String[] args = {
+            "-B"
+            , "--recursive"
+            , "target/test-classes/elf/android"
+            , "-o target/test-classes/elf-strip/android"
+            , "--dry-run"
+        };
+        App.main(args);
+    }
+    /**
+     * Test of main method, of class App.
+     */
+    @Test
+    public void testMainAndroid() {
+        System.out.println("mainAndroid");
+        String[] args = {
+            "-B"
+            , "--recursive"
+            , "target/test-classes/elf/android"
+            , "-o target/test-classes/elf-strip/android"
+        };
+        App.main(args);
     }
 }

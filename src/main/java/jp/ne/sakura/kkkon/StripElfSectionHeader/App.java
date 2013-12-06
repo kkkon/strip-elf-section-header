@@ -89,6 +89,17 @@ public class App
             return;
         }
 
-        stripRecursive( args[0] );
+        {
+            final String[] remain_args = appOpt.getArgs();
+            if ( null != remain_args )
+            {
+                final int count = remain_args.length;
+                for ( int index = 0; index < count; ++index )
+                {
+                    final String arg = remain_args[index];
+                    stripRecursive( arg );
+                }
+            }
+        }
     }
 }

@@ -697,22 +697,35 @@ public class Elf32File {
                             outStream.flush();
                             outStream.close();
 
-                            File fileBackup = new File(file.getAbsoluteFile() + ".bak" );
-                            if ( file.renameTo( fileBackup ) )
+                            if ( option.isDryRun() )
                             {
-                                if ( tempFile.renameTo( file.getAbsoluteFile() ) )
-                                {
-                                }
-                                else
-                                {
-                                    System.err.println( "Failed. '" + tempFile.getAbsoluteFile() + "' renameTo '" + file.getAbsolutePath() + "'" );
-                                }
+                                tempFile.delete();
                             }
                             else
                             {
-                                System.err.println( "Failed. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
+                                File fileBackup = new File(file.getAbsoluteFile() + ".bak" );
+                                if ( file.renameTo( fileBackup ) )
+                                {
+                                    if ( tempFile.renameTo( file.getAbsoluteFile() ) )
+                                    {
+                                        if ( option.isKeepBackup() )
+                                        {
+                                        }
+                                        else
+                                        {
+                                            file.delete();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        System.err.println( "Failed. '" + tempFile.getAbsoluteFile() + "' renameTo '" + file.getAbsolutePath() + "'" );
+                                    }
+                                }
+                                else
+                                {
+                                    System.err.println( "Failed. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
+                                }
                             }
-                            
                         }
                     }
                 }

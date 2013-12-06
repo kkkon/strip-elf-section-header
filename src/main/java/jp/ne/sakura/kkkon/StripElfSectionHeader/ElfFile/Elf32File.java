@@ -166,6 +166,14 @@ public class Elf32File {
             {
                 fileName = path.substring( index );
             }
+            else
+            {
+                final int indexNonWindows = path.lastIndexOf( '/' );
+                if ( 0 < indexNonWindows )
+                {
+                    fileName = path.substring( indexNonWindows );
+                }
+            }
         }
 
         String destPath = null;
@@ -177,6 +185,14 @@ public class Elf32File {
                 if ( 0 < index )
                 {
                     destPath = path.substring( 0, index );
+                }
+                else
+                {
+                    final int indexNonWindows = path.lastIndexOf( '/' );
+                    if ( 0 < indexNonWindows )
+                    {
+                        destPath = path.substring( 0, indexNonWindows );
+                    }
                 }
             }
             else

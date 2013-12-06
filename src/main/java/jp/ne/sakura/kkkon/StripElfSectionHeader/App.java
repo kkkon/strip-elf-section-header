@@ -56,6 +56,14 @@ public class App
                     {
                         rootDir = rootDir.substring( 0, index );
                     }
+                    else
+                    {
+                        final int indexNonWindows = rootDir.lastIndexOf( '/' );
+                        if ( 0 < indexNonWindows )
+                        {
+                            rootDir = rootDir.substring( 0, indexNonWindows );
+                        }
+                    }
                 }
             }
         }
@@ -111,12 +119,23 @@ public class App
             String relativePath = null;
             {
                 final int indexStart = rootDir.length() + 1;
-                final int indexLast = path.lastIndexOf( File.separatorChar );
+                final File filePath = new File(path);
+                final String pathAbsolute = filePath.getAbsolutePath();
+                final int indexLast = pathAbsolute.lastIndexOf( File.separatorChar );
                 if ( 0 < indexStart && 0 < indexLast && indexStart < indexLast )
                 {
-                    relativePath = path.substring( indexStart, indexLast );
+                    relativePath = pathAbsolute.substring( indexStart, indexLast );
                 }
                 //System.err.println( relativePath );
+                if ( null == relativePath )
+                {
+                    throw new RuntimeException(
+                            "relativePath is null. indexStart=" + indexStart
+                            + ", indexLast=" + indexLast
+                            + ", rootDir=" + rootDir
+                            + ", pathAbsolute=" + pathAbsolute
+                            );
+                }
             }
             
             final boolean isElfFile = ElfFile.stripElfSectionHeader( option, relativePath, path );

@@ -131,6 +131,10 @@ public class AppOption
         }
         {
             this.output = this.commandLine.getOptionValue("o");
+            if ( null != this.output )
+            {
+                this.output = this.output.trim();
+            }
         }
         {
             this.recursive = false;

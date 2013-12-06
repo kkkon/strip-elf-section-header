@@ -85,7 +85,7 @@ public class App
         }
         else
         {
-            final boolean isElfFile = ElfFile.stripElfSectionHeader( path );
+            final boolean isElfFile = ElfFile.stripElfSectionHeader( option, path );
             System.err.println( path + ": " + isElfFile );
         }
         

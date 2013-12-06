@@ -28,6 +28,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import jp.ne.sakura.kkkon.StripElfSectionHeader.AppOption;
+
 /**
  *
  * @author Kiyofumi Kondoh
@@ -212,7 +214,7 @@ public class ElfFile
         return isElfFile;
     }
 
-    public static boolean stripElfSectionHeader( final String path )
+    public static boolean stripElfSectionHeader( final AppOption option, final String path )
     {
         boolean isStripped = false;
 
@@ -269,7 +271,10 @@ public class ElfFile
             switch ( ElfClass )
             {
                 case ELFCLASS32:
-                    isStripped = Elf32File.stripSectionHeader( path );
+                    isStripped = Elf32File.stripSectionHeader( option, path );
+                    break;
+                case ELFCLASS64:
+                    System.err.println( "Not implemented ElfClass64" );
                     break;
                 default:
                     System.err.println( "Unknown ElfClass" );

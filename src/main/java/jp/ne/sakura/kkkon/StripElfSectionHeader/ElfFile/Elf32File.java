@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import jp.ne.sakura.kkkon.StripElfSectionHeader.AppOption;
 import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.EI_NINDENT;
 import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.isElf32;
 import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.isElfMagic;
@@ -100,7 +101,7 @@ public class Elf32File {
         int     sh_entsize;
     }
     
-    public static boolean stripSectionHeader( final String path )
+    public static boolean stripSectionHeader( final AppOption option, final String path )
     {
         boolean isStripped = false;
 

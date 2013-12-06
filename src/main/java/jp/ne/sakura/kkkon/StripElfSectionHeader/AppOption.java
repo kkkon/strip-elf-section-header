@@ -38,7 +38,7 @@ import org.apache.commons.cli.PosixParser;
  *
  * @author Kiyofumi Kondoh
  */
-class AppOption
+public class AppOption
 {
     private boolean batchRun = false;
     private boolean dryRun = false;

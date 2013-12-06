@@ -34,7 +34,7 @@ import jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile;
 public class App 
 {
 
-    public static void stripRecursive( final String path )
+    public static void stripRecursive( final AppOption option, final String path )
     {
         File file = new File( path );
         if ( file.isDirectory() )
@@ -59,7 +59,27 @@ public class App
                     {
                         continue;
                     }
-                    stripRecursive( files[index].getAbsolutePath() );
+
+                    {
+                        boolean needCall = false;
+                        final File f = new File( files[index].getPath() );
+                        if ( f.isDirectory() )
+                        {
+                            if ( option.isRecursive() )
+                            {
+                                needCall = true;
+                            }
+                        }
+                        else
+                        {
+                            needCall = true;
+                        }
+                        
+                        if ( needCall )
+                        {
+                            stripRecursive( option, files[index].getPath() );
+                        }
+                    }
                 }
             }
         }
@@ -97,7 +117,7 @@ public class App
                 for ( int index = 0; index < count; ++index )
                 {
                     final String arg = remain_args[index];
-                    stripRecursive( arg );
+                    stripRecursive( appOpt, arg );
                 }
             }
         }

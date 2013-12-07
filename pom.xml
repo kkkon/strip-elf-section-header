@@ -26,7 +26,7 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:ssh://github.com/kkkon/strip-elf-section-header.git</connection>
+    <connection>scm:git:https://github.com/kkkon/strip-elf-section-header.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/kkkon/strip-elf-section-header.git</developerConnection>
     <url>https://github.com/kkkon/strip-elf-section-header</url>
     <tag>HEAD</tag>

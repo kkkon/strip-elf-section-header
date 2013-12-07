@@ -265,7 +265,15 @@ public class Elf32File {
                             }
                             inStream.close();
 
-                            SectionHeader[] sectionHeaders = new SectionHeader[header.e_shnum];
+                            SectionHeader[] sectionHeaders = null;
+                            if ( 0 < header.e_shnum )
+                            {
+                                sectionHeaders = new SectionHeader[header.e_shnum];
+                            }
+                            else
+                            {
+                                sectionHeaders = new SectionHeader[0];
+                            }
                             
                             inStream = new FileInputStream( file );
                             inStream.skip( header.e_shoff );
@@ -316,8 +324,59 @@ public class Elf32File {
                                         throw new IndexOutOfBoundsException("e_shstrndx out of bounds");
                                     }
                                 }
+                                
                             }
 
+                            inStream.close();
+
+                            String[] sectionHeaderStrings = null;
+                            if ( 0 < header.e_shnum )
+                            {
+                                sectionHeaderStrings = new String[header.e_shnum];
+                            }
+                            else
+                            {
+                                sectionHeaderStrings = new String[0];
+                            }
+                            
+                            inStream = new FileInputStream( file );
+                            {
+                                byte[] stringTable = null;
+                                {
+                                    final int index = header.e_shstrndx;
+                                    if ( 0 <= index && index < sectionHeaders.length )
+                                    {
+                                        stringTable = new byte[sectionHeaders[index].sh_size];
+                                        inStream.skip( sectionHeaders[index].sh_offset );
+                                        inStream.read(stringTable);
+                                    }
+                                }
+
+                                if ( null != stringTable )
+                                {
+                                    final int sectionHeadersLength = sectionHeaders.length;
+                                    for ( int index = 0; index < sectionHeadersLength; ++index )
+                                    {
+                                        final int indexStart = sectionHeaders[index].sh_name;
+                                        StringBuilder sb = new StringBuilder(128);
+                                        final int stringTableLength = stringTable.length;
+                                        for ( int i = 0; indexStart+i < stringTableLength; i++ )
+                                        {
+                                           final byte c = stringTable[indexStart+i];
+                                           if ( '\0' == c )
+                                           {
+                                               break;
+                                           }
+                                           sb.append((char)c);
+                                        }
+                                        sectionHeaderStrings[index] = sb.toString();
+                                        //System.out.println(sectionHeaderStrings[index]);
+                                    }
+                                }
+                                // TODO check debug info ".debugXXX"
+
+                            }
+                            
                             File tempFile = File.createTempFile( "kkkon_strip", ".tmp" );
                             outStream = new FileOutputStream( tempFile );
 

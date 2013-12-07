@@ -298,5 +298,27 @@ public class ElfFile
     static final int SHT_REL = 9;
     static final int SHT_SHLIB = 10;
     static final int SHT_DYNSYM = 11;
+
+    static final String ELF_BSS             = ".bss";
+    static final String ELF_DATA            = ".data";
+    static final String ELF_DEBUG           = ".debug";
+    static final String ELF_DYNAMIC         = ".dynamic";
+    static final String ELF_DYNSTR          = ".dynstr";
+    static final String ELF_DYNSYM          = ".dynsym";
+    static final String ELF_FINI            = ".fini";
+    static final String ELF_GOT             = ".got";
+    static final String ELF_HASH            = ".hash";
+    static final String ELF_INIT            = ".init";
+    static final String ELF_REL_DATA        = ".rel.data";
+    static final String ELF_REL_FINI        = ".rel.fini";
+    static final String ELF_REL_INIT        = ".rel.init";
+    static final String ELF_REL_DYN         = ".rel.dyn";
+    static final String ELF_REL_RODATA      = ".rel.rodata";
+    static final String ELF_REL_TEXT        = ".rel.text";
+    static final String ELF_RODATA          = ".rodata";
+    static final String ELF_SHSTRTAB        = ".shstrtab";
+    static final String ELF_STRTAB          = ".strtab";
+    static final String ELF_SYMTAB          = ".symtab";
+    static final String ELF_TEXT            = ".text";
     
 }

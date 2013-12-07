@@ -277,7 +277,6 @@ public class Elf32File {
                             
                             inStream = new FileInputStream( file );
                             inStream.skip( header.e_shoff );
-                            int offsetSectionHeader_StringTable = -1;
                             if ( 0 < header.e_shentsize )
                             {
                                 for ( int index = 0; index < header.e_shnum; ++index )
@@ -303,27 +302,6 @@ public class Elf32File {
                                         sectionHeaders[index] = sectionHeader;
                                     }
                                 } // for
-                                
-                                {
-                                    final int count = sectionHeaders.length;
-                                    final int index = header.e_shstrndx;
-                                    if ( 0 <= index && index < count )
-                                    {
-                                        final SectionHeader sectionHeader = sectionHeaders[index];
-                                        if ( ElfFile.SHT_STRTAB == sectionHeader.sh_type )
-                                        {
-                                            // TODO check ".shstrtab"
-                                            if ( offsetSectionHeader_StringTable < sectionHeader.sh_offset )
-                                            {
-                                                offsetSectionHeader_StringTable = sectionHeader.sh_offset;
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        throw new IndexOutOfBoundsException("e_shstrndx out of bounds");
-                                    }
-                                }
                                 
                             }
 
@@ -373,8 +351,63 @@ public class Elf32File {
                                         //System.out.println(sectionHeaderStrings[index]);
                                     }
                                 }
-                                // TODO check debug info ".debugXXX"
 
+                            }
+
+                            int offsetSectionHeader_StringTable = -1;
+                            {
+                                {
+                                    final int count = sectionHeaders.length;
+                                    final int index = header.e_shstrndx;
+                                    if ( 0 <= index && index < count )
+                                    {
+                                        final SectionHeader sectionHeader = sectionHeaders[index];
+                                        if ( ElfFile.SHT_STRTAB == sectionHeader.sh_type )
+                                        {
+                                            if ( 0 == ElfFile.ELF_SHSTRTAB.compareTo( sectionHeaderStrings[index] ) )
+                                            {
+                                                if ( offsetSectionHeader_StringTable < sectionHeader.sh_offset )
+                                                {
+                                                    offsetSectionHeader_StringTable = sectionHeader.sh_offset;
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw new IndexOutOfBoundsException("e_shstrndx out of bounds");
+                                    }
+                                }
+                            }
+
+                            boolean expectedElf = true;
+                            {
+                                final int sectionHeaderStringsLength = sectionHeaderStrings.length;
+                                for ( int index = 0; index < sectionHeaderStringsLength; ++index )
+                                {
+                                    final String str = sectionHeaderStrings[index];
+                                    if ( null != str )
+                                    {
+                                        if ( str.startsWith( ElfFile.ELF_DEBUG ) )
+                                        {
+                                            expectedElf = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            if ( false == expectedElf )
+                            {
+                                System.err.println( "sorry. contain debug info. " + path );
+                                return false;
+                            }
+                            
+                            if ( offsetSectionHeader_StringTable < 0 )
+                            {
+                                System.err.println( "sorry. fail detect sh_offset. " + path );
+                                return false;
                             }
                             
                             File tempFile = File.createTempFile( "kkkon_strip", ".tmp" );
@@ -583,14 +616,16 @@ public class Elf32File {
             {
                 e.printStackTrace();
             }
-            
-            if ( null != inStream )
+            finally
             {
-                try { inStream.close(); } catch ( Exception e ) { }
-            }
-            if ( null != outStream )
-            {
-                try { outStream.close(); } catch ( Exception e ) { }
+                if ( null != inStream )
+                {
+                    try { inStream.close(); } catch ( Exception e ) { }
+                }
+                if ( null != outStream )
+                {
+                    try { outStream.close(); } catch ( Exception e ) { }
+                }
             }
         }
         

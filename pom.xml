@@ -192,6 +192,7 @@
         <groupId>com.github.github</groupId>
         <artifactId>site-maven-plugin</artifactId>
         <version>0.9</version>
+        <inherited>true</inherited>
         <configuration>
           <message>Maven artifacts for ${project.artifactId} ${project.version}</message>
           <noJekyll>true</noJekyll>

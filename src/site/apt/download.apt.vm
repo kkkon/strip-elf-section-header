@@ -31,13 +31,13 @@
 
 Browse Files:
 
-  {{{https://github.com/kkkon/strip-elf-section-header/tree/gh-pages/maven/releases/jp/kkkon/strip-elf-section-header/${project.version}}GitHub gh-pages branch}}
+  {{{https://github.com/kkkon/strip-elf-section-header/tree/gh-pages/maven/releases/jp/ne/sakura/kkkon/strip-elf-section-header/${project.version}}GitHub gh-pages branch}}
 
 
 Download:
 
-  {{{http://kkkon.github.io/strip-elf-section-header/maven/releases/jp/kkkon/strip-elf-section-header/${project.version}/strip-elf-section-header-${project.version}-shaded.jar}strip-elf-section-header-${project.version}-shaded.jar}}
+  {{{http://kkkon.github.io/strip-elf-section-header/maven/releases/jp/ne/sakura/kkkon/strip-elf-section-header/${project.version}/strip-elf-section-header-${project.version}-shaded.jar}strip-elf-section-header-${project.version}-shaded.jar}}
 
-  {{{http://kkkon.github.io/strip-elf-section-header/maven/releases/jp/kkkon/strip-elf-section-header/${project.version}/strip-elf-section-header-${project.version}.jar}strip-elf-section-header-${project.version}.jar}}
+  {{{http://kkkon.github.io/strip-elf-section-header/maven/releases/jp/ne/sakura/kkkon/strip-elf-section-header/${project.version}/strip-elf-section-header-${project.version}.jar}strip-elf-section-header-${project.version}.jar}}
 
-  {{{http://kkkon.github.io/strip-elf-section-header/maven/releases/jp/kkkon/strip-elf-section-header/${project.version}/strip-elf-section-header-${project.version}-sources.jar}strip-elf-section-header-${project.version}-sources.jar}}
+  {{{http://kkkon.github.io/strip-elf-section-header/maven/releases/jp/ne/sakura/kkkon/strip-elf-section-header/${project.version}/strip-elf-section-header-${project.version}-sources.jar}strip-elf-section-header-${project.version}-sources.jar}}

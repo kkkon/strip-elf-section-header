@@ -28,10 +28,6 @@ import java.io.RandomAccessFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import jp.ne.sakura.kkkon.StripElfSectionHeader.AppOption;
-import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.isElf32;
-import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.isElfMagic;
-import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.isElfBigEndian;
-import static jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile.isElfLittleEndian;
 
 /**
  *
@@ -150,18 +146,18 @@ public class Elf32File
 	{
 		System.arraycopy( super._ident, 0, header.e_ident, 0, super._ident.length );
 		
-		if ( ! isElfMagic( header.e_ident ) )
+		if ( ! isElfMagic() )
 		{
 			return false;
 		}
 		
-		if ( ! isElf32( header.e_ident ) )
+		if ( ! isElf32() )
 		{
 			return false;
 		}
 
-		final boolean isBigEndian = isElfBigEndian( super._ident );
-		final boolean isLittleEndian = isElfLittleEndian( super._ident );
+		final boolean isBigEndian = isElfBigEndian();
+		final boolean isLittleEndian = isElfLittleEndian();
 		{
 			if ( isBigEndian || isLittleEndian )
 			{
@@ -214,18 +210,18 @@ public class Elf32File
 	public boolean readSectionHeader( final RandomAccessFile input )
 			throws IOException
 	{
-		if ( ! isElfMagic( header.e_ident ) )
+		if ( ! isElfMagic() )
 		{
 			return false;
 		}
 		
-		if ( ! isElf32( header.e_ident ) )
+		if ( ! isElf32() )
 		{
 			return false;
 		}
 
-		final boolean isBigEndian = isElfBigEndian( super._ident );
-		final boolean isLittleEndian = isElfLittleEndian( super._ident );
+		final boolean isBigEndian = isElfBigEndian();
+		final boolean isLittleEndian = isElfLittleEndian();
 		{
 			if ( isBigEndian || isLittleEndian )
 			{
@@ -350,18 +346,18 @@ public class Elf32File
 	public boolean writeElfHeader( final RandomAccessFile output )
 			throws IOException
 	{
-		if ( ! isElfMagic( header.e_ident ) )
+		if ( ! isElfMagic() )
 		{
 			return false;
 		}
 		
-		if ( ! isElf32( header.e_ident ) )
+		if ( ! isElf32() )
 		{
 			return false;
 		}
 
-		final boolean isBigEndian = isElfBigEndian( super._ident );
-		final boolean isLittleEndian = isElfLittleEndian( super._ident );
+		final boolean isBigEndian = isElfBigEndian();
+		final boolean isLittleEndian = isElfLittleEndian();
 		{
 			if ( isBigEndian || isLittleEndian )
 			{

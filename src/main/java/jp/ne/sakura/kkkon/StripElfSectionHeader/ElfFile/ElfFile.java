@@ -89,50 +89,30 @@ public class ElfFile
 		return true;
 	}
 
-
-    public static boolean isElfMagic( final byte[] buff )
+    public boolean isElfMagic()
     {
-        if ( null == buff )
+        if ( null == _ident )
         {
             return false;
         }
-        if ( buff.length < IElfFile.ELFMAGIC_COUNT )
-        {
-            return false;
-        }
-        
-        if ( IElfFile.ELFMAGIC0 != buff[IElfFile.EI_MAGIC0] )
-        {
-            return false;
-        }
-        if ( IElfFile.ELFMAGIC1 != buff[IElfFile.EI_MAGIC1] )
-        {
-            return false;
-        }
-        if ( IElfFile.ELFMAGIC2 != buff[IElfFile.EI_MAGIC2] )
-        {
-            return false;
-        }
-        if ( IElfFile.ELFMAGIC3 != buff[IElfFile.EI_MAGIC3] )
+        if ( _ident.length < IElfFile.ELFMAGIC_COUNT )
         {
             return false;
         }
         
-        return true;
-    }
-    
-    public static boolean isElf32( final byte[] buff )
-    {
-        if ( null == buff )
+        if ( IElfFile.ELFMAGIC0 != _ident[IElfFile.EI_MAGIC0] )
         {
             return false;
         }
-        if ( buff.length < IElfFile.EI_NINDENT )
+        if ( IElfFile.ELFMAGIC1 != _ident[IElfFile.EI_MAGIC1] )
         {
             return false;
         }
-        
-        if ( IElfFile.ELFCLASS32 != buff[IElfFile.EI_CLASS] )
+        if ( IElfFile.ELFMAGIC2 != _ident[IElfFile.EI_MAGIC2] )
+        {
+            return false;
+        }
+        if ( IElfFile.ELFMAGIC3 != _ident[IElfFile.EI_MAGIC3] )
         {
             return false;
         }
@@ -140,18 +120,18 @@ public class ElfFile
         return true;
     }
 
-    public static boolean isElf64( final byte[] buff )
+    public boolean isElf32()
     {
-        if ( null == buff )
+        if ( null == _ident )
         {
             return false;
         }
-        if ( buff.length < IElfFile.EI_NINDENT )
+        if ( _ident.length < IElfFile.EI_NINDENT )
         {
             return false;
         }
         
-        if ( IElfFile.ELFCLASS64 != buff[IElfFile.EI_CLASS] )
+        if ( IElfFile.ELFCLASS32 != _ident[IElfFile.EI_CLASS] )
         {
             return false;
         }
@@ -159,18 +139,18 @@ public class ElfFile
         return true;
     }
 
-    public static boolean isElfLittleEndian( final byte[] buff )
+    public boolean isElf64()
     {
-        if ( null == buff )
+        if ( null == _ident )
         {
             return false;
         }
-        if ( buff.length < IElfFile.EI_NINDENT )
+        if ( _ident.length < IElfFile.EI_NINDENT )
         {
             return false;
         }
         
-        if ( IElfFile.ELFDATA2LSB != buff[IElfFile.EI_DATA] )
+        if ( IElfFile.ELFCLASS64 != _ident[IElfFile.EI_CLASS] )
         {
             return false;
         }
@@ -178,63 +158,42 @@ public class ElfFile
         return true;
     }
 
-    public static boolean isElfBigEndian( final byte[] buff )
+    public boolean isElfLittleEndian()
     {
-        if ( null == buff )
+        if ( null == _ident )
         {
             return false;
         }
-        if ( buff.length < IElfFile.EI_NINDENT )
+        if ( _ident.length < IElfFile.EI_NINDENT )
         {
             return false;
         }
         
-        if ( IElfFile.ELFDATA2MSB != buff[IElfFile.EI_DATA] )
+        if ( IElfFile.ELFDATA2LSB != _ident[IElfFile.EI_DATA] )
         {
             return false;
         }
         
         return true;
     }
-    
-    public static boolean isElfFile( final String path )
+
+    public boolean isElfBigEndian()
     {
-        boolean isElfFile = false;
-
-        File file = new File(path);
+        if ( null == _ident )
         {
-            FileInputStream inStream = null;
-
-            byte[] buff = new byte[IElfFile.ELFMAGIC_COUNT];
-            try
-            {
-                inStream = new FileInputStream( file );
-                final int nRet = inStream.read(buff);
-                if ( IElfFile.ELFMAGIC_COUNT != nRet )
-                {
-                    isElfFile = false;
-                }
-                else
-                {
-                    isElfFile = isElfMagic( buff );
-                }
-            }
-            catch ( FileNotFoundException e )
-            {
-                e.printStackTrace();
-            }
-            catch ( IOException e )
-            {
-                e.printStackTrace();
-            }
-            
-            if ( null != inStream )
-            {
-                try { inStream.close(); } catch ( Exception e ) { }
-            }
+            return false;
         }
-
-        return isElfFile;
+        if ( _ident.length < IElfFile.EI_NINDENT )
+        {
+            return false;
+        }
+        
+        if ( IElfFile.ELFDATA2MSB != _ident[IElfFile.EI_DATA] )
+        {
+            return false;
+        }
+        
+        return true;
     }
 
     public boolean stripElfSectionHeader( final AppOption option, final String relativePath, final String path )
@@ -244,49 +203,42 @@ public class ElfFile
         boolean isElfMagic = false;
         int ElfClass = IElfFile.ELFCLASSNONE;
 
-        File file = new File(path);
-        {
-            FileInputStream inStream = null;
+		{
+	        RandomAccessFile input = null;
+			try
+	        {
+				input = new RandomAccessFile( path, "r" );
+				final boolean resultReadIdent = this.readElfHeaderIdent( input );
+				if ( false == resultReadIdent )
+				{
+					return false;
+				}
 
-            byte[] buff = new byte[IElfFile.EI_NINDENT];
-            try
-            {
-                inStream = new FileInputStream( file );
-                final int nRet = inStream.read(buff);
-                if ( IElfFile.EI_NINDENT != nRet )
-                {
-                    isStripped = false;
-                }
-                else
-                {
-                    if ( isElfMagic( buff ) )
-                    {
-                        isElfMagic = true;
-                        if ( isElf32( buff ) )
-                        {
-                            ElfClass = IElfFile.ELFCLASS32;
-                        }
-                        else
-                        if ( isElf64( buff ) )
-                        {
-                            ElfClass = IElfFile.ELFCLASS64;
-                        }
-                    }
-                }
-            }
-            catch ( FileNotFoundException e )
-            {
-                e.printStackTrace();
-            }
-            catch ( IOException e )
-            {
-                e.printStackTrace();
-            }
-            
-            if ( null != inStream )
-            {
-                try { inStream.close(); } catch ( Exception e ) { }
-            }
+				if ( this.isElfMagic() )
+				{
+					isElfMagic = true;
+					if ( this.isElf32() )
+					{
+						ElfClass = IElfFile.ELFCLASS32;
+					}
+					else
+					if ( this.isElf64() )
+					{
+						ElfClass = IElfFile.ELFCLASS64;
+					}
+				}
+			}
+			catch ( IOException e )
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				if ( null != input )
+				{
+					try { input.close(); } catch ( Exception e ) { }
+				}
+			}
         }
 
         if ( isElfMagic )

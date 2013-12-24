@@ -23,7 +23,7 @@
  */
 package jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile;
 
-import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.InvalidParameterException;
@@ -36,7 +36,7 @@ public class Util
 {
     public static short read2byte(
             final byte[] buff
-            , final InputStream inStream
+            , final RandomAccessFile inStream
             , final boolean isLittleEndian
             )
             throws IOException
@@ -83,7 +83,7 @@ public class Util
 
     public static int read4byte(
             final byte[] buff
-            , final InputStream inStream
+            , final RandomAccessFile inStream
             , final boolean isLittleEndian
             )
             throws IOException

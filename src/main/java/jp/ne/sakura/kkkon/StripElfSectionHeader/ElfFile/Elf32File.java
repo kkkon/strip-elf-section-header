@@ -24,7 +24,7 @@
 package jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.RandomAccessFile;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -210,14 +210,14 @@ public class Elf32File {
         }
 
         {
-            InputStream inStream = null;
+            RandomAccessFile input = null;
             OutputStream outStream = null;
 
             byte[] buff = new byte[EI_NINDENT];
             try
             {
-                inStream = new FileInputStream( file );
-                final int nRet = inStream.read(buff);
+                input = new RandomAccessFile( file, "r" );
+                final int nRet = input.read(buff);
                 if ( EI_NINDENT != nRet )
                 {
                     isStripped = false;
@@ -247,23 +247,22 @@ public class Elf32File {
                                 {
                                     byte[] byte4 = new byte[4];
 
-                                    header.e_type       = Util.read2byte( byte4, inStream, isLittleEndian );
-                                    header.e_machine    = Util.read2byte( byte4, inStream, isLittleEndian );
-                                    header.e_version    = Util.read4byte( byte4, inStream, isLittleEndian );
-                                    header.e_entry      = Util.read4byte( byte4, inStream, isLittleEndian );
-                                    header.e_phoff      = Util.read4byte( byte4, inStream, isLittleEndian );
-                                    header.e_shoff      = Util.read4byte( byte4, inStream, isLittleEndian );
-                                    header.e_flags      = Util.read4byte( byte4, inStream, isLittleEndian );
-                                    header.e_ehsize     = Util.read2byte( byte4, inStream, isLittleEndian );
-                                    header.e_phentsize  = Util.read2byte( byte4, inStream, isLittleEndian );
-                                    header.e_phnum      = Util.read2byte( byte4, inStream, isLittleEndian );
-                                    header.e_shentsize  = Util.read2byte( byte4, inStream, isLittleEndian );
-                                    header.e_shnum      = Util.read2byte( byte4, inStream, isLittleEndian );
-                                    header.e_shstrndx   = Util.read2byte( byte4, inStream, isLittleEndian );
+                                    header.e_type       = Util.read2byte( byte4, input, isLittleEndian );
+                                    header.e_machine    = Util.read2byte( byte4, input, isLittleEndian );
+                                    header.e_version    = Util.read4byte( byte4, input, isLittleEndian );
+                                    header.e_entry      = Util.read4byte( byte4, input, isLittleEndian );
+                                    header.e_phoff      = Util.read4byte( byte4, input, isLittleEndian );
+                                    header.e_shoff      = Util.read4byte( byte4, input, isLittleEndian );
+                                    header.e_flags      = Util.read4byte( byte4, input, isLittleEndian );
+                                    header.e_ehsize     = Util.read2byte( byte4, input, isLittleEndian );
+                                    header.e_phentsize  = Util.read2byte( byte4, input, isLittleEndian );
+                                    header.e_phnum      = Util.read2byte( byte4, input, isLittleEndian );
+                                    header.e_shentsize  = Util.read2byte( byte4, input, isLittleEndian );
+                                    header.e_shnum      = Util.read2byte( byte4, input, isLittleEndian );
+                                    header.e_shstrndx   = Util.read2byte( byte4, input, isLittleEndian );
                                 }
                                 //System.out.println( header.toString() );
                             }
-                            inStream.close();
 
                             SectionHeader[] sectionHeaders = null;
                             if ( 0 < header.e_shnum )
@@ -274,9 +273,8 @@ public class Elf32File {
                             {
                                 sectionHeaders = new SectionHeader[0];
                             }
-                            
-                            inStream = new FileInputStream( file );
-                            inStream.skip( header.e_shoff );
+
+							input.seek( header.e_shoff );
                             if ( 0 < header.e_shentsize )
                             {
                                 for ( int index = 0; index < header.e_shnum; ++index )
@@ -287,16 +285,16 @@ public class Elf32File {
                                         {
                                             byte[] byte4 = new byte[4];
 
-                                            sectionHeader.sh_name = Util.read4byte( byte4, inStream, isLittleEndian );
-                                            sectionHeader.sh_type = Util.read4byte( byte4, inStream, isLittleEndian );
-                                            sectionHeader.sh_flags = Util.read4byte( byte4, inStream, isLittleEndian );
-                                            sectionHeader.sh_addr = Util.read4byte( byte4, inStream, isLittleEndian );
-                                            sectionHeader.sh_offset = Util.read4byte( byte4, inStream, isLittleEndian );
-                                            sectionHeader.sh_size = Util.read4byte( byte4, inStream, isLittleEndian );
-                                            sectionHeader.sh_link = Util.read4byte( byte4, inStream, isLittleEndian );
-                                            sectionHeader.sh_info = Util.read4byte( byte4, inStream, isLittleEndian );
-                                            sectionHeader.sh_addralign = Util.read4byte( byte4, inStream, isLittleEndian );
-                                            sectionHeader.sh_entsize = Util.read4byte( byte4, inStream, isLittleEndian );
+                                            sectionHeader.sh_name = Util.read4byte( byte4, input, isLittleEndian );
+                                            sectionHeader.sh_type = Util.read4byte( byte4, input, isLittleEndian );
+                                            sectionHeader.sh_flags = Util.read4byte( byte4, input, isLittleEndian );
+                                            sectionHeader.sh_addr = Util.read4byte( byte4, input, isLittleEndian );
+                                            sectionHeader.sh_offset = Util.read4byte( byte4, input, isLittleEndian );
+                                            sectionHeader.sh_size = Util.read4byte( byte4, input, isLittleEndian );
+                                            sectionHeader.sh_link = Util.read4byte( byte4, input, isLittleEndian );
+                                            sectionHeader.sh_info = Util.read4byte( byte4, input, isLittleEndian );
+                                            sectionHeader.sh_addralign = Util.read4byte( byte4, input, isLittleEndian );
+                                            sectionHeader.sh_entsize = Util.read4byte( byte4, input, isLittleEndian );
                                         }
                                         //System.out.println( sectionHeader.toString() );
                                         sectionHeaders[index] = sectionHeader;
@@ -304,8 +302,6 @@ public class Elf32File {
                                 } // for
                                 
                             }
-
-                            inStream.close();
 
                             String[] sectionHeaderStrings = null;
                             if ( 0 < header.e_shnum )
@@ -317,7 +313,7 @@ public class Elf32File {
                                 sectionHeaderStrings = new String[0];
                             }
                             
-                            inStream = new FileInputStream( file );
+                            input.seek( 0 );
                             {
                                 byte[] stringTable = null;
                                 {
@@ -325,8 +321,8 @@ public class Elf32File {
                                     if ( 0 <= index && index < sectionHeaders.length )
                                     {
                                         stringTable = new byte[sectionHeaders[index].sh_size];
-                                        inStream.skip( sectionHeaders[index].sh_offset );
-                                        inStream.read(stringTable);
+                                        input.seek( sectionHeaders[index].sh_offset );
+                                        input.read(stringTable);
                                     }
                                 }
 
@@ -417,9 +413,7 @@ public class Elf32File {
                             header.e_shnum = 0;
                             header.e_shstrndx = 0;
 
-                            inStream.close();
-                            inStream = new FileInputStream( file );
-                            inStream.skip( header.e_ehsize );
+                            input.seek( header.e_ehsize );
                             
                             outStream.write(header.e_ident);
                             {
@@ -460,10 +454,10 @@ public class Elf32File {
                             size -= header.e_ehsize;
 
                             byte[] temp = new byte[(int)size];
-                            inStream.read( temp );
+                            input.read( temp );
                             outStream.write( temp );
 
-                            inStream.close();
+                            input.close();
                             outStream.flush();
                             outStream.close();
 
@@ -618,9 +612,9 @@ public class Elf32File {
             }
             finally
             {
-                if ( null != inStream )
+                if ( null != input )
                 {
-                    try { inStream.close(); } catch ( Exception e ) { }
+                    try { input.close(); } catch ( Exception e ) { }
                 }
                 if ( null != outStream )
                 {

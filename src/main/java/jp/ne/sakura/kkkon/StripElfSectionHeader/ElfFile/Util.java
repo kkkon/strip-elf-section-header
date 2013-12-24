@@ -25,7 +25,6 @@ package jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile;
 
 import java.io.RandomAccessFile;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.security.InvalidParameterException;
 
 /**
@@ -135,7 +134,7 @@ public class Util
     public static void write2byte(
             final byte[] buff
             , final short value
-            , final OutputStream outStream
+            , final RandomAccessFile outStream
             , final boolean isLittleEndian
             )
             throws IOException
@@ -171,7 +170,7 @@ public class Util
     public static void write4byte(
             final byte[] buff
             , final int value
-            , final OutputStream outStream
+            , final RandomAccessFile outStream
             , final boolean isLittleEndian
             )
             throws IOException

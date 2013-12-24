@@ -26,7 +26,10 @@ package jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.security.InvalidParameterException;
 
 import jp.ne.sakura.kkkon.StripElfSectionHeader.AppOption;
 
@@ -36,61 +39,81 @@ import jp.ne.sakura.kkkon.StripElfSectionHeader.AppOption;
  */
 public class ElfFile
 {
-    public static final int EI_MAGIC0          = 0;
-    public static final int EI_MAGIC1          = 1;
-    public static final int EI_MAGIC2          = 2;
-    public static final int EI_MAGIC3          = 3;
-    public static final int EI_CLASS           = 4;
-    public static final int EI_DATA            = 5;
-    public static final int EI_VERSION         = 6;
-    public static final int EI_OSABI           = 7;
-    public static final int EI_ABIVERSION      = 8;
-    public static final int EI_PAD             = 9;
-    public static final int EI_NINDENT         = 16;
+	protected byte[] _ident = new byte[IElfFile.EI_NINDENT];
+	protected IElfFile _elfFile;
 
-    // ELFMAGIC
-    public static final int ELFMAGIC0 = 0x7f;
-    public static final int ELFMAGIC1 = 'E';
-    public static final int ELFMAGIC2 = 'L';
-    public static final int ELFMAGIC3 = 'F';
-    public static final int ELFMAGIC_COUNT     = 4;
+	public boolean readElfHeaderIdent( final RandomAccessFile input )
+			throws IOException
+	{
+		if ( null == input )
+		{
+			throw new InvalidParameterException("input null");
+		}
 
-    // ELFCLASS
-    public static final int ELFCLASSNONE = 0;
-    public static final int ELFCLASS32 = 1;
-    public static final int ELFCLASS64 = 2;
-    public static final int ELFCLASS_COUNT = 3;
+		final long current = input.getFilePointer();
+		if ( 0 != current )
+		{
+			input.seek( 0 );
+		}
 
-    // ELFDATA
-    static final int ELFDATANONE = 0;
-    static final int ELFDATA2LSB = 1;
-    static final int ELFDATA2MSB = 2;
-    static final int ELFDATA_COUNT = 3;
-    
+		final int result = input.read( this._ident );
+		if ( _ident.length != result )
+		{
+			return false;
+		}
+
+		return true;
+	}
+	
+	public boolean writeElfHeaderIdent( final RandomAccessFile output )
+			throws IOException
+	{
+		if ( null == output )
+		{
+			throw new InvalidParameterException("input null");
+		}
+
+		final long current = output.getFilePointer();
+		if ( 0 != current )
+		{
+			output.seek( 0 );
+		}
+
+		output.write( this._ident );
+		final long pos = output.getFilePointer();
+		if ( this._ident.length != pos )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+
     public static boolean isElfMagic( final byte[] buff )
     {
         if ( null == buff )
         {
             return false;
         }
-        if ( buff.length < ELFMAGIC_COUNT )
+        if ( buff.length < IElfFile.ELFMAGIC_COUNT )
         {
             return false;
         }
         
-        if ( ELFMAGIC0 != buff[EI_MAGIC0] )
+        if ( IElfFile.ELFMAGIC0 != buff[IElfFile.EI_MAGIC0] )
         {
             return false;
         }
-        if ( ELFMAGIC1 != buff[EI_MAGIC1] )
+        if ( IElfFile.ELFMAGIC1 != buff[IElfFile.EI_MAGIC1] )
         {
             return false;
         }
-        if ( ELFMAGIC2 != buff[EI_MAGIC2] )
+        if ( IElfFile.ELFMAGIC2 != buff[IElfFile.EI_MAGIC2] )
         {
             return false;
         }
-        if ( ELFMAGIC3 != buff[EI_MAGIC3] )
+        if ( IElfFile.ELFMAGIC3 != buff[IElfFile.EI_MAGIC3] )
         {
             return false;
         }
@@ -104,12 +127,12 @@ public class ElfFile
         {
             return false;
         }
-        if ( buff.length < EI_NINDENT )
+        if ( buff.length < IElfFile.EI_NINDENT )
         {
             return false;
         }
         
-        if ( ELFCLASS32 != buff[EI_CLASS] )
+        if ( IElfFile.ELFCLASS32 != buff[IElfFile.EI_CLASS] )
         {
             return false;
         }
@@ -123,12 +146,12 @@ public class ElfFile
         {
             return false;
         }
-        if ( buff.length < EI_NINDENT )
+        if ( buff.length < IElfFile.EI_NINDENT )
         {
             return false;
         }
         
-        if ( ELFCLASS64 != buff[EI_CLASS] )
+        if ( IElfFile.ELFCLASS64 != buff[IElfFile.EI_CLASS] )
         {
             return false;
         }
@@ -142,12 +165,12 @@ public class ElfFile
         {
             return false;
         }
-        if ( buff.length < EI_NINDENT )
+        if ( buff.length < IElfFile.EI_NINDENT )
         {
             return false;
         }
         
-        if ( ELFDATA2LSB != buff[EI_DATA] )
+        if ( IElfFile.ELFDATA2LSB != buff[IElfFile.EI_DATA] )
         {
             return false;
         }
@@ -161,12 +184,12 @@ public class ElfFile
         {
             return false;
         }
-        if ( buff.length < EI_NINDENT )
+        if ( buff.length < IElfFile.EI_NINDENT )
         {
             return false;
         }
         
-        if ( ELFDATA2MSB != buff[EI_DATA] )
+        if ( IElfFile.ELFDATA2MSB != buff[IElfFile.EI_DATA] )
         {
             return false;
         }
@@ -182,12 +205,12 @@ public class ElfFile
         {
             FileInputStream inStream = null;
 
-            byte[] buff = new byte[ELFMAGIC_COUNT];
+            byte[] buff = new byte[IElfFile.ELFMAGIC_COUNT];
             try
             {
                 inStream = new FileInputStream( file );
                 final int nRet = inStream.read(buff);
-                if ( ELFMAGIC_COUNT != nRet )
+                if ( IElfFile.ELFMAGIC_COUNT != nRet )
                 {
                     isElfFile = false;
                 }
@@ -214,23 +237,23 @@ public class ElfFile
         return isElfFile;
     }
 
-    public static boolean stripElfSectionHeader( final AppOption option, final String relativePath, final String path )
+    public boolean stripElfSectionHeader( final AppOption option, final String relativePath, final String path )
     {
         boolean isStripped = false;
 
         boolean isElfMagic = false;
-        int ElfClass = ELFCLASSNONE;
+        int ElfClass = IElfFile.ELFCLASSNONE;
 
         File file = new File(path);
         {
             FileInputStream inStream = null;
 
-            byte[] buff = new byte[EI_NINDENT];
+            byte[] buff = new byte[IElfFile.EI_NINDENT];
             try
             {
                 inStream = new FileInputStream( file );
                 final int nRet = inStream.read(buff);
-                if ( EI_NINDENT != nRet )
+                if ( IElfFile.EI_NINDENT != nRet )
                 {
                     isStripped = false;
                 }
@@ -241,12 +264,12 @@ public class ElfFile
                         isElfMagic = true;
                         if ( isElf32( buff ) )
                         {
-                            ElfClass = ELFCLASS32;
+                            ElfClass = IElfFile.ELFCLASS32;
                         }
                         else
                         if ( isElf64( buff ) )
                         {
-                            ElfClass = ELFCLASS64;
+                            ElfClass = IElfFile.ELFCLASS64;
                         }
                     }
                 }
@@ -270,16 +293,22 @@ public class ElfFile
         {
             switch ( ElfClass )
             {
-                case ELFCLASS32:
-                    isStripped = Elf32File.stripSectionHeader( option, relativePath, path );
+                case IElfFile.ELFCLASS32:
+					_elfFile = new Elf32File();
+					isStripped = ((Elf32File)_elfFile).stripSectionHeader( option, relativePath, path );
                     break;
-                case ELFCLASS64:
+                case IElfFile.ELFCLASS64:
                     System.err.println( "Not implemented ElfClass64" );
                     break;
                 default:
                     System.err.println( "Unknown ElfClass" );
                     break;
             }
+			
+//			if ( null != _elfFile )
+//			{
+//				isStripped = _elfFile.stripSectionHeader( option, relativePath, path );
+//			}
         }
 
         return isStripped;

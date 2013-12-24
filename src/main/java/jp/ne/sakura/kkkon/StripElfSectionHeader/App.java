@@ -137,8 +137,9 @@ public class App
                             );
                 }
             }
-            
-            final boolean isElfFile = ElfFile.stripElfSectionHeader( option, relativePath, path );
+
+			ElfFile elfFile = new ElfFile();
+            final boolean isElfFile = elfFile.stripElfSectionHeader( option, relativePath, path );
             System.err.println( path + ": " + isElfFile );
         }
         

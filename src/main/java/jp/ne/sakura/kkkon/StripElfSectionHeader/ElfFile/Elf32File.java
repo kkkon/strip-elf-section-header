@@ -230,7 +230,7 @@ public class Elf32File
 			}
 			//System.out.println( header.toString() );
 		}
-		return false;
+		return true;
 	}
 
 	public boolean readProgramHeader( final RandomAccessFile input )

@@ -23,15 +23,9 @@
  */
 package jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.security.InvalidParameterException;
-
-import jp.ne.sakura.kkkon.StripElfSectionHeader.AppOption;
 
 /**
  *
@@ -91,104 +85,53 @@ public class ElfFile
 
     public boolean isElfMagic()
     {
-        if ( null == _ident )
-        {
-            return false;
-        }
-        if ( _ident.length < IElfFile.ELFMAGIC_COUNT )
-        {
-            return false;
-        }
-        
-        if ( IElfFile.ELFMAGIC0 != _ident[IElfFile.EI_MAGIC0] )
-        {
-            return false;
-        }
-        if ( IElfFile.ELFMAGIC1 != _ident[IElfFile.EI_MAGIC1] )
-        {
-            return false;
-        }
-        if ( IElfFile.ELFMAGIC2 != _ident[IElfFile.EI_MAGIC2] )
-        {
-            return false;
-        }
-        if ( IElfFile.ELFMAGIC3 != _ident[IElfFile.EI_MAGIC3] )
-        {
-            return false;
-        }
-        
-        return true;
+		return isElfMagic( _ident );
     }
 
     public boolean isElf32()
     {
-        if ( null == _ident )
-        {
-            return false;
-        }
-        if ( _ident.length < IElfFile.EI_NINDENT )
-        {
-            return false;
-        }
-        
-        if ( IElfFile.ELFCLASS32 != _ident[IElfFile.EI_CLASS] )
-        {
-            return false;
-        }
-        
-        return true;
+		return isElf32( _ident );
     }
 
     public boolean isElf64()
     {
-        if ( null == _ident )
-        {
-            return false;
-        }
-        if ( _ident.length < IElfFile.EI_NINDENT )
-        {
-            return false;
-        }
-        
-        if ( IElfFile.ELFCLASS64 != _ident[IElfFile.EI_CLASS] )
-        {
-            return false;
-        }
-        
-        return true;
+		return isElf64( _ident );
     }
 
     public boolean isElfLittleEndian()
     {
-        if ( null == _ident )
-        {
-            return false;
-        }
-        if ( _ident.length < IElfFile.EI_NINDENT )
-        {
-            return false;
-        }
-        
-        if ( IElfFile.ELFDATA2LSB != _ident[IElfFile.EI_DATA] )
-        {
-            return false;
-        }
-        
-        return true;
+		return isElfLittleEndian( _ident );
     }
 
     public boolean isElfBigEndian()
     {
-        if ( null == _ident )
+		return isElfBigEndian( _ident );
+    }
+
+    public static boolean isElfMagic( final byte[] buff )
+    {
+        if ( null == buff )
         {
             return false;
         }
-        if ( _ident.length < IElfFile.EI_NINDENT )
+        if ( buff.length < IElfFile.ELFMAGIC_COUNT )
         {
             return false;
         }
         
-        if ( IElfFile.ELFDATA2MSB != _ident[IElfFile.EI_DATA] )
+        if ( IElfFile.ELFMAGIC0 != buff[IElfFile.EI_MAGIC0] )
+        {
+            return false;
+        }
+        if ( IElfFile.ELFMAGIC1 != buff[IElfFile.EI_MAGIC1] )
+        {
+            return false;
+        }
+        if ( IElfFile.ELFMAGIC2 != buff[IElfFile.EI_MAGIC2] )
+        {
+            return false;
+        }
+        if ( IElfFile.ELFMAGIC3 != buff[IElfFile.EI_MAGIC3] )
         {
             return false;
         }
@@ -196,10 +139,86 @@ public class ElfFile
         return true;
     }
 
-    public boolean stripElfSectionHeader( final AppOption option, final String relativePath, final String path )
+    public static boolean isElf32( final byte[] buff )
     {
-        boolean isStripped = false;
+        if ( null == buff )
+        {
+            return false;
+        }
+        if ( buff.length < IElfFile.EI_NINDENT )
+        {
+            return false;
+        }
+        
+        if ( IElfFile.ELFCLASS32 != buff[IElfFile.EI_CLASS] )
+        {
+            return false;
+        }
+        
+        return true;
+    }
 
+    public static boolean isElf64( final byte[] buff )
+    {
+        if ( null == buff )
+        {
+            return false;
+        }
+        if ( buff.length < IElfFile.EI_NINDENT )
+        {
+            return false;
+        }
+        
+        if ( IElfFile.ELFCLASS64 != buff[IElfFile.EI_CLASS] )
+        {
+            return false;
+        }
+        
+        return true;
+    }
+
+    public static boolean isElfLittleEndian( final byte[] buff )
+    {
+        if ( null == buff )
+        {
+            return false;
+        }
+        if ( buff.length < IElfFile.EI_NINDENT )
+        {
+            return false;
+        }
+        
+        if ( IElfFile.ELFDATA2LSB != buff[IElfFile.EI_DATA] )
+        {
+            return false;
+        }
+        
+        return true;
+    }
+
+    public static boolean isElfBigEndian( final byte[] buff )
+    {
+        if ( null == buff )
+        {
+            return false;
+        }
+        if ( buff.length < IElfFile.EI_NINDENT )
+        {
+            return false;
+        }
+        
+        if ( IElfFile.ELFDATA2MSB != buff[IElfFile.EI_DATA] )
+        {
+            return false;
+        }
+        
+        return true;
+    }
+	
+	
+	
+	public boolean readFile( final String path )
+	{
         boolean isElfMagic = false;
         int ElfClass = IElfFile.ELFCLASSNONE;
 
@@ -227,6 +246,7 @@ public class ElfFile
 						ElfClass = IElfFile.ELFCLASS64;
 					}
 				}
+
 			}
 			catch ( IOException e )
 			{
@@ -247,7 +267,6 @@ public class ElfFile
             {
                 case IElfFile.ELFCLASS32:
 					_elfFile = new Elf32File();
-					isStripped = ((Elf32File)_elfFile).stripSectionHeader( option, relativePath, path );
                     break;
                 case IElfFile.ELFCLASS64:
                     System.err.println( "Not implemented ElfClass64" );
@@ -256,16 +275,192 @@ public class ElfFile
                     System.err.println( "Unknown ElfClass" );
                     break;
             }
-			
-//			if ( null != _elfFile )
-//			{
-//				isStripped = _elfFile.stripSectionHeader( option, relativePath, path );
-//			}
+		}
+
+		if ( null != _elfFile )
+		{
+	        RandomAccessFile input = null;
+			try
+	        {
+				input = new RandomAccessFile( path, "r" );
+				
+				{
+					final boolean result = _elfFile.readElfHeader( input );
+					if ( false == result )
+					{
+						return false;
+					}
+				}
+				
+				{
+					final boolean result = _elfFile.readSectionHeader( input );
+					if ( false == result )
+					{
+						return false;
+					}
+				}
+				
+			}
+			catch ( IOException e )
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				if ( null != input )
+				{
+					try { input.close(); } catch ( Exception e ) { }
+				}
+			}
         }
 
-        return isStripped;
-    }
-    
+		return true;
+	}
+
+
+
+
+	public boolean readElfHeader(RandomAccessFile input) throws IOException
+	{
+		if ( null == this._elfFile )
+		{
+			return false;
+		}
+		
+		return this._elfFile.readElfHeader( input );
+	}
+
+	public boolean readProgramHeader(RandomAccessFile input) throws IOException
+	{
+		if ( null == this._elfFile )
+		{
+			return false;
+		}
+		
+		return this._elfFile.readProgramHeader( input );
+	}
+
+	public boolean readSectionHeader(RandomAccessFile input) throws IOException
+	{
+		if ( null == this._elfFile )
+		{
+			return false;
+		}
+		
+		return this._elfFile.readSectionHeader( input );
+	}
+
+	public boolean writeElfHeader(RandomAccessFile output) throws IOException
+	{
+		if ( null == this._elfFile )
+		{
+			return false;
+		}
+		
+		return this._elfFile.writeElfHeader( output );
+	}
+
+	public boolean writeProgramHeader(RandomAccessFile output) throws IOException
+	{
+		if ( null == this._elfFile )
+		{
+			return false;
+		}
+		
+		return this._elfFile.writeProgramHeader( output );
+	}
+
+	public boolean writeSectionHeader(RandomAccessFile output) throws IOException
+	{
+		if ( null == this._elfFile )
+		{
+			return false;
+		}
+		
+		return this._elfFile.writeSectionHeader( output );
+	}
+
+
+	public long getElfHeaderHeaderSize()
+	{
+		if ( null == this._elfFile )
+		{
+			throw new RuntimeException("_elfFile null");
+		}
+
+		return this._elfFile.getElfHeaderHeaderSize();
+	}
+
+	public long getElfHeaderSectionHeaderOffset()
+	{
+		if ( null == this._elfFile )
+		{
+			throw new RuntimeException("_elfFile null");
+		}
+
+		return this._elfFile.getElfHeaderSectionHeaderOffset();
+	}
+
+
+	public long getElfHeaderSectionHeaderStringTableOffset()
+	{
+		if ( null == this._elfFile )
+		{
+			throw new RuntimeException("_elfFile null");
+		}
+
+		return this._elfFile.getElfHeaderSectionHeaderStringTableOffset();
+	}
+
+	public void setElfHeaderSectionHeaderOffset(long offset)
+	{
+		if ( null == this._elfFile )
+		{
+			throw new RuntimeException("_elfFile null");
+		}
+		
+		this._elfFile.setElfHeaderSectionHeaderOffset( offset );
+	}
+
+	public void setElfHeaderSectionHeaderNumber(int number)
+	{
+		if ( null == this._elfFile )
+		{
+			throw new RuntimeException("_elfFile null");
+		}
+		
+		this._elfFile.setElfHeaderSectionHeaderNumber( number );
+	}
+
+	public void setElfHeaderSectionHeaderSize(int size)
+	{
+		if ( null == this._elfFile )
+		{
+			throw new RuntimeException("_elfFile null");
+		}
+
+		this._elfFile.setElfHeaderSectionHeaderSize( size );
+	}
+
+	public void setElfHeaderSectionHeaderStringTableIndex(int index)
+	{
+		if ( null == this._elfFile )
+		{
+			throw new RuntimeException("_elfFile null");
+		}
+
+		this._elfFile.setElfHeaderSectionHeaderStringTableIndex( index );
+	}
+
+	public boolean hasSectionDebug()
+	{
+		if ( null == this._elfFile )
+		{
+			return false;
+		}
+		
+		return this._elfFile.hasSectionDebug();
+	}
 
     static final int SHT_NULL = 0;
     static final int SHT_PROGBITS = 1;

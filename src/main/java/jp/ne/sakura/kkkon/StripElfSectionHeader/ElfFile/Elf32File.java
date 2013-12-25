@@ -23,18 +23,14 @@
  */
 package jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile;
 
-import java.io.File;
 import java.io.RandomAccessFile;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import jp.ne.sakura.kkkon.StripElfSectionHeader.AppOption;
 
 /**
  *
  * @author Kiyofumi Kondoh
  */
 public class Elf32File
-	extends ElfFile
 	implements IElfFile
 {
 
@@ -140,11 +136,50 @@ public class Elf32File
         
     }
 
+    public boolean isElfMagic()
+    {
+		return ElfFile.isElfMagic(  header.e_ident );
+    }
+
+    public boolean isElf32()
+    {
+		return ElfFile.isElf32(  header.e_ident );
+    }
+
+    public boolean isElf64()
+    {
+		return ElfFile.isElf64(  header.e_ident );
+    }
+
+    public boolean isElfLittleEndian()
+    {
+		return ElfFile.isElfLittleEndian(  header.e_ident );
+    }
+
+    public boolean isElfBigEndian()
+    {
+		return ElfFile.isElfBigEndian(  header.e_ident );
+    }
+	
+	
+	
 	protected ElfHeader  header = new ElfHeader();
 	public boolean readElfHeader( final RandomAccessFile input )
 			throws IOException
 	{
-		System.arraycopy( super._ident, 0, header.e_ident, 0, super._ident.length );
+		{
+			final long current = input.getFilePointer();
+			if ( 0 != current )
+			{
+				input.seek( 0 );
+			}
+
+			final int result = input.read( header.e_ident );
+			if ( header.e_ident.length != result )
+			{
+				return false;
+			}
+		}
 		
 		if ( ! isElfMagic() )
 		{
@@ -401,336 +436,61 @@ public class Elf32File
 		return false;
 	}
 
-	
-    public boolean stripSectionHeader( final AppOption option, final String relativePath, final String path )
-    {
-        boolean isStripped = false;
+	@Override
+	public long getElfHeaderHeaderSize() {
+		return header.e_ehsize;
+	}
 
-        File file = new File(path);
-        if ( file.getPath().endsWith(".bak") )
-        {
-            if ( option.isVerbose() )
-            {
-                System.out.println( "skip " + file.getPath() );
-            }
-            return false;
-        }
+	@Override
+	public long getElfHeaderSectionHeaderOffset() {
+		return header.e_shoff;
+	}
 
-        String fileName = null;
-        {
-            final int index = path.lastIndexOf( File.separatorChar );
-            if ( 0 < index )
-            {
-                fileName = path.substring( index );
-            }
-            else
-            {
-                final int indexNonWindows = path.lastIndexOf( '/' );
-                if ( 0 < indexNonWindows )
-                {
-                    fileName = path.substring( indexNonWindows );
-                }
-            }
-        }
+	@Override
+	public long getElfHeaderSectionHeaderStringTableOffset() {
+		return this.offsetSectionHeader_StringTable;
+	}
 
-        String destPath = null;
-        {
-            final String outputDir = option.getOutput();
-            if ( null == outputDir )
-            {
-                final int index = path.lastIndexOf( File.separatorChar );
-                if ( 0 < index )
-                {
-                    destPath = path.substring( 0, index );
-                }
-                else
-                {
-                    final int indexNonWindows = path.lastIndexOf( '/' );
-                    if ( 0 < indexNonWindows )
-                    {
-                        destPath = path.substring( 0, indexNonWindows );
-                    }
-                }
-            }
-            else
-            {
-                destPath = outputDir + File.separator + relativePath;
-                final File destDir = new File( destPath );
-                if ( ! destDir.exists() )
-                {
-                    if ( ! option.isDryRun() )
-                    {
-                        destDir.mkdirs();
-                    }
-                }
-            }
-        }
+	@Override
+	public void setElfHeaderSectionHeaderOffset(long offset) {
+		header.e_shoff = (int)offset;
+	}
 
-        {
-            RandomAccessFile input = null;
-            RandomAccessFile output = null;
+	@Override
+	public void setElfHeaderSectionHeaderNumber(int number) {
+		header.e_shnum = (short)number;
+	}
 
-            try
-            {
-                input = new RandomAccessFile( file, "r" );
-				final boolean resultReadIdent = super.readElfHeaderIdent( input );
-                if ( false == resultReadIdent )
-                {
-                    isStripped = false;
-                }
-                else
-                {
-					final boolean resultReadElfHeader = this.readElfHeader( input );
-                    if ( false == resultReadElfHeader )
-                    {
-						isStripped = false;
-					}
-					else
+	@Override
+	public void setElfHeaderSectionHeaderSize(int size) {
+		header.e_shentsize = (short)size;
+	}
+
+	@Override
+	public void setElfHeaderSectionHeaderStringTableIndex(int index) {
+		header.e_shstrndx = (short)index;
+	}
+
+	public boolean hasSectionDebug()
+	{
+		boolean haveDebug = false;
+		{
+			final int sectionHeaderStringsLength = sectionHeaderStrings.length;
+			for ( int index = 0; index < sectionHeaderStringsLength; ++index )
+			{
+				final String str = sectionHeaderStrings[index];
+				if ( null != str )
+				{
+					if ( str.startsWith( ElfFile.ELF_DEBUG ) )
 					{
-						final boolean resultReadSectionHeader = this.readSectionHeader( input );
-						if ( false == resultReadSectionHeader )
-						{
-							isStripped = false;
-						}
-						else
-                        {
-                            boolean expectedElf = true;
-                            {
-                                final int sectionHeaderStringsLength = sectionHeaderStrings.length;
-                                for ( int index = 0; index < sectionHeaderStringsLength; ++index )
-                                {
-                                    final String str = sectionHeaderStrings[index];
-                                    if ( null != str )
-                                    {
-                                        if ( str.startsWith( ElfFile.ELF_DEBUG ) )
-                                        {
-                                            expectedElf = false;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            if ( false == expectedElf )
-                            {
-                                System.err.println( "sorry. contain debug info. " + path );
-                                return false;
-                            }
-                            
-                            if ( offsetSectionHeader_StringTable < 0 )
-                            {
-                                System.err.println( "sorry. fail detect sh_offset. " + path );
-                                return false;
-                            }
-                            
-                            File tempFile = File.createTempFile( "kkkon_strip", ".tmp" );
-                            output = new RandomAccessFile( tempFile, "rw" );
+						haveDebug = true;
+						break;
+					}
+				}
+			}
+		}
 
-                            header.e_shentsize = 0;
-                            header.e_shnum = 0;
-                            header.e_shstrndx = 0;
+		return haveDebug;
+	}
 
-                            input.seek( header.e_ehsize );
-                            
-                            final boolean resultWriteIdent = super.writeElfHeaderIdent( output );
-							if ( false == resultWriteIdent )
-							{
-			                    isStripped = false;
-							}
-							else
-                            {
-								final boolean resultWriteElfHeader = this.writeElfHeader( output );
-								if ( false == resultWriteElfHeader )
-								{
-									isStripped = false;
-								}
-                            }
-
-                            long size = header.e_shoff;
-                            final long fileSize = file.length();
-                            if ( size < 0 || fileSize < size )
-                            {
-                                size = fileSize;
-                            }
-                            else
-                            {
-                            }
-
-                            if ( offsetSectionHeader_StringTable < size )
-                            {
-                                size = offsetSectionHeader_StringTable;
-                            }
-                            size -= header.e_ehsize;
-
-                            byte[] temp = new byte[(int)size];
-                            input.read( temp );
-                            output.write( temp );
-
-                            input.close();
-                            output.close();
-
-                            if ( option.isDryRun() )
-                            {
-                                tempFile.delete();
-                            }
-                            else
-                            {
-                                if ( null != option.getOutput() )
-                                {
-                                    File fileDest = new File( destPath + File.separator + fileName );
-                                    if ( fileDest.exists() )
-                                    {
-                                        fileDest.delete();
-                                    }
-
-                                    if ( tempFile.renameTo( fileDest.getAbsoluteFile() ) )
-                                    {
-                                        isStripped = true;
-                                    }
-                                    else
-                                    {
-                                        System.err.println( "Failed. rename tempFile to original '" + tempFile.getAbsoluteFile() + "' renameTo '" + file.getAbsolutePath() + "'" );
-                                    }
-                                }
-                                else
-                                {
-                                    boolean readyRenameBackup = false;
-                                    File fileBackup = new File(file.getPath() + ".bak" );
-                                    if ( fileBackup.exists() )
-                                    {
-                                        boolean readyDelete = false;
-
-                                        if ( option.isBatchRun() )
-                                        {
-                                            if ( option.isKeepBackup() )
-                                            {
-
-                                            }
-                                            else
-                                            {
-                                                readyDelete = true;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            while ( true )
-                                            {
-                                                System.out.println("do you want to delete ? (Y/N) " + fileBackup.getPath() );
-                                                final int c = System.in.read();
-                                                if ( 'Y' == c || 'y' == c )
-                                                {
-                                                    readyDelete = true;
-                                                }
-                                                else
-                                                if ( 'N' == c || 'n' == c )
-                                                {
-                                                    break;
-                                                }
-                                            }
-                                            while ( true )
-                                            {
-                                                if ( 0 < System.in.available() )
-                                                {
-                                                    System.in.read();
-                                                }
-                                                else
-                                                {
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        if ( readyDelete )
-                                        {
-                                            if ( fileBackup.canWrite() )
-                                            {
-                                                readyRenameBackup = fileBackup.delete();
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        readyRenameBackup = true;
-                                    }
-
-                                    boolean successReanmeToBackup = false;
-                                    if ( readyRenameBackup )
-                                    {
-                                        successReanmeToBackup = file.renameTo( fileBackup );
-                                        if ( successReanmeToBackup )
-                                        {
-                                            successReanmeToBackup = true;
-                                        }
-                                        else
-                                        {
-                                            successReanmeToBackup = false;
-                                            System.err.println( "Failed. rename original to backup. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
-                                        }
-                                    }
-                                    if ( false == successReanmeToBackup && !option.isKeepBackup() )
-                                    {
-                                        file.delete();
-                                    }
-
-                                    if ( successReanmeToBackup || (false == successReanmeToBackup && !option.isKeepBackup() ) )
-                                    {
-                                        File fileDest = new File( destPath + File.separator + fileName );
-                                        if ( tempFile.renameTo( fileDest.getAbsoluteFile() ) )
-                                        {
-                                            isStripped = true;
-
-                                            if ( option.isKeepBackup() )
-                                            {
-                                            }
-                                            else
-                                            {
-                                                if ( fileBackup.canWrite() )
-                                                {
-                                                    fileBackup.delete();
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            System.err.println( "Failed. rename tempFile to original '" + tempFile.getAbsoluteFile() + "' renameTo '" + file.getAbsolutePath() + "'" );
-                                        }
-                                    }
-                                    else
-                                    {
-                                        System.err.println( "Failed. rename to backup. '" + file.getAbsoluteFile() + "' renameTo '" + fileBackup.getAbsolutePath() + "'" );
-                                    }
-                                }
-
-                                if ( tempFile.exists() )
-                                {
-                                    tempFile.delete();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch ( FileNotFoundException e )
-            {
-                e.printStackTrace();
-            }
-            catch ( IOException e )
-            {
-                e.printStackTrace();
-            }
-            finally
-            {
-                if ( null != input )
-                {
-                    try { input.close(); } catch ( Exception e ) { }
-                }
-                if ( null != output )
-                {
-                    try { output.close(); } catch ( Exception e ) { }
-                }
-            }
-        }
-        
-        return isStripped;
-    }
 }

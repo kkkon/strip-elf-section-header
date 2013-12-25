@@ -25,7 +25,7 @@
 package jp.ne.sakura.kkkon.StripElfSectionHeader;
 
 import java.io.File;
-import jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFile;
+import jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile.ElfFileUtil;
 
 /**
  *
@@ -138,8 +138,7 @@ public class App
                 }
             }
 
-			ElfFile elfFile = new ElfFile();
-            final boolean isElfFile = elfFile.stripElfSectionHeader( option, relativePath, path );
+            final boolean isElfFile = ElfFileUtil.stripElfSectionHeader( option, relativePath, path );
             System.err.println( path + ": " + isElfFile );
         }
         

@@ -233,10 +233,66 @@ public class Elf32File
 		return true;
 	}
 
+	protected	ProgramHeader[] programHeaders = null;
 	public boolean readProgramHeader( final RandomAccessFile input )
 			throws IOException
 	{
-		return false;
+		if ( ! isElfMagic() )
+		{
+			return false;
+		}
+		
+		if ( ! isElf32() )
+		{
+			return false;
+		}
+
+		final boolean isBigEndian = isElfBigEndian();
+		final boolean isLittleEndian = isElfLittleEndian();
+		{
+			if ( isBigEndian || isLittleEndian )
+			{
+			}
+			else
+			{
+				throw new RuntimeException("unknown endian");
+			}
+		}
+
+		if ( 0 < header.e_phnum )
+		{
+			programHeaders = new ProgramHeader[header.e_phnum];
+		}
+		else
+		{
+			programHeaders = new ProgramHeader[0];
+		}
+
+		input.seek( header.e_phoff );
+		if ( 0 < header.e_phentsize )
+		{
+			for ( int index = 0; index < header.e_phnum; ++index )
+			{
+				ProgramHeader   programHeader = new ProgramHeader();
+				{
+					byte[] byte4 = new byte[4];
+
+					programHeader.p_type = Util.read4byte( byte4, input, isLittleEndian );
+					programHeader.p_offset = Util.read4byte( byte4, input, isLittleEndian );
+					programHeader.p_vaddr = Util.read4byte( byte4, input, isLittleEndian );
+					programHeader.p_paddr = Util.read4byte( byte4, input, isLittleEndian );
+					programHeader.p_filesz = Util.read4byte( byte4, input, isLittleEndian );
+					programHeader.p_memsz = Util.read4byte( byte4, input, isLittleEndian );
+					programHeader.p_flags = Util.read4byte( byte4, input, isLittleEndian );
+					programHeader.p_align = Util.read4byte( byte4, input, isLittleEndian );
+				}
+				//System.out.println( programHeader.toString() );
+				programHeaders[index] = programHeader;
+			} // for
+
+		}
+
+		return true;
 	}
 
 	protected	SectionHeader[] sectionHeaders = null;

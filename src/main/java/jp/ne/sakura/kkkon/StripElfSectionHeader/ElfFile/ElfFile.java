@@ -33,79 +33,79 @@ import java.security.InvalidParameterException;
  */
 public class ElfFile
 {
-	protected byte[] _ident = new byte[IElfFile.EI_NINDENT];
-	protected IElfFile _elfFile;
+    protected byte[] _ident = new byte[IElfFile.EI_NINDENT];
+    protected IElfFile _elfFile;
 
-	public boolean readElfHeaderIdent( final RandomAccessFile input )
-			throws IOException
-	{
-		if ( null == input )
-		{
-			throw new InvalidParameterException("input null");
-		}
+    public boolean readElfHeaderIdent( final RandomAccessFile input )
+            throws IOException
+    {
+        if ( null == input )
+        {
+            throw new InvalidParameterException("input null");
+        }
 
-		final long current = input.getFilePointer();
-		if ( 0 != current )
-		{
-			input.seek( 0 );
-		}
+        final long current = input.getFilePointer();
+        if ( 0 != current )
+        {
+            input.seek( 0 );
+        }
 
-		final int result = input.read( this._ident );
-		if ( _ident.length != result )
-		{
-			return false;
-		}
+        final int result = input.read( this._ident );
+        if ( _ident.length != result )
+        {
+            return false;
+        }
 
-		return true;
-	}
-	
-	public boolean writeElfHeaderIdent( final RandomAccessFile output )
-			throws IOException
-	{
-		if ( null == output )
-		{
-			throw new InvalidParameterException("input null");
-		}
+        return true;
+    }
+    
+    public boolean writeElfHeaderIdent( final RandomAccessFile output )
+            throws IOException
+    {
+        if ( null == output )
+        {
+            throw new InvalidParameterException("input null");
+        }
 
-		final long current = output.getFilePointer();
-		if ( 0 != current )
-		{
-			output.seek( 0 );
-		}
+        final long current = output.getFilePointer();
+        if ( 0 != current )
+        {
+            output.seek( 0 );
+        }
 
-		output.write( this._ident );
-		final long pos = output.getFilePointer();
-		if ( this._ident.length != pos )
-		{
-			return false;
-		}
+        output.write( this._ident );
+        final long pos = output.getFilePointer();
+        if ( this._ident.length != pos )
+        {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
     public boolean isElfMagic()
     {
-		return isElfMagic( _ident );
+        return isElfMagic( _ident );
     }
 
     public boolean isElf32()
     {
-		return isElf32( _ident );
+        return isElf32( _ident );
     }
 
     public boolean isElf64()
     {
-		return isElf64( _ident );
+        return isElf64( _ident );
     }
 
     public boolean isElfLittleEndian()
     {
-		return isElfLittleEndian( _ident );
+        return isElfLittleEndian( _ident );
     }
 
     public boolean isElfBigEndian()
     {
-		return isElfBigEndian( _ident );
+        return isElfBigEndian( _ident );
     }
 
     public static boolean isElfMagic( final byte[] buff )
@@ -214,51 +214,51 @@ public class ElfFile
         
         return true;
     }
-	
-	
-	
-	public boolean readFile( final String path )
-	{
+    
+    
+    
+    public boolean readFile( final String path )
+    {
         boolean isElfMagic = false;
         int ElfClass = IElfFile.ELFCLASSNONE;
 
-		{
-	        RandomAccessFile input = null;
-			try
-	        {
-				input = new RandomAccessFile( path, "r" );
-				final boolean resultReadIdent = this.readElfHeaderIdent( input );
-				if ( false == resultReadIdent )
-				{
-					return false;
-				}
+        {
+            RandomAccessFile input = null;
+            try
+            {
+                input = new RandomAccessFile( path, "r" );
+                final boolean resultReadIdent = this.readElfHeaderIdent( input );
+                if ( false == resultReadIdent )
+                {
+                    return false;
+                }
 
-				if ( this.isElfMagic() )
-				{
-					isElfMagic = true;
-					if ( this.isElf32() )
-					{
-						ElfClass = IElfFile.ELFCLASS32;
-					}
-					else
-					if ( this.isElf64() )
-					{
-						ElfClass = IElfFile.ELFCLASS64;
-					}
-				}
+                if ( this.isElfMagic() )
+                {
+                    isElfMagic = true;
+                    if ( this.isElf32() )
+                    {
+                        ElfClass = IElfFile.ELFCLASS32;
+                    }
+                    else
+                    if ( this.isElf64() )
+                    {
+                        ElfClass = IElfFile.ELFCLASS64;
+                    }
+                }
 
-			}
-			catch ( IOException e )
-			{
-				e.printStackTrace();
-			}
-			finally
-			{
-				if ( null != input )
-				{
-					try { input.close(); } catch ( Exception e ) { }
-				}
-			}
+            }
+            catch ( IOException e )
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                if ( null != input )
+                {
+                    try { input.close(); } catch ( Exception e ) { }
+                }
+            }
         }
 
         if ( isElfMagic )
@@ -266,7 +266,7 @@ public class ElfFile
             switch ( ElfClass )
             {
                 case IElfFile.ELFCLASS32:
-					_elfFile = new Elf32File();
+                    _elfFile = new Elf32File();
                     break;
                 case IElfFile.ELFCLASS64:
                     System.err.println( "Not implemented ElfClass64" );
@@ -275,200 +275,200 @@ public class ElfFile
                     System.err.println( "Unknown ElfClass" );
                     break;
             }
-		}
-
-		if ( null != _elfFile )
-		{
-	        RandomAccessFile input = null;
-			try
-	        {
-				input = new RandomAccessFile( path, "r" );
-				
-				{
-					final boolean result = _elfFile.readElfHeader( input );
-					if ( false == result )
-					{
-						return false;
-					}
-				}
-				
-				{
-					final boolean result = _elfFile.readProgramHeader( input );
-					if ( false == result )
-					{
-						return false;
-					}
-				}
-				
-				{
-					final boolean result = _elfFile.readSectionHeader( input );
-					if ( false == result )
-					{
-						return false;
-					}
-				}
-				
-			}
-			catch ( IOException e )
-			{
-				e.printStackTrace();
-			}
-			finally
-			{
-				if ( null != input )
-				{
-					try { input.close(); } catch ( Exception e ) { }
-				}
-			}
         }
 
-		return true;
-	}
+        if ( null != _elfFile )
+        {
+            RandomAccessFile input = null;
+            try
+            {
+                input = new RandomAccessFile( path, "r" );
+                
+                {
+                    final boolean result = _elfFile.readElfHeader( input );
+                    if ( false == result )
+                    {
+                        return false;
+                    }
+                }
+                
+                {
+                    final boolean result = _elfFile.readProgramHeader( input );
+                    if ( false == result )
+                    {
+                        return false;
+                    }
+                }
+                
+                {
+                    final boolean result = _elfFile.readSectionHeader( input );
+                    if ( false == result )
+                    {
+                        return false;
+                    }
+                }
+                
+            }
+            catch ( IOException e )
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                if ( null != input )
+                {
+                    try { input.close(); } catch ( Exception e ) { }
+                }
+            }
+        }
+
+        return true;
+    }
 
 
 
 
-	public boolean readElfHeader(RandomAccessFile input) throws IOException
-	{
-		if ( null == this._elfFile )
-		{
-			return false;
-		}
-		
-		return this._elfFile.readElfHeader( input );
-	}
+    public boolean readElfHeader(RandomAccessFile input) throws IOException
+    {
+        if ( null == this._elfFile )
+        {
+            return false;
+        }
+        
+        return this._elfFile.readElfHeader( input );
+    }
 
-	public boolean readProgramHeader(RandomAccessFile input) throws IOException
-	{
-		if ( null == this._elfFile )
-		{
-			return false;
-		}
-		
-		return this._elfFile.readProgramHeader( input );
-	}
+    public boolean readProgramHeader(RandomAccessFile input) throws IOException
+    {
+        if ( null == this._elfFile )
+        {
+            return false;
+        }
+        
+        return this._elfFile.readProgramHeader( input );
+    }
 
-	public boolean readSectionHeader(RandomAccessFile input) throws IOException
-	{
-		if ( null == this._elfFile )
-		{
-			return false;
-		}
-		
-		return this._elfFile.readSectionHeader( input );
-	}
+    public boolean readSectionHeader(RandomAccessFile input) throws IOException
+    {
+        if ( null == this._elfFile )
+        {
+            return false;
+        }
+        
+        return this._elfFile.readSectionHeader( input );
+    }
 
-	public boolean writeElfHeader(RandomAccessFile output) throws IOException
-	{
-		if ( null == this._elfFile )
-		{
-			return false;
-		}
-		
-		return this._elfFile.writeElfHeader( output );
-	}
+    public boolean writeElfHeader(RandomAccessFile output) throws IOException
+    {
+        if ( null == this._elfFile )
+        {
+            return false;
+        }
+        
+        return this._elfFile.writeElfHeader( output );
+    }
 
-	public boolean writeProgramHeader(RandomAccessFile output) throws IOException
-	{
-		if ( null == this._elfFile )
-		{
-			return false;
-		}
-		
-		return this._elfFile.writeProgramHeader( output );
-	}
+    public boolean writeProgramHeader(RandomAccessFile output) throws IOException
+    {
+        if ( null == this._elfFile )
+        {
+            return false;
+        }
+        
+        return this._elfFile.writeProgramHeader( output );
+    }
 
-	public boolean writeSectionHeader(RandomAccessFile output) throws IOException
-	{
-		if ( null == this._elfFile )
-		{
-			return false;
-		}
-		
-		return this._elfFile.writeSectionHeader( output );
-	}
-
-
-	public long getElfHeaderHeaderSize()
-	{
-		if ( null == this._elfFile )
-		{
-			throw new RuntimeException("_elfFile null");
-		}
-
-		return this._elfFile.getElfHeaderHeaderSize();
-	}
-
-	public long getElfHeaderSectionHeaderOffset()
-	{
-		if ( null == this._elfFile )
-		{
-			throw new RuntimeException("_elfFile null");
-		}
-
-		return this._elfFile.getElfHeaderSectionHeaderOffset();
-	}
+    public boolean writeSectionHeader(RandomAccessFile output) throws IOException
+    {
+        if ( null == this._elfFile )
+        {
+            return false;
+        }
+        
+        return this._elfFile.writeSectionHeader( output );
+    }
 
 
-	public long getElfHeaderSectionHeaderStringTableOffset()
-	{
-		if ( null == this._elfFile )
-		{
-			throw new RuntimeException("_elfFile null");
-		}
+    public long getElfHeaderHeaderSize()
+    {
+        if ( null == this._elfFile )
+        {
+            throw new RuntimeException("_elfFile null");
+        }
 
-		return this._elfFile.getElfHeaderSectionHeaderStringTableOffset();
-	}
+        return this._elfFile.getElfHeaderHeaderSize();
+    }
 
-	public void setElfHeaderSectionHeaderOffset(long offset)
-	{
-		if ( null == this._elfFile )
-		{
-			throw new RuntimeException("_elfFile null");
-		}
-		
-		this._elfFile.setElfHeaderSectionHeaderOffset( offset );
-	}
+    public long getElfHeaderSectionHeaderOffset()
+    {
+        if ( null == this._elfFile )
+        {
+            throw new RuntimeException("_elfFile null");
+        }
 
-	public void setElfHeaderSectionHeaderNumber(int number)
-	{
-		if ( null == this._elfFile )
-		{
-			throw new RuntimeException("_elfFile null");
-		}
-		
-		this._elfFile.setElfHeaderSectionHeaderNumber( number );
-	}
+        return this._elfFile.getElfHeaderSectionHeaderOffset();
+    }
 
-	public void setElfHeaderSectionHeaderSize(int size)
-	{
-		if ( null == this._elfFile )
-		{
-			throw new RuntimeException("_elfFile null");
-		}
 
-		this._elfFile.setElfHeaderSectionHeaderSize( size );
-	}
+    public long getElfHeaderSectionHeaderStringTableOffset()
+    {
+        if ( null == this._elfFile )
+        {
+            throw new RuntimeException("_elfFile null");
+        }
 
-	public void setElfHeaderSectionHeaderStringTableIndex(int index)
-	{
-		if ( null == this._elfFile )
-		{
-			throw new RuntimeException("_elfFile null");
-		}
+        return this._elfFile.getElfHeaderSectionHeaderStringTableOffset();
+    }
 
-		this._elfFile.setElfHeaderSectionHeaderStringTableIndex( index );
-	}
+    public void setElfHeaderSectionHeaderOffset(long offset)
+    {
+        if ( null == this._elfFile )
+        {
+            throw new RuntimeException("_elfFile null");
+        }
+        
+        this._elfFile.setElfHeaderSectionHeaderOffset( offset );
+    }
 
-	public boolean hasSectionDebug()
-	{
-		if ( null == this._elfFile )
-		{
-			return false;
-		}
-		
-		return this._elfFile.hasSectionDebug();
-	}
+    public void setElfHeaderSectionHeaderNumber(int number)
+    {
+        if ( null == this._elfFile )
+        {
+            throw new RuntimeException("_elfFile null");
+        }
+        
+        this._elfFile.setElfHeaderSectionHeaderNumber( number );
+    }
+
+    public void setElfHeaderSectionHeaderSize(int size)
+    {
+        if ( null == this._elfFile )
+        {
+            throw new RuntimeException("_elfFile null");
+        }
+
+        this._elfFile.setElfHeaderSectionHeaderSize( size );
+    }
+
+    public void setElfHeaderSectionHeaderStringTableIndex(int index)
+    {
+        if ( null == this._elfFile )
+        {
+            throw new RuntimeException("_elfFile null");
+        }
+
+        this._elfFile.setElfHeaderSectionHeaderStringTableIndex( index );
+    }
+
+    public boolean hasSectionDebug()
+    {
+        if ( null == this._elfFile )
+        {
+            return false;
+        }
+        
+        return this._elfFile.hasSectionDebug();
+    }
 
     static final int SHT_NULL = 0;
     static final int SHT_PROGBITS = 1;

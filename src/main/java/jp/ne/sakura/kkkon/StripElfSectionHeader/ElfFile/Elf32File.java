@@ -31,7 +31,7 @@ import java.io.IOException;
  * @author Kiyofumi Kondoh
  */
 public class Elf32File
-	implements IElfFile
+    implements IElfFile
 {
 
     static final class ElfHeader
@@ -138,415 +138,415 @@ public class Elf32File
 
     public boolean isElfMagic()
     {
-		return ElfFile.isElfMagic(  header.e_ident );
+        return ElfFile.isElfMagic(  header.e_ident );
     }
 
     public boolean isElf32()
     {
-		return ElfFile.isElf32(  header.e_ident );
+        return ElfFile.isElf32(  header.e_ident );
     }
 
     public boolean isElf64()
     {
-		return ElfFile.isElf64(  header.e_ident );
+        return ElfFile.isElf64(  header.e_ident );
     }
 
     public boolean isElfLittleEndian()
     {
-		return ElfFile.isElfLittleEndian(  header.e_ident );
+        return ElfFile.isElfLittleEndian(  header.e_ident );
     }
 
     public boolean isElfBigEndian()
     {
-		return ElfFile.isElfBigEndian(  header.e_ident );
+        return ElfFile.isElfBigEndian(  header.e_ident );
     }
-	
-	
-	
-	protected ElfHeader  header = new ElfHeader();
-	public boolean readElfHeader( final RandomAccessFile input )
-			throws IOException
-	{
-		{
-			final long current = input.getFilePointer();
-			if ( 0 != current )
-			{
-				input.seek( 0 );
-			}
+    
+    
+    
+    protected ElfHeader  header = new ElfHeader();
+    public boolean readElfHeader( final RandomAccessFile input )
+            throws IOException
+    {
+        {
+            final long current = input.getFilePointer();
+            if ( 0 != current )
+            {
+                input.seek( 0 );
+            }
 
-			final int result = input.read( header.e_ident );
-			if ( header.e_ident.length != result )
-			{
-				return false;
-			}
-		}
-		
-		if ( ! isElfMagic() )
-		{
-			return false;
-		}
-		
-		if ( ! isElf32() )
-		{
-			return false;
-		}
+            final int result = input.read( header.e_ident );
+            if ( header.e_ident.length != result )
+            {
+                return false;
+            }
+        }
+        
+        if ( ! isElfMagic() )
+        {
+            return false;
+        }
+        
+        if ( ! isElf32() )
+        {
+            return false;
+        }
 
-		final boolean isBigEndian = isElfBigEndian();
-		final boolean isLittleEndian = isElfLittleEndian();
-		{
-			if ( isBigEndian || isLittleEndian )
-			{
-			}
-			else
-			{
-				throw new RuntimeException("unknown endian");
-			}
-		}
-		
-		final long current = input.getFilePointer();
-		if ( IElfFile.EI_NINDENT != current )
-		{
-			input.seek( IElfFile.EI_NINDENT );
-		}
-		
-		{
-			if ( isBigEndian || isLittleEndian )
-			{
-				byte[] byte4 = new byte[4];
+        final boolean isBigEndian = isElfBigEndian();
+        final boolean isLittleEndian = isElfLittleEndian();
+        {
+            if ( isBigEndian || isLittleEndian )
+            {
+            }
+            else
+            {
+                throw new RuntimeException("unknown endian");
+            }
+        }
+        
+        final long current = input.getFilePointer();
+        if ( IElfFile.EI_NINDENT != current )
+        {
+            input.seek( IElfFile.EI_NINDENT );
+        }
+        
+        {
+            if ( isBigEndian || isLittleEndian )
+            {
+                byte[] byte4 = new byte[4];
 
-				header.e_type       = Util.read2byte( byte4, input, isLittleEndian );
-				header.e_machine    = Util.read2byte( byte4, input, isLittleEndian );
-				header.e_version    = Util.read4byte( byte4, input, isLittleEndian );
-				header.e_entry      = Util.read4byte( byte4, input, isLittleEndian );
-				header.e_phoff      = Util.read4byte( byte4, input, isLittleEndian );
-				header.e_shoff      = Util.read4byte( byte4, input, isLittleEndian );
-				header.e_flags      = Util.read4byte( byte4, input, isLittleEndian );
-				header.e_ehsize     = Util.read2byte( byte4, input, isLittleEndian );
-				header.e_phentsize  = Util.read2byte( byte4, input, isLittleEndian );
-				header.e_phnum      = Util.read2byte( byte4, input, isLittleEndian );
-				header.e_shentsize  = Util.read2byte( byte4, input, isLittleEndian );
-				header.e_shnum      = Util.read2byte( byte4, input, isLittleEndian );
-				header.e_shstrndx   = Util.read2byte( byte4, input, isLittleEndian );
-			}
-			//System.out.println( header.toString() );
-		}
-		return true;
-	}
+                header.e_type       = Util.read2byte( byte4, input, isLittleEndian );
+                header.e_machine    = Util.read2byte( byte4, input, isLittleEndian );
+                header.e_version    = Util.read4byte( byte4, input, isLittleEndian );
+                header.e_entry      = Util.read4byte( byte4, input, isLittleEndian );
+                header.e_phoff      = Util.read4byte( byte4, input, isLittleEndian );
+                header.e_shoff      = Util.read4byte( byte4, input, isLittleEndian );
+                header.e_flags      = Util.read4byte( byte4, input, isLittleEndian );
+                header.e_ehsize     = Util.read2byte( byte4, input, isLittleEndian );
+                header.e_phentsize  = Util.read2byte( byte4, input, isLittleEndian );
+                header.e_phnum      = Util.read2byte( byte4, input, isLittleEndian );
+                header.e_shentsize  = Util.read2byte( byte4, input, isLittleEndian );
+                header.e_shnum      = Util.read2byte( byte4, input, isLittleEndian );
+                header.e_shstrndx   = Util.read2byte( byte4, input, isLittleEndian );
+            }
+            //System.out.println( header.toString() );
+        }
+        return true;
+    }
 
-	protected	ProgramHeader[] programHeaders = null;
-	public boolean readProgramHeader( final RandomAccessFile input )
-			throws IOException
-	{
-		if ( ! isElfMagic() )
-		{
-			return false;
-		}
-		
-		if ( ! isElf32() )
-		{
-			return false;
-		}
+    protected   ProgramHeader[] programHeaders = null;
+    public boolean readProgramHeader( final RandomAccessFile input )
+            throws IOException
+    {
+        if ( ! isElfMagic() )
+        {
+            return false;
+        }
+        
+        if ( ! isElf32() )
+        {
+            return false;
+        }
 
-		final boolean isBigEndian = isElfBigEndian();
-		final boolean isLittleEndian = isElfLittleEndian();
-		{
-			if ( isBigEndian || isLittleEndian )
-			{
-			}
-			else
-			{
-				throw new RuntimeException("unknown endian");
-			}
-		}
+        final boolean isBigEndian = isElfBigEndian();
+        final boolean isLittleEndian = isElfLittleEndian();
+        {
+            if ( isBigEndian || isLittleEndian )
+            {
+            }
+            else
+            {
+                throw new RuntimeException("unknown endian");
+            }
+        }
 
-		if ( 0 < header.e_phnum )
-		{
-			programHeaders = new ProgramHeader[header.e_phnum];
-		}
-		else
-		{
-			programHeaders = new ProgramHeader[0];
-		}
+        if ( 0 < header.e_phnum )
+        {
+            programHeaders = new ProgramHeader[header.e_phnum];
+        }
+        else
+        {
+            programHeaders = new ProgramHeader[0];
+        }
 
-		input.seek( header.e_phoff );
-		if ( 0 < header.e_phentsize )
-		{
-			for ( int index = 0; index < header.e_phnum; ++index )
-			{
-				ProgramHeader   programHeader = new ProgramHeader();
-				{
-					byte[] byte4 = new byte[4];
+        input.seek( header.e_phoff );
+        if ( 0 < header.e_phentsize )
+        {
+            for ( int index = 0; index < header.e_phnum; ++index )
+            {
+                ProgramHeader   programHeader = new ProgramHeader();
+                {
+                    byte[] byte4 = new byte[4];
 
-					programHeader.p_type = Util.read4byte( byte4, input, isLittleEndian );
-					programHeader.p_offset = Util.read4byte( byte4, input, isLittleEndian );
-					programHeader.p_vaddr = Util.read4byte( byte4, input, isLittleEndian );
-					programHeader.p_paddr = Util.read4byte( byte4, input, isLittleEndian );
-					programHeader.p_filesz = Util.read4byte( byte4, input, isLittleEndian );
-					programHeader.p_memsz = Util.read4byte( byte4, input, isLittleEndian );
-					programHeader.p_flags = Util.read4byte( byte4, input, isLittleEndian );
-					programHeader.p_align = Util.read4byte( byte4, input, isLittleEndian );
-				}
-				//System.out.println( programHeader.toString() );
-				programHeaders[index] = programHeader;
-			} // for
+                    programHeader.p_type = Util.read4byte( byte4, input, isLittleEndian );
+                    programHeader.p_offset = Util.read4byte( byte4, input, isLittleEndian );
+                    programHeader.p_vaddr = Util.read4byte( byte4, input, isLittleEndian );
+                    programHeader.p_paddr = Util.read4byte( byte4, input, isLittleEndian );
+                    programHeader.p_filesz = Util.read4byte( byte4, input, isLittleEndian );
+                    programHeader.p_memsz = Util.read4byte( byte4, input, isLittleEndian );
+                    programHeader.p_flags = Util.read4byte( byte4, input, isLittleEndian );
+                    programHeader.p_align = Util.read4byte( byte4, input, isLittleEndian );
+                }
+                //System.out.println( programHeader.toString() );
+                programHeaders[index] = programHeader;
+            } // for
 
-		}
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	protected	SectionHeader[] sectionHeaders = null;
-	protected	String[] sectionHeaderStrings = null;
-	protected	int offsetSectionHeader_StringTable = -1;
-	public boolean readSectionHeader( final RandomAccessFile input )
-			throws IOException
-	{
-		if ( ! isElfMagic() )
-		{
-			return false;
-		}
-		
-		if ( ! isElf32() )
-		{
-			return false;
-		}
+    protected   SectionHeader[] sectionHeaders = null;
+    protected   String[] sectionHeaderStrings = null;
+    protected   int offsetSectionHeader_StringTable = -1;
+    public boolean readSectionHeader( final RandomAccessFile input )
+            throws IOException
+    {
+        if ( ! isElfMagic() )
+        {
+            return false;
+        }
+        
+        if ( ! isElf32() )
+        {
+            return false;
+        }
 
-		final boolean isBigEndian = isElfBigEndian();
-		final boolean isLittleEndian = isElfLittleEndian();
-		{
-			if ( isBigEndian || isLittleEndian )
-			{
-			}
-			else
-			{
-				throw new RuntimeException("unknown endian");
-			}
-		}
+        final boolean isBigEndian = isElfBigEndian();
+        final boolean isLittleEndian = isElfLittleEndian();
+        {
+            if ( isBigEndian || isLittleEndian )
+            {
+            }
+            else
+            {
+                throw new RuntimeException("unknown endian");
+            }
+        }
 
-		if ( 0 < header.e_shnum )
-		{
-			sectionHeaders = new SectionHeader[header.e_shnum];
-		}
-		else
-		{
-			sectionHeaders = new SectionHeader[0];
-		}
+        if ( 0 < header.e_shnum )
+        {
+            sectionHeaders = new SectionHeader[header.e_shnum];
+        }
+        else
+        {
+            sectionHeaders = new SectionHeader[0];
+        }
 
-		input.seek( header.e_shoff );
-		if ( 0 < header.e_shentsize )
-		{
-			for ( int index = 0; index < header.e_shnum; ++index )
-			{
-				SectionHeader   sectionHeader = new SectionHeader();
-				{
-					byte[] byte4 = new byte[4];
+        input.seek( header.e_shoff );
+        if ( 0 < header.e_shentsize )
+        {
+            for ( int index = 0; index < header.e_shnum; ++index )
+            {
+                SectionHeader   sectionHeader = new SectionHeader();
+                {
+                    byte[] byte4 = new byte[4];
 
-					sectionHeader.sh_name = Util.read4byte( byte4, input, isLittleEndian );
-					sectionHeader.sh_type = Util.read4byte( byte4, input, isLittleEndian );
-					sectionHeader.sh_flags = Util.read4byte( byte4, input, isLittleEndian );
-					sectionHeader.sh_addr = Util.read4byte( byte4, input, isLittleEndian );
-					sectionHeader.sh_offset = Util.read4byte( byte4, input, isLittleEndian );
-					sectionHeader.sh_size = Util.read4byte( byte4, input, isLittleEndian );
-					sectionHeader.sh_link = Util.read4byte( byte4, input, isLittleEndian );
-					sectionHeader.sh_info = Util.read4byte( byte4, input, isLittleEndian );
-					sectionHeader.sh_addralign = Util.read4byte( byte4, input, isLittleEndian );
-					sectionHeader.sh_entsize = Util.read4byte( byte4, input, isLittleEndian );
-				}
-				//System.out.println( sectionHeader.toString() );
-				sectionHeaders[index] = sectionHeader;
-			} // for
+                    sectionHeader.sh_name = Util.read4byte( byte4, input, isLittleEndian );
+                    sectionHeader.sh_type = Util.read4byte( byte4, input, isLittleEndian );
+                    sectionHeader.sh_flags = Util.read4byte( byte4, input, isLittleEndian );
+                    sectionHeader.sh_addr = Util.read4byte( byte4, input, isLittleEndian );
+                    sectionHeader.sh_offset = Util.read4byte( byte4, input, isLittleEndian );
+                    sectionHeader.sh_size = Util.read4byte( byte4, input, isLittleEndian );
+                    sectionHeader.sh_link = Util.read4byte( byte4, input, isLittleEndian );
+                    sectionHeader.sh_info = Util.read4byte( byte4, input, isLittleEndian );
+                    sectionHeader.sh_addralign = Util.read4byte( byte4, input, isLittleEndian );
+                    sectionHeader.sh_entsize = Util.read4byte( byte4, input, isLittleEndian );
+                }
+                //System.out.println( sectionHeader.toString() );
+                sectionHeaders[index] = sectionHeader;
+            } // for
 
-		}
+        }
 
-		if ( 0 < header.e_shnum )
-		{
-			sectionHeaderStrings = new String[header.e_shnum];
-		}
-		else
-		{
-			sectionHeaderStrings = new String[0];
-		}
+        if ( 0 < header.e_shnum )
+        {
+            sectionHeaderStrings = new String[header.e_shnum];
+        }
+        else
+        {
+            sectionHeaderStrings = new String[0];
+        }
 
-		input.seek( 0 );
-		{
-			byte[] stringTable = null;
-			{
-				final int index = header.e_shstrndx;
-				if ( 0 <= index && index < sectionHeaders.length )
-				{
-					stringTable = new byte[sectionHeaders[index].sh_size];
-					input.seek( sectionHeaders[index].sh_offset );
-					input.read(stringTable);
-				}
-			}
+        input.seek( 0 );
+        {
+            byte[] stringTable = null;
+            {
+                final int index = header.e_shstrndx;
+                if ( 0 <= index && index < sectionHeaders.length )
+                {
+                    stringTable = new byte[sectionHeaders[index].sh_size];
+                    input.seek( sectionHeaders[index].sh_offset );
+                    input.read(stringTable);
+                }
+            }
 
-			if ( null != stringTable )
-			{
-				final int sectionHeadersLength = sectionHeaders.length;
-				for ( int index = 0; index < sectionHeadersLength; ++index )
-				{
-					final int indexStart = sectionHeaders[index].sh_name;
-					StringBuilder sb = new StringBuilder(128);
-					final int stringTableLength = stringTable.length;
-					for ( int i = 0; indexStart+i < stringTableLength; i++ )
-					{
-					   final byte c = stringTable[indexStart+i];
-					   if ( '\0' == c )
-					   {
-						   break;
-					   }
-					   sb.append((char)c);
-					}
-					sectionHeaderStrings[index] = sb.toString();
-					//System.out.println(sectionHeaderStrings[index]);
-				}
-			}
+            if ( null != stringTable )
+            {
+                final int sectionHeadersLength = sectionHeaders.length;
+                for ( int index = 0; index < sectionHeadersLength; ++index )
+                {
+                    final int indexStart = sectionHeaders[index].sh_name;
+                    StringBuilder sb = new StringBuilder(128);
+                    final int stringTableLength = stringTable.length;
+                    for ( int i = 0; indexStart+i < stringTableLength; i++ )
+                    {
+                       final byte c = stringTable[indexStart+i];
+                       if ( '\0' == c )
+                       {
+                           break;
+                       }
+                       sb.append((char)c);
+                    }
+                    sectionHeaderStrings[index] = sb.toString();
+                    //System.out.println(sectionHeaderStrings[index]);
+                }
+            }
 
-		}
+        }
 
-		{
-			{
-				final int count = sectionHeaders.length;
-				final int index = header.e_shstrndx;
-				if ( 0 <= index && index < count )
-				{
-					final SectionHeader sectionHeader = sectionHeaders[index];
-					if ( ElfFile.SHT_STRTAB == sectionHeader.sh_type )
-					{
-						if ( 0 == ElfFile.ELF_SHSTRTAB.compareTo( sectionHeaderStrings[index] ) )
-						{
-							if ( offsetSectionHeader_StringTable < sectionHeader.sh_offset )
-							{
-								offsetSectionHeader_StringTable = sectionHeader.sh_offset;
-							}
-						}
+        {
+            {
+                final int count = sectionHeaders.length;
+                final int index = header.e_shstrndx;
+                if ( 0 <= index && index < count )
+                {
+                    final SectionHeader sectionHeader = sectionHeaders[index];
+                    if ( ElfFile.SHT_STRTAB == sectionHeader.sh_type )
+                    {
+                        if ( 0 == ElfFile.ELF_SHSTRTAB.compareTo( sectionHeaderStrings[index] ) )
+                        {
+                            if ( offsetSectionHeader_StringTable < sectionHeader.sh_offset )
+                            {
+                                offsetSectionHeader_StringTable = sectionHeader.sh_offset;
+                            }
+                        }
 
-					}
-				}
-				else
-				{
-					throw new IndexOutOfBoundsException("e_shstrndx out of bounds");
-				}
-			}
-		}
-		
-		return true;
-	}
+                    }
+                }
+                else
+                {
+                    throw new IndexOutOfBoundsException("e_shstrndx out of bounds");
+                }
+            }
+        }
+        
+        return true;
+    }
 
 
-	public boolean writeElfHeader( final RandomAccessFile output )
-			throws IOException
-	{
-		if ( ! isElfMagic() )
-		{
-			return false;
-		}
-		
-		if ( ! isElf32() )
-		{
-			return false;
-		}
+    public boolean writeElfHeader( final RandomAccessFile output )
+            throws IOException
+    {
+        if ( ! isElfMagic() )
+        {
+            return false;
+        }
+        
+        if ( ! isElf32() )
+        {
+            return false;
+        }
 
-		final boolean isBigEndian = isElfBigEndian();
-		final boolean isLittleEndian = isElfLittleEndian();
-		{
-			if ( isBigEndian || isLittleEndian )
-			{
-			}
-			else
-			{
-				throw new RuntimeException("unknown endian");
-			}
-		}
+        final boolean isBigEndian = isElfBigEndian();
+        final boolean isLittleEndian = isElfLittleEndian();
+        {
+            if ( isBigEndian || isLittleEndian )
+            {
+            }
+            else
+            {
+                throw new RuntimeException("unknown endian");
+            }
+        }
 
-		{
-			byte[] byte4 = new byte[4];
+        {
+            byte[] byte4 = new byte[4];
 
-			Util.write2byte( byte4, header.e_type, output, isLittleEndian );
-			Util.write2byte( byte4, header.e_machine, output, isLittleEndian );
-			Util.write4byte( byte4, header.e_version, output, isLittleEndian );
-			Util.write4byte( byte4, header.e_entry, output, isLittleEndian );
-			Util.write4byte( byte4, header.e_phoff, output, isLittleEndian );
-			Util.write4byte( byte4, header.e_shoff, output, isLittleEndian );
-			Util.write4byte( byte4, header.e_flags, output, isLittleEndian );
-			Util.write2byte( byte4, header.e_ehsize, output, isLittleEndian );
-			Util.write2byte( byte4, header.e_phentsize, output, isLittleEndian );
-			Util.write2byte( byte4, header.e_phnum, output, isLittleEndian );
-			Util.write2byte( byte4, header.e_shentsize, output, isLittleEndian );
-			Util.write2byte( byte4, header.e_shnum, output, isLittleEndian );
-			Util.write2byte( byte4, header.e_shstrndx, output, isLittleEndian );
-		}
-		
-		return true;
-	}
+            Util.write2byte( byte4, header.e_type, output, isLittleEndian );
+            Util.write2byte( byte4, header.e_machine, output, isLittleEndian );
+            Util.write4byte( byte4, header.e_version, output, isLittleEndian );
+            Util.write4byte( byte4, header.e_entry, output, isLittleEndian );
+            Util.write4byte( byte4, header.e_phoff, output, isLittleEndian );
+            Util.write4byte( byte4, header.e_shoff, output, isLittleEndian );
+            Util.write4byte( byte4, header.e_flags, output, isLittleEndian );
+            Util.write2byte( byte4, header.e_ehsize, output, isLittleEndian );
+            Util.write2byte( byte4, header.e_phentsize, output, isLittleEndian );
+            Util.write2byte( byte4, header.e_phnum, output, isLittleEndian );
+            Util.write2byte( byte4, header.e_shentsize, output, isLittleEndian );
+            Util.write2byte( byte4, header.e_shnum, output, isLittleEndian );
+            Util.write2byte( byte4, header.e_shstrndx, output, isLittleEndian );
+        }
+        
+        return true;
+    }
 
-	public boolean writeProgramHeader( final RandomAccessFile output )
-			throws IOException
-	{
-		return false;
-	}
+    public boolean writeProgramHeader( final RandomAccessFile output )
+            throws IOException
+    {
+        return false;
+    }
 
-	public boolean writeSectionHeader( final RandomAccessFile output )
-			throws IOException
-	{
-		return false;
-	}
+    public boolean writeSectionHeader( final RandomAccessFile output )
+            throws IOException
+    {
+        return false;
+    }
 
-	@Override
-	public long getElfHeaderHeaderSize() {
-		return header.e_ehsize;
-	}
+    @Override
+    public long getElfHeaderHeaderSize() {
+        return header.e_ehsize;
+    }
 
-	@Override
-	public long getElfHeaderSectionHeaderOffset() {
-		return header.e_shoff;
-	}
+    @Override
+    public long getElfHeaderSectionHeaderOffset() {
+        return header.e_shoff;
+    }
 
-	@Override
-	public long getElfHeaderSectionHeaderStringTableOffset() {
-		return this.offsetSectionHeader_StringTable;
-	}
+    @Override
+    public long getElfHeaderSectionHeaderStringTableOffset() {
+        return this.offsetSectionHeader_StringTable;
+    }
 
-	@Override
-	public void setElfHeaderSectionHeaderOffset(long offset) {
-		header.e_shoff = (int)offset;
-	}
+    @Override
+    public void setElfHeaderSectionHeaderOffset(long offset) {
+        header.e_shoff = (int)offset;
+    }
 
-	@Override
-	public void setElfHeaderSectionHeaderNumber(int number) {
-		header.e_shnum = (short)number;
-	}
+    @Override
+    public void setElfHeaderSectionHeaderNumber(int number) {
+        header.e_shnum = (short)number;
+    }
 
-	@Override
-	public void setElfHeaderSectionHeaderSize(int size) {
-		header.e_shentsize = (short)size;
-	}
+    @Override
+    public void setElfHeaderSectionHeaderSize(int size) {
+        header.e_shentsize = (short)size;
+    }
 
-	@Override
-	public void setElfHeaderSectionHeaderStringTableIndex(int index) {
-		header.e_shstrndx = (short)index;
-	}
+    @Override
+    public void setElfHeaderSectionHeaderStringTableIndex(int index) {
+        header.e_shstrndx = (short)index;
+    }
 
-	public boolean hasSectionDebug()
-	{
-		boolean haveDebug = false;
-		{
-			final int sectionHeaderStringsLength = sectionHeaderStrings.length;
-			for ( int index = 0; index < sectionHeaderStringsLength; ++index )
-			{
-				final String str = sectionHeaderStrings[index];
-				if ( null != str )
-				{
-					if ( str.startsWith( ElfFile.ELF_DEBUG ) )
-					{
-						haveDebug = true;
-						break;
-					}
-				}
-			}
-		}
+    public boolean hasSectionDebug()
+    {
+        boolean haveDebug = false;
+        {
+            final int sectionHeaderStringsLength = sectionHeaderStrings.length;
+            for ( int index = 0; index < sectionHeaderStringsLength; ++index )
+            {
+                final String str = sectionHeaderStrings[index];
+                if ( null != str )
+                {
+                    if ( str.startsWith( ElfFile.ELF_DEBUG ) )
+                    {
+                        haveDebug = true;
+                        break;
+                    }
+                }
+            }
+        }
 
-		return haveDebug;
-	}
+        return haveDebug;
+    }
 
 }

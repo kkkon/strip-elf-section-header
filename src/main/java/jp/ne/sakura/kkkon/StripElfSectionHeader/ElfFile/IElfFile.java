@@ -32,26 +32,26 @@ import java.io.RandomAccessFile;
  */
 public interface IElfFile
 {
-	//abstract public boolean readElfHeaderIdent( final RandomAccessFile input ) throws IOException;
-	abstract public boolean readElfHeader( final RandomAccessFile input ) throws IOException;
-	abstract public boolean readProgramHeader( final RandomAccessFile input ) throws IOException;
-	abstract public boolean readSectionHeader( final RandomAccessFile input ) throws IOException;
+    //abstract public boolean readElfHeaderIdent( final RandomAccessFile input ) throws IOException;
+    abstract public boolean readElfHeader( final RandomAccessFile input ) throws IOException;
+    abstract public boolean readProgramHeader( final RandomAccessFile input ) throws IOException;
+    abstract public boolean readSectionHeader( final RandomAccessFile input ) throws IOException;
 
-	//abstract public boolean writeElfHeaderIdent( final RandomAccessFile output ) throws IOException;
-	abstract public boolean writeElfHeader( final RandomAccessFile output ) throws IOException;
-	abstract public boolean writeProgramHeader( final RandomAccessFile output ) throws IOException;
-	abstract public boolean writeSectionHeader( final RandomAccessFile output ) throws IOException;
+    //abstract public boolean writeElfHeaderIdent( final RandomAccessFile output ) throws IOException;
+    abstract public boolean writeElfHeader( final RandomAccessFile output ) throws IOException;
+    abstract public boolean writeProgramHeader( final RandomAccessFile output ) throws IOException;
+    abstract public boolean writeSectionHeader( final RandomAccessFile output ) throws IOException;
 
-	abstract public long getElfHeaderHeaderSize();
-	abstract public long getElfHeaderSectionHeaderOffset();
-	
-	abstract public long getElfHeaderSectionHeaderStringTableOffset();
-	abstract public void setElfHeaderSectionHeaderOffset( long offset );
-	abstract public void setElfHeaderSectionHeaderNumber( int number );
-	abstract public void setElfHeaderSectionHeaderSize( int size );
-	abstract public void setElfHeaderSectionHeaderStringTableIndex( int index );
+    abstract public long getElfHeaderHeaderSize();
+    abstract public long getElfHeaderSectionHeaderOffset();
+    
+    abstract public long getElfHeaderSectionHeaderStringTableOffset();
+    abstract public void setElfHeaderSectionHeaderOffset( long offset );
+    abstract public void setElfHeaderSectionHeaderNumber( int number );
+    abstract public void setElfHeaderSectionHeaderSize( int size );
+    abstract public void setElfHeaderSectionHeaderStringTableIndex( int index );
 
-	abstract public boolean hasSectionDebug();
+    abstract public boolean hasSectionDebug();
 
     public static final int EI_MAGIC0          = 0;
     public static final int EI_MAGIC1          = 1;

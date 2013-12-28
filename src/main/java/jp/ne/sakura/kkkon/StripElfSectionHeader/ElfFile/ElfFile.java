@@ -293,6 +293,14 @@ public class ElfFile
 				}
 				
 				{
+					final boolean result = _elfFile.readProgramHeader( input );
+					if ( false == result )
+					{
+						return false;
+					}
+				}
+				
+				{
 					final boolean result = _elfFile.readSectionHeader( input );
 					if ( false == result )
 					{

@@ -122,9 +122,16 @@ public class App
                 final File filePath = new File(path);
                 final String pathAbsolute = filePath.getAbsolutePath();
                 final int indexLast = pathAbsolute.lastIndexOf( File.separatorChar );
-                if ( 0 < indexStart && 0 < indexLast && indexStart < indexLast )
+                if ( 0 < indexStart && 0 < indexLast )
                 {
-                    relativePath = pathAbsolute.substring( indexStart, indexLast );
+                    if ( indexStart < indexLast )
+                    {
+                        relativePath = pathAbsolute.substring( indexStart, indexLast );
+                    }
+                    else
+                    {
+                        relativePath = "";
+                    }
                 }
                 //System.err.println( relativePath );
                 if ( null == relativePath )

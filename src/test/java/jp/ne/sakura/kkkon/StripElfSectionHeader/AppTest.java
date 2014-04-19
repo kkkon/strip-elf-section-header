@@ -83,6 +83,33 @@ public class AppTest {
      * Test of main method, of class App.
      */
     @Test
+    public void testMainAndroidSingleFileDryRun() {
+        System.out.println("mainAndroidSingleFileDryRun");
+        String[] args = {
+            "-B"
+            , "target/test-classes/elf/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
+            , "-o target/test-classes/elf-strip/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
+            , "--dry-run"
+        };
+        App.main(args);
+    }
+    /**
+     * Test of main method, of class App.
+     */
+    @Test
+    public void testMainAndroidSingleFile() {
+        System.out.println("mainAndroidSingleFile");
+        String[] args = {
+            "-B"
+            , "target/test-classes/elf/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
+            , "-o target/test-classes/elf-strip/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
+        };
+        App.main(args);
+    }
+    /**
+     * Test of main method, of class App.
+     */
+    @Test
     public void testMainAndroidDryRun() {
         System.out.println("mainAndroidDryRun");
         String[] args = {

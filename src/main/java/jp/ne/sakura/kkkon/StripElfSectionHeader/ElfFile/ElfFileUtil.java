@@ -148,9 +148,16 @@ public class ElfFileUtil
             File tempFile = File.createTempFile( "kkkon_strip", ".tmp" );
             output = new RandomAccessFile( tempFile, "rw" );
 
-            elfFile.setElfHeaderSectionHeaderSize( 0 );
-            elfFile.setElfHeaderSectionHeaderNumber( 0 );
-            elfFile.setElfHeaderSectionHeaderStringTableIndex( 0 );
+            if ( option.isAndroid() )
+            {
+                elfFile.stripSectionAndroid();
+            }
+            else
+            {
+                elfFile.setElfHeaderSectionHeaderSize( 0 );
+                elfFile.setElfHeaderSectionHeaderNumber( 0 );
+                elfFile.setElfHeaderSectionHeaderStringTableIndex( 0 );
+            }
 
             final long elfHeaderHeaderSize = elfFile.getElfHeaderHeaderSize();
             input.seek( elfHeaderHeaderSize );
@@ -189,6 +196,11 @@ public class ElfFileUtil
             byte[] temp = new byte[(int)size];
             input.read( temp );
             output.write( temp );
+
+            if ( option.isAndroid() )
+            {
+                elfFile.writeSectionHeader( output );
+            }
 
             input.close();
             output.close();

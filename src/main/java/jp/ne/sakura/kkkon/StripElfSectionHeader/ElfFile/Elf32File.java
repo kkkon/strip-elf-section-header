@@ -25,6 +25,8 @@ package jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile;
 
 import java.io.RandomAccessFile;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -547,6 +549,101 @@ public class Elf32File
         }
 
         return haveDebug;
+    }
+
+    public boolean stripSectionAndroid()
+    {
+        List<String> listHeaderName = new ArrayList<String>(32);
+        List<SectionHeader> listHeader = new ArrayList<SectionHeader>(32);
+
+        if ( null == this.sectionHeaders )
+        {
+            return true;
+        }
+        if ( null == this.sectionHeaderStrings )
+        {
+            return true;
+        }
+        if ( this.sectionHeaders.length != this.sectionHeaderStrings.length )
+        {
+            throw new RuntimeException("count not match sectionHeader and sectionHeaderStrings");
+        }
+
+        {
+            final String[] needSectionNameArray = {
+                ElfFile.ELF_DYNAMIC
+                //, ElfFile.ELF_DYNSYM
+                , ElfFile.ELF_DYNSTR
+                , ElfFile.ELF_SHSTRTAB
+            };
+
+            for ( int index = 0; index < this.sectionHeaders.length; ++index )
+            {
+                for ( int i = 0; i < needSectionNameArray.length; ++ i )
+                {
+                    if ( 0 == needSectionNameArray[i].compareTo( this.sectionHeaderStrings[index] ) )
+                    {
+                        listHeaderName.add( this.sectionHeaderStrings[index] );
+                        listHeader.add( this.sectionHeaders[index] );
+                    }
+                }
+            }
+        }
+
+        String[] newHeaderName = new String[listHeaderName.size()+1];
+        SectionHeader[] newHeader = new SectionHeader[listHeader.size()+1];
+        {
+            newHeaderName[0] = null;
+            newHeader[0] = new SectionHeader();
+            newHeader[0].sh_type = ElfFile.SHT_NULL;
+        }
+        {
+            int indexDynStr = -1;
+            for ( int index = 0; index < listHeaderName.size(); ++index )
+            {
+                newHeaderName[index+1] = listHeaderName.get(index);
+                if ( 0 == ElfFile.ELF_DYNSTR.compareTo(listHeaderName.get(index)) )
+                {
+                    indexDynStr = index + 1;
+                }
+            }
+
+            for ( int index = 0; index < listHeader.size(); ++index )
+            {
+                newHeader[index+1] = listHeader.get(index);
+                if ( 0 == ElfFile.ELF_DYNAMIC.compareTo(newHeaderName[index+1]) )
+                {
+                    newHeader[index+1].sh_link = indexDynStr;
+                }
+            }
+        }
+
+        this.sectionHeaderStrings = newHeaderName;
+        this.sectionHeaders = newHeader;
+
+        this.header.e_shnum = (short)this.sectionHeaders.length;
+        this.header.e_shstrndx = (short)(this.sectionHeaderStrings.length-1);
+        
+        long stringTableSize = 0;
+        {
+            for ( int index = 0; index < this.sectionHeaderStrings.length; ++index )
+            {
+                if ( null == this.sectionHeaderStrings[index] )
+                {
+                    this.sectionHeaders[index].sh_name = (short)stringTableSize;
+                    stringTableSize += 1;
+                    continue;
+                }
+                this.sectionHeaders[index].sh_name = (short)stringTableSize;
+                stringTableSize += this.sectionHeaderStrings[index].length() + 1;
+            }
+        }
+        {
+            this.sectionHeaders[this.sectionHeaders.length-1].sh_size = (int)stringTableSize;
+            this.header.e_shoff = this.offsetSectionHeader_StringTable + (int)stringTableSize;
+        }
+
+        return true;
     }
 
 }

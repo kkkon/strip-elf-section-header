@@ -470,6 +470,16 @@ public class ElfFile
         return this._elfFile.hasSectionDebug();
     }
 
+    public boolean stripSectionAndroid()
+    {
+        if ( null == this._elfFile )
+        {
+            return true;
+        }
+        
+        return this._elfFile.stripSectionAndroid();
+    }
+
     static final int SHT_NULL = 0;
     static final int SHT_PROGBITS = 1;
     static final int SHT_SYMTAB = 2;

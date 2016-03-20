@@ -53,6 +53,8 @@ public interface IElfFile
 
     abstract public boolean hasSectionDebug();
 
+    abstract public boolean stripSectionAndroid();
+
     public static final int EI_MAGIC0          = 0;
     public static final int EI_MAGIC1          = 1;
     public static final int EI_MAGIC2          = 2;

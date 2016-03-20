@@ -46,6 +46,7 @@ public class AppOption
     private String output = null;
     private boolean recursive = false;
     private boolean verbose = false;
+    private boolean android  = false;
     private String[] args = null;
 
     protected Options options = null;
@@ -74,6 +75,7 @@ public class AppOption
         }
         opts.addOption("r", "recursive", false, "recursive directory" );
         opts.addOption("v", "verbose", false, "verbose display" );
+        opts.addOption(null, "android", false, "android platform" );
 
         this.options = opts;
     }
@@ -150,6 +152,13 @@ public class AppOption
                 this.verbose = true;
             }
         }
+        {
+            this.android  = false;
+            if ( this.commandLine.hasOption("android") )
+            {
+                this.android = true;
+            }
+        }
 
         this.args = this.commandLine.getArgs();
 
@@ -178,6 +187,10 @@ public class AppOption
 
     public boolean isVerbose() {
         return verbose;
+    }
+
+    public boolean isAndroid() {
+        return android;
     }
 
     public String[] getArgs() {

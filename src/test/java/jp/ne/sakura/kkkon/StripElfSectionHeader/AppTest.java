@@ -135,4 +135,33 @@ public class AppTest {
         };
         App.main(args);
     }
+
+    /**
+     * Test of main method, of class App.
+     */
+    @Test
+    public void testMainAndroidDebugSingleFileStripAndroid() {
+        System.out.println("AndroidDebugSingleFileStripAndroid");
+        String[] args = {
+            "-B"
+            , "--android"
+            , "target/test-classes/elf/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
+            , "-o target/test-classes/elf-stripAndroid/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
+        };
+        App.main(args);
+    }
+    /**
+     * Test of main method, of class App.
+     */
+    @Test
+    public void testMainAndroidSingleFileStripAndroid() {
+        System.out.println("AndroidSingleFileStripAndroid");
+        String[] args = {
+            "-B"
+            , "--android"
+            , "target/test-classes/elf/android/hello-jni/libs/armeabi-v7a/libhello-jni.so"
+            , "-o target/test-classes/elf-stripAndroid/android/hello-jni/libs/armeabi-v7a/libhello-jni.so"
+        };
+        App.main(args);
+    }
 }

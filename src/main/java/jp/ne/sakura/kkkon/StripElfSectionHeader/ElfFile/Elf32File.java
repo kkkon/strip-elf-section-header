@@ -491,7 +491,59 @@ public class Elf32File
     public boolean writeSectionHeader( final RandomAccessFile output )
             throws IOException
     {
-        return false;
+        if ( ! isElfMagic() )
+        {
+            return false;
+        }
+        
+        if ( ! isElf32() )
+        {
+            return false;
+        }
+
+        final boolean isBigEndian = isElfBigEndian();
+        final boolean isLittleEndian = isElfLittleEndian();
+        {
+            if ( isBigEndian || isLittleEndian )
+            {
+            }
+            else
+            {
+                throw new RuntimeException("unknown endian");
+            }
+        }
+
+        for ( int index = 0; index < this.sectionHeaderStrings.length; ++index )
+        {
+            final String s = this.sectionHeaderStrings[index];
+            if ( null == s )
+            {
+                output.writeByte(0);
+            }
+            else
+            {
+                output.writeBytes(s);
+                output.writeByte(0);
+            }
+        }
+        for ( int index = 0; index < this.sectionHeaders.length; ++index )
+        {
+            final SectionHeader secHeader = this.sectionHeaders[index];
+
+            byte[] byte4 = new byte[4];
+            Util.write4byte(byte4, secHeader.sh_name, output, isLittleEndian);
+            Util.write4byte(byte4, secHeader.sh_type, output, isLittleEndian);
+            Util.write4byte(byte4, secHeader.sh_flags, output, isLittleEndian);
+            Util.write4byte(byte4, secHeader.sh_addr, output, isLittleEndian);
+            Util.write4byte(byte4, secHeader.sh_offset, output, isLittleEndian);
+            Util.write4byte(byte4, secHeader.sh_size, output, isLittleEndian);
+            Util.write4byte(byte4, secHeader.sh_link, output, isLittleEndian);
+            Util.write4byte(byte4, secHeader.sh_info, output, isLittleEndian);
+            Util.write4byte(byte4, secHeader.sh_addralign, output, isLittleEndian);
+            Util.write4byte(byte4, secHeader.sh_entsize, output, isLittleEndian);
+        }
+
+        return true;
     }
 
     @Override

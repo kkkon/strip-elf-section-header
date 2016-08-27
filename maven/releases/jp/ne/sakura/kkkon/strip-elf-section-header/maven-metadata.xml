@@ -3,10 +3,10 @@
   <groupId>jp.ne.sakura.kkkon</groupId>
   <artifactId>strip-elf-section-header</artifactId>
   <versioning>
-    <release>1.3</release>
+    <release>1.4</release>
     <versions>
-      <version>1.3</version>
+      <version>1.4</version>
     </versions>
-    <lastUpdated>20140419174208</lastUpdated>
+    <lastUpdated>20160827061817</lastUpdated>
   </versioning>
 </metadata>

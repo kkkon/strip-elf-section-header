@@ -526,6 +526,18 @@ public class Elf32File
                 output.writeByte(0);
             }
         }
+
+        // padding to SectionHeader table
+        {
+            final long curPos = output.getFilePointer();
+            final long paddingCount = (long)this.header.e_shoff - curPos;
+
+            for ( int count = 0; count < paddingCount; ++count )
+            {
+                output.write( 0x00 );
+            }
+        }
+
         for ( int index = 0; index < this.sectionHeaders.length; ++index )
         {
             final SectionHeader secHeader = this.sectionHeaders[index];
@@ -693,6 +705,9 @@ public class Elf32File
         {
             this.sectionHeaders[this.sectionHeaders.length-1].sh_size = (int)stringTableSize;
             this.header.e_shoff = this.offsetSectionHeader_StringTable + (int)stringTableSize;
+
+            // 4 byte alignment
+            this.header.e_shoff = (this.header.e_shoff + (4-1)) & (~(4-1));
         }
 
         return true;

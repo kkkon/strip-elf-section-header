@@ -88,7 +88,7 @@ public class AppTest {
         String[] args = {
             "-B"
             , "target/test-classes/elf/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
-            , "-o target/test-classes/elf-strip/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
+            , "-o target/test-classes/elf-stripSingle/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
             , "--dry-run"
         };
         App.main(args);
@@ -102,7 +102,7 @@ public class AppTest {
         String[] args = {
             "-B"
             , "target/test-classes/elf/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
-            , "-o target/test-classes/elf-strip/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
+            , "-o target/test-classes/elf-stripSingle/android/hello-jni/obj/local/armeabi-v7a/libhello-jni.so"
         };
         App.main(args);
     }
@@ -116,7 +116,7 @@ public class AppTest {
             "-B"
             , "--recursive"
             , "target/test-classes/elf/android"
-            , "-o target/test-classes/elf-strip/android"
+            , "-o target/test-classes/elf-stripRecursive/android"
             , "--dry-run"
         };
         App.main(args);
@@ -131,7 +131,7 @@ public class AppTest {
             "-B"
             , "--recursive"
             , "target/test-classes/elf/android"
-            , "-o target/test-classes/elf-strip/android"
+            , "-o target/test-classes/elf-stripRecursive/android"
         };
         App.main(args);
     }

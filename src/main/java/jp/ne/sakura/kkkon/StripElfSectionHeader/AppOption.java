@@ -91,7 +91,7 @@ public class AppOption
 
         CommandLine cmdLine = null;
         try {
-            cmdLine = parser.parse( this.options, args );
+            cmdLine = parser.parse( this.options, args ); // stopAtNonOption:false
         } catch (ParseException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }

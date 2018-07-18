@@ -514,5 +514,5 @@ public class ElfFile
     static final String ELF_STRTAB          = ".strtab";
     static final String ELF_SYMTAB          = ".symtab";
     static final String ELF_TEXT            = ".text";
-    
+
 }

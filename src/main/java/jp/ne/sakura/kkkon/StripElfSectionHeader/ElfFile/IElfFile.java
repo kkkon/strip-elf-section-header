@@ -54,6 +54,7 @@ public interface IElfFile
     abstract public boolean hasSectionDebug();
 
     abstract public boolean stripSectionAndroid();
+    abstract public boolean fixProgramFlagAndroidO();
 
     public static final int EI_MAGIC0          = 0;
     public static final int EI_MAGIC1          = 1;
@@ -85,5 +86,23 @@ public interface IElfFile
     public static final int ELFDATA2LSB = 1;
     public static final int ELFDATA2MSB = 2;
     public static final int ELFDATA_COUNT = 3;
+
+
+
+    // p_type
+    public static final int PT_NULL = 0;
+    public static final int PT_LOAD = 1;
+    public static final int PT_DYNAMIC = 2;
+    public static final int PT_INTERP = 3;
+    public static final int PT_NOTE = 4;
+    public static final int PT_SHLIB = 5;
+    public static final int PT_PHDR = 6;
+    public static final int PT_COUNT = 7;
+
+    // p_flags
+    static final int PF_X = 0x1;
+    static final int PF_W = 0x2;
+    static final int PF_R = 0x4;
+
 
 }

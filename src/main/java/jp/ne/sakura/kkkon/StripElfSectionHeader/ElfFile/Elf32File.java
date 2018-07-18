@@ -713,4 +713,37 @@ public class Elf32File
         return true;
     }
 
+
+    @Override
+    public boolean fixProgramFlagAndroidO()
+    {
+        if ( null == this.programHeaders )
+        {
+            return false;
+        }
+
+        final int countProgramHeader = this.programHeaders.length;
+        for ( int index = 0; index < countProgramHeader; ++index )
+        {
+            if ( IElfFile.PT_LOAD != this.programHeaders[index].p_type )
+            {
+                continue;
+            }
+
+            // Executable?
+            if ( 0 != (this.programHeaders[index].p_flags & IElfFile.PF_X) )
+            {
+                // Writable?
+                if ( 0 != (this.programHeaders[index].p_flags & IElfFile.PF_W) )
+                {
+                    // drop Writable flag
+                    this.programHeaders[index].p_flags &= ~(IElfFile.PF_W);
+                }
+            }
+        }
+
+        return true;
+    }
+
+
 }

@@ -7,7 +7,7 @@
 
   <groupId>jp.ne.sakura.kkkon</groupId>
   <artifactId>strip-elf-section-header</artifactId>
-  <version>1.4.2-SNAPSHOT</version>
+  <version>1.4.2</version>
   <packaging>jar</packaging>
 
   <name>strip-elf-section-header</name>
@@ -32,7 +32,7 @@
     <connection>scm:git:https://github.com/kkkon/strip-elf-section-header.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/kkkon/strip-elf-section-header.git</developerConnection>
     <url>https://github.com/kkkon/strip-elf-section-header</url>
-    <tag>HEAD</tag>
+    <tag>strip-elf-section-header-1.4.2</tag>
   </scm>
 
   <developers>

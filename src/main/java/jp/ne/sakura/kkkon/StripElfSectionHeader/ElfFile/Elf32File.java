@@ -214,21 +214,21 @@ public class Elf32File
         {
             if ( isBigEndian || isLittleEndian )
             {
-                byte[] byte4 = new byte[4];
+                byte[] buff = new byte[4];
 
-                header.e_type       = Util.read2byte( byte4, input, isLittleEndian );
-                header.e_machine    = Util.read2byte( byte4, input, isLittleEndian );
-                header.e_version    = Util.read4byte( byte4, input, isLittleEndian );
-                header.e_entry      = Util.read4byte( byte4, input, isLittleEndian );
-                header.e_phoff      = Util.read4byte( byte4, input, isLittleEndian );
-                header.e_shoff      = Util.read4byte( byte4, input, isLittleEndian );
-                header.e_flags      = Util.read4byte( byte4, input, isLittleEndian );
-                header.e_ehsize     = Util.read2byte( byte4, input, isLittleEndian );
-                header.e_phentsize  = Util.read2byte( byte4, input, isLittleEndian );
-                header.e_phnum      = Util.read2byte( byte4, input, isLittleEndian );
-                header.e_shentsize  = Util.read2byte( byte4, input, isLittleEndian );
-                header.e_shnum      = Util.read2byte( byte4, input, isLittleEndian );
-                header.e_shstrndx   = Util.read2byte( byte4, input, isLittleEndian );
+                header.e_type       = Util.read2byte( buff, input, isLittleEndian );
+                header.e_machine    = Util.read2byte( buff, input, isLittleEndian );
+                header.e_version    = Util.read4byte( buff, input, isLittleEndian );
+                header.e_entry      = Util.read4byte( buff, input, isLittleEndian );
+                header.e_phoff      = Util.read4byte( buff, input, isLittleEndian );
+                header.e_shoff      = Util.read4byte( buff, input, isLittleEndian );
+                header.e_flags      = Util.read4byte( buff, input, isLittleEndian );
+                header.e_ehsize     = Util.read2byte( buff, input, isLittleEndian );
+                header.e_phentsize  = Util.read2byte( buff, input, isLittleEndian );
+                header.e_phnum      = Util.read2byte( buff, input, isLittleEndian );
+                header.e_shentsize  = Util.read2byte( buff, input, isLittleEndian );
+                header.e_shnum      = Util.read2byte( buff, input, isLittleEndian );
+                header.e_shstrndx   = Util.read2byte( buff, input, isLittleEndian );
             }
             //System.out.println( header.toString() );
         }
@@ -277,16 +277,16 @@ public class Elf32File
             {
                 ProgramHeader   programHeader = new ProgramHeader();
                 {
-                    byte[] byte4 = new byte[4];
+                    byte[] buff = new byte[4];
 
-                    programHeader.p_type = Util.read4byte( byte4, input, isLittleEndian );
-                    programHeader.p_offset = Util.read4byte( byte4, input, isLittleEndian );
-                    programHeader.p_vaddr = Util.read4byte( byte4, input, isLittleEndian );
-                    programHeader.p_paddr = Util.read4byte( byte4, input, isLittleEndian );
-                    programHeader.p_filesz = Util.read4byte( byte4, input, isLittleEndian );
-                    programHeader.p_memsz = Util.read4byte( byte4, input, isLittleEndian );
-                    programHeader.p_flags = Util.read4byte( byte4, input, isLittleEndian );
-                    programHeader.p_align = Util.read4byte( byte4, input, isLittleEndian );
+                    programHeader.p_type = Util.read4byte( buff, input, isLittleEndian );
+                    programHeader.p_offset = Util.read4byte( buff, input, isLittleEndian );
+                    programHeader.p_vaddr = Util.read4byte( buff, input, isLittleEndian );
+                    programHeader.p_paddr = Util.read4byte( buff, input, isLittleEndian );
+                    programHeader.p_filesz = Util.read4byte( buff, input, isLittleEndian );
+                    programHeader.p_memsz = Util.read4byte( buff, input, isLittleEndian );
+                    programHeader.p_flags = Util.read4byte( buff, input, isLittleEndian );
+                    programHeader.p_align = Util.read4byte( buff, input, isLittleEndian );
                 }
                 //System.out.println( programHeader.toString() );
                 programHeaders[index] = programHeader;
@@ -341,18 +341,18 @@ public class Elf32File
             {
                 SectionHeader   sectionHeader = new SectionHeader();
                 {
-                    byte[] byte4 = new byte[4];
+                    byte[] buff = new byte[4];
 
-                    sectionHeader.sh_name = Util.read4byte( byte4, input, isLittleEndian );
-                    sectionHeader.sh_type = Util.read4byte( byte4, input, isLittleEndian );
-                    sectionHeader.sh_flags = Util.read4byte( byte4, input, isLittleEndian );
-                    sectionHeader.sh_addr = Util.read4byte( byte4, input, isLittleEndian );
-                    sectionHeader.sh_offset = Util.read4byte( byte4, input, isLittleEndian );
-                    sectionHeader.sh_size = Util.read4byte( byte4, input, isLittleEndian );
-                    sectionHeader.sh_link = Util.read4byte( byte4, input, isLittleEndian );
-                    sectionHeader.sh_info = Util.read4byte( byte4, input, isLittleEndian );
-                    sectionHeader.sh_addralign = Util.read4byte( byte4, input, isLittleEndian );
-                    sectionHeader.sh_entsize = Util.read4byte( byte4, input, isLittleEndian );
+                    sectionHeader.sh_name = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_type = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_flags = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_addr = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_offset = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_size = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_link = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_info = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_addralign = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_entsize = Util.read4byte( buff, input, isLittleEndian );
                 }
                 //System.out.println( sectionHeader.toString() );
                 sectionHeaders[index] = sectionHeader;
@@ -462,21 +462,21 @@ public class Elf32File
         }
 
         {
-            byte[] byte4 = new byte[4];
+            byte[] buff = new byte[4];
 
-            Util.write2byte( byte4, header.e_type, output, isLittleEndian );
-            Util.write2byte( byte4, header.e_machine, output, isLittleEndian );
-            Util.write4byte( byte4, header.e_version, output, isLittleEndian );
-            Util.write4byte( byte4, header.e_entry, output, isLittleEndian );
-            Util.write4byte( byte4, header.e_phoff, output, isLittleEndian );
-            Util.write4byte( byte4, header.e_shoff, output, isLittleEndian );
-            Util.write4byte( byte4, header.e_flags, output, isLittleEndian );
-            Util.write2byte( byte4, header.e_ehsize, output, isLittleEndian );
-            Util.write2byte( byte4, header.e_phentsize, output, isLittleEndian );
-            Util.write2byte( byte4, header.e_phnum, output, isLittleEndian );
-            Util.write2byte( byte4, header.e_shentsize, output, isLittleEndian );
-            Util.write2byte( byte4, header.e_shnum, output, isLittleEndian );
-            Util.write2byte( byte4, header.e_shstrndx, output, isLittleEndian );
+            Util.write2byte( buff, header.e_type, output, isLittleEndian );
+            Util.write2byte( buff, header.e_machine, output, isLittleEndian );
+            Util.write4byte( buff, header.e_version, output, isLittleEndian );
+            Util.write4byte( buff, header.e_entry, output, isLittleEndian );
+            Util.write4byte( buff, header.e_phoff, output, isLittleEndian );
+            Util.write4byte( buff, header.e_shoff, output, isLittleEndian );
+            Util.write4byte( buff, header.e_flags, output, isLittleEndian );
+            Util.write2byte( buff, header.e_ehsize, output, isLittleEndian );
+            Util.write2byte( buff, header.e_phentsize, output, isLittleEndian );
+            Util.write2byte( buff, header.e_phnum, output, isLittleEndian );
+            Util.write2byte( buff, header.e_shentsize, output, isLittleEndian );
+            Util.write2byte( buff, header.e_shnum, output, isLittleEndian );
+            Util.write2byte( buff, header.e_shstrndx, output, isLittleEndian );
         }
         
         return true;
@@ -542,17 +542,18 @@ public class Elf32File
         {
             final SectionHeader secHeader = this.sectionHeaders[index];
 
-            byte[] byte4 = new byte[4];
-            Util.write4byte(byte4, secHeader.sh_name, output, isLittleEndian);
-            Util.write4byte(byte4, secHeader.sh_type, output, isLittleEndian);
-            Util.write4byte(byte4, secHeader.sh_flags, output, isLittleEndian);
-            Util.write4byte(byte4, secHeader.sh_addr, output, isLittleEndian);
-            Util.write4byte(byte4, secHeader.sh_offset, output, isLittleEndian);
-            Util.write4byte(byte4, secHeader.sh_size, output, isLittleEndian);
-            Util.write4byte(byte4, secHeader.sh_link, output, isLittleEndian);
-            Util.write4byte(byte4, secHeader.sh_info, output, isLittleEndian);
-            Util.write4byte(byte4, secHeader.sh_addralign, output, isLittleEndian);
-            Util.write4byte(byte4, secHeader.sh_entsize, output, isLittleEndian);
+            byte[] buff = new byte[4];
+
+            Util.write4byte( buff, secHeader.sh_name, output, isLittleEndian);
+            Util.write4byte( buff, secHeader.sh_type, output, isLittleEndian);
+            Util.write4byte( buff, secHeader.sh_flags, output, isLittleEndian);
+            Util.write4byte( buff, secHeader.sh_addr, output, isLittleEndian);
+            Util.write4byte( buff, secHeader.sh_offset, output, isLittleEndian);
+            Util.write4byte( buff, secHeader.sh_size, output, isLittleEndian);
+            Util.write4byte( buff, secHeader.sh_link, output, isLittleEndian);
+            Util.write4byte( buff, secHeader.sh_info, output, isLittleEndian);
+            Util.write4byte( buff, secHeader.sh_addralign, output, isLittleEndian);
+            Util.write4byte( buff, secHeader.sh_entsize, output, isLittleEndian);
         }
 
         return true;

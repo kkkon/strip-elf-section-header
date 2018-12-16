@@ -131,6 +131,71 @@ public class Util
         return result;
     }
 
+    public static long read8byte(
+            final byte[] buff
+            , final RandomAccessFile inStream
+            , final boolean isLittleEndian
+            )
+            throws IOException
+    {
+        if ( null == buff )
+        {
+            throw new InvalidParameterException("buff is null");
+        }
+        if ( null == inStream )
+        {
+            throw new InvalidParameterException("inStream is null");
+        }
+        
+        long result = 0;
+
+        {
+            final int length = 8;
+            final int count = inStream.read(buff, 0, length);
+            if ( length != count )
+            {
+                throw new IOException("short read");
+            }
+            else
+            {
+                if ( isLittleEndian )
+                {
+                    int resultHI = (int)(
+                              ((buff[7] << 24) & 0xFF000000)
+                            + ((buff[6] << 16) & 0x00FF0000)
+                            + ((buff[5] <<  8) & 0x0000FF00)
+                            + ((buff[4] <<  0) & 0x000000FF)
+                    );
+                    int resultLO = (int)(
+                              ((buff[3] << 24) & 0xFF000000)
+                            + ((buff[2] << 16) & 0x00FF0000)
+                            + ((buff[1] <<  8) & 0x0000FF00)
+                            + ((buff[0] <<  0) & 0x000000FF)
+                            );
+                    result = (((long)resultHI) << 32) + ((long)resultLO);
+                }
+                else
+                {
+                    int resultHI = (int)(
+                              ((buff[0] << 24) & 0xFF000000)
+                            + ((buff[1] << 16) & 0x00FF0000)
+                            + ((buff[2] <<  8) & 0x0000FF00)
+                            + ((buff[3] <<  0) & 0x000000FF)
+                            );
+                    int resultLO = (int)(
+                              ((buff[4] << 24) & 0xFF000000)
+                            + ((buff[5] << 16) & 0x00FF0000)
+                            + ((buff[6] <<  8) & 0x0000FF00)
+                            + ((buff[7] <<  0) & 0x000000FF)
+                            );
+                    result = (((long)resultHI) << 32) + ((long)resultLO);
+                }
+            }
+        }
+        
+        return result;
+    }
+
     public static void write2byte(
             final byte[] buff
             , final short value
@@ -206,5 +271,53 @@ public class Util
 
         return;
     }
-    
+
+    public static void write8byte(
+            final byte[] buff
+            , final long value
+            , final RandomAccessFile outStream
+            , final boolean isLittleEndian
+            )
+            throws IOException
+    {
+        if ( null == buff )
+        {
+            throw new InvalidParameterException("buff is null");
+        }
+        if ( null == outStream )
+        {
+            throw new InvalidParameterException("outStream is null");
+        }
+
+        {
+            final int length = 8;
+
+            if ( isLittleEndian )
+            {
+                buff[7] = (byte)((value >> 56) & 0xFF);
+                buff[6] = (byte)((value >> 48) & 0xFF);
+                buff[5] = (byte)((value >> 40) & 0xFF);
+                buff[4] = (byte)((value >> 32) & 0xFF);
+                buff[3] = (byte)((value >> 24) & 0xFF);
+                buff[2] = (byte)((value >> 16) & 0xFF);
+                buff[1] = (byte)((value >>  8) & 0xFF);
+                buff[0] = (byte)((value >>  0) & 0xFF);
+            }
+            else
+            {
+                buff[0] = (byte)((value >> 56) & 0xFF);
+                buff[1] = (byte)((value >> 48) & 0xFF);
+                buff[2] = (byte)((value >> 40) & 0xFF);
+                buff[3] = (byte)((value >> 32) & 0xFF);
+                buff[4] = (byte)((value >> 24) & 0xFF);
+                buff[5] = (byte)((value >> 16) & 0xFF);
+                buff[6] = (byte)((value >>  8) & 0xFF);
+                buff[7] = (byte)((value >>  0) & 0xFF);
+            }
+            outStream.write( buff, 0, length );
+        }
+
+        return;
+    }
+
 }

@@ -164,4 +164,18 @@ public class AppTest {
         };
         App.main(args);
     }
+    /**
+     * Test of main method, of class App.
+     */
+    @Test
+    public void testMainAndroidSingleFileStripAndroidO() {
+        System.out.println("AndroidSingleFileStripAndroidO");
+        String[] args = {
+            "-B"
+            , "--android-O"
+            , "target/test-classes/elf/android/hello-jni/libs/armeabi-v7a/libhello-jni_rwx.so"
+            , "-o target/test-classes/elf-stripAndroid/android/hello-jni/libs/armeabi-v7a/libhello-jni_rwx.so"
+        };
+        App.main(args);
+    }
 }

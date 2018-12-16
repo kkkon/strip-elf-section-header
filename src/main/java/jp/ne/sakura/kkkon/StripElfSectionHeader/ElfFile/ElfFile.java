@@ -269,7 +269,7 @@ public class ElfFile
                     _elfFile = new Elf32File();
                     break;
                 case IElfFile.ELFCLASS64:
-                    System.err.println( "Not implemented ElfClass64" );
+                    _elfFile = new Elf64File();
                     break;
                 default:
                     System.err.println( "Unknown ElfClass" );

@@ -28,7 +28,7 @@
                     
                 <div class="xleft">
         <span id="publishDate">Last Published: 2018-12-16</span>
-                  &nbsp;| <span id="projectVersion">Version: 1.4.3</span>
+                  &nbsp;| <span id="projectVersion">Version: 1.5</span>
                       </div>
             <div class="xright">                    <a href="http://maven.apache.org/" class="externalLink" title="Maven">Maven</a>
               
@@ -108,12 +108,12 @@ function toggleDisplay(elementId) {
 <th>Success Rate</th>
 <th>Time</th></tr>
 <tr class="b">
-<td>8</td>
+<td>16</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>100%</td>
-<td>0.562</td></tr></table><br />
+<td>0.751</td></tr></table><br />
 <p>Note: failures are anticipated and checked for with assertions while errors are unanticipated.</p><br /></div>
 <div class="section">
 <h2>Package List<a name="Package_List"></a></h2><a name="Package_List"></a>
@@ -129,12 +129,20 @@ function toggleDisplay(elementId) {
 <th>Time</th></tr>
 <tr class="b">
 <td><a href="#jp.ne.sakura.kkkon.StripElfSectionHeader">jp.ne.sakura.kkkon.StripElfSectionHeader</a></td>
-<td>8</td>
+<td>10</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>100%</td>
-<td>0.562</td></tr></table><br />
+<td>0.735</td></tr>
+<tr class="a">
+<td><a href="#jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile">jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile</a></td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100%</td>
+<td>0.016</td></tr></table><br />
 <p>Note: package statistics are not computed recursively, they only sum up all of its testsuites numbers.</p>
 <div class="section">
 <h3>jp.ne.sakura.kkkon.StripElfSectionHeader<a name="jp.ne.sakura.kkkon.StripElfSectionHeader"></a></h3><a name="jp.ne.sakura.kkkon.StripElfSectionHeader"></a>
@@ -151,12 +159,33 @@ function toggleDisplay(elementId) {
 <tr class="b">
 <td><a href="#jp.ne.sakura.kkkon.StripElfSectionHeaderAppTest"><img src="images/icon_success_sml.gif" alt="" /></a></td>
 <td><a href="#jp.ne.sakura.kkkon.StripElfSectionHeaderAppTest">AppTest</a></td>
-<td>8</td>
+<td>10</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>100%</td>
-<td>0.562</td></tr></table></div><br /></div>
+<td>0.735</td></tr></table></div>
+<div class="section">
+<h3>jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile<a name="jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile"></a></h3><a name="jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFile"></a>
+<table border="1" class="bodyTable">
+<tr class="a">
+<th></th>
+<th>Class</th>
+<th>Tests</th>
+<th>Errors </th>
+<th>Failures</th>
+<th>Skipped</th>
+<th>Success Rate</th>
+<th>Time</th></tr>
+<tr class="b">
+<td><a href="#jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFileUtilTest"><img src="images/icon_success_sml.gif" alt="" /></a></td>
+<td><a href="#jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFileUtilTest">UtilTest</a></td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100%</td>
+<td>0.016</td></tr></table></div><br /></div>
 <div class="section">
 <h2>Test Cases<a name="Test_Cases"></a></h2><a name="Test_Cases"></a>
 <p>[<a href="#Summary">Summary</a>] [<a href="#Package_List">Package List</a>] [<a href="#Test_Cases">Test Cases</a>]</p>
@@ -173,27 +202,62 @@ function toggleDisplay(elementId) {
 <td>0</td></tr>
 <tr class="a">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td>testMainAndroidArm64SingleFileStripAndroidO</td>
+<td>0.281</td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td>testMain</td>
+<td>0.016</td></tr>
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td>testMainAndroidSingleFileStripAndroid</td>
 <td>0</td></tr>
 <tr class="b">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
-<td>testMainAndroidSingleFileStripAndroid</td>
-<td>0.266</td></tr>
+<td>testMainAndroidDryRun</td>
+<td>0.14</td></tr>
 <tr class="a">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
-<td>testMainAndroidDryRun</td>
-<td>0.078</td></tr>
+<td>testMainAndroidArm64SingleFile</td>
+<td>0.016</td></tr>
 <tr class="b">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td>testMainAndroidSingleFileStripAndroidO</td>
-<td>0.015</td></tr>
+<td>0</td></tr>
 <tr class="a">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td>testMainAndroid</td>
-<td>0.094</td></tr>
+<td>0.188</td></tr>
 <tr class="b">
 <td><img src="images/icon_success_sml.gif" alt="" /></td>
 <td>testMainAndroidSingleFile</td>
+<td>0</td></tr></table></div>
+<div class="section">
+<h3>UtilTest<a name="UtilTest"></a></h3><a name="jp.ne.sakura.kkkon.StripElfSectionHeader.ElfFileUtilTest"></a>
+<table border="1" class="bodyTable">
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td>testWrite2byte</td>
+<td>0</td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td>testWrite4byte</td>
+<td>0</td></tr>
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td>testWrite8byte</td>
+<td>0</td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td>testRead2byte</td>
+<td>0</td></tr>
+<tr class="a">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td>testRead4byte</td>
+<td>0</td></tr>
+<tr class="b">
+<td><img src="images/icon_success_sml.gif" alt="" /></td>
+<td>testRead8byte</td>
 <td>0</td></tr></table></div><br /></div>
       </div>
     </div>

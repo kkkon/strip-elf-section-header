@@ -485,7 +485,45 @@ public class Elf32File
     public boolean writeProgramHeader( final RandomAccessFile output )
             throws IOException
     {
-        return false;
+        if ( ! isElfMagic() )
+        {
+            return false;
+        }
+        
+        if ( ! isElf32() )
+        {
+            return false;
+        }
+
+        final boolean isBigEndian = isElfBigEndian();
+        final boolean isLittleEndian = isElfLittleEndian();
+        {
+            if ( isBigEndian || isLittleEndian )
+            {
+            }
+            else
+            {
+                throw new RuntimeException("unknown endian");
+            }
+        }
+
+        for ( int index = 0; index < this.programHeaders.length; ++index )
+        {
+            final ProgramHeader progHeader = this.programHeaders[index];
+
+            byte[] buff = new byte[4];
+
+            Util.write4byte( buff, progHeader.p_type, output, isLittleEndian);
+            Util.write4byte( buff, progHeader.p_offset, output, isLittleEndian);
+            Util.write4byte( buff, progHeader.p_vaddr, output, isLittleEndian);
+            Util.write4byte( buff, progHeader.p_paddr, output, isLittleEndian);
+            Util.write4byte( buff, progHeader.p_filesz, output, isLittleEndian);
+            Util.write4byte( buff, progHeader.p_memsz, output, isLittleEndian);
+            Util.write4byte( buff, progHeader.p_flags, output, isLittleEndian);
+            Util.write4byte( buff, progHeader.p_align, output, isLittleEndian);
+        }
+
+        return true;
     }
 
     public boolean writeSectionHeader( final RandomAccessFile output )
@@ -562,6 +600,16 @@ public class Elf32File
     @Override
     public long getElfHeaderHeaderSize() {
         return header.e_ehsize;
+    }
+
+    @Override
+    public long getElfHeaderProgramHeaderOffset() {
+        return header.e_phoff;
+    }
+
+    @Override
+    public long getElfHeaderProgramHeaderSize() {
+        return header.e_phentsize*header.e_phnum;
     }
 
     @Override

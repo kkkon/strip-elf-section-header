@@ -399,6 +399,26 @@ public class ElfFile
         return this._elfFile.getElfHeaderHeaderSize();
     }
 
+    public long getElfHeaderProgramHeaderOffset()
+    {
+        if ( null == this._elfFile )
+        {
+            throw new RuntimeException("_elfFile null");
+        }
+
+        return this._elfFile.getElfHeaderProgramHeaderOffset();
+    }
+
+    public long getElfHeaderProgramHeaderSize()
+    {
+        if ( null == this._elfFile )
+        {
+            throw new RuntimeException("_elfFile null");
+        }
+
+        return this._elfFile.getElfHeaderProgramHeaderSize();
+    }
+
     public long getElfHeaderSectionHeaderOffset()
     {
         if ( null == this._elfFile )

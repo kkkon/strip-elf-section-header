@@ -43,6 +43,10 @@ public interface IElfFile
     abstract public boolean writeSectionHeader( final RandomAccessFile output ) throws IOException;
 
     abstract public long getElfHeaderHeaderSize();
+
+    abstract public long getElfHeaderProgramHeaderOffset();
+    abstract public long getElfHeaderProgramHeaderSize();
+
     abstract public long getElfHeaderSectionHeaderOffset();
     
     abstract public long getElfHeaderSectionHeaderStringTableOffset();

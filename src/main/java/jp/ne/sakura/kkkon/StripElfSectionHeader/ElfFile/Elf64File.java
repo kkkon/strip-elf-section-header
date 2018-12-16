@@ -32,7 +32,7 @@ import java.util.List;
  *
  * @author Kiyofumi Kondoh
  */
-public class Elf32File
+public class Elf64File
     implements IElfFile
 {
 
@@ -42,9 +42,9 @@ public class Elf32File
         short   e_type;
         short   e_machine;
         int     e_version;
-        int     e_entry;
-        int     e_phoff;
-        int     e_shoff;
+        long    e_entry;
+        long    e_phoff;
+        long    e_shoff;
         int     e_flags;
         short   e_ehsize;
         short   e_phentsize;
@@ -65,9 +65,9 @@ public class Elf32File
                     + ", e_type=0x" + Integer.toHexString(e_type & 0xFFFF)
                     + ", e_machine=0x" + Integer.toHexString(e_machine & 0xFFFF)
                     + ", e_version=0x" + Integer.toHexString(e_version)
-                    + ", e_entry=0x" + Integer.toHexString(e_entry)
-                    + ", e_phoff=0x" + Integer.toHexString(e_phoff)
-                    + ", e_shoff=0x" + Integer.toHexString(e_shoff)
+                    + ", e_entry=0x" + Long.toHexString(e_entry)
+                    + ", e_phoff=0x" + Long.toHexString(e_phoff)
+                    + ", e_shoff=0x" + Long.toHexString(e_shoff)
                     + ", e_flags=0x" + Integer.toHexString(e_flags)
                     + ", e_ehsize=0x" + Integer.toHexString(e_ehsize & 0xFFFF)
                     + ", e_phentsize=0x" + Integer.toHexString(e_phentsize & 0xFFFF)
@@ -83,25 +83,25 @@ public class Elf32File
     static final class ProgramHeader
     {
         int     p_type;
-        int     p_offset;
-        int     p_vaddr;
-        int     p_paddr;
-        int     p_filesz;
-        int     p_memsz;
         int     p_flags;
-        int     p_align;
+        long    p_offset;
+        long    p_vaddr;
+        long    p_paddr;
+        long    p_filesz;
+        long    p_memsz;
+        long    p_align;
 
         @Override
         public String toString() {
             return "ProgramHeader{"
                     + "p_type=" + Integer.toHexString(p_type)
-                    + ", p_offset=" + Integer.toHexString(p_offset)
-                    + ", p_vaddr=" + Integer.toHexString(p_vaddr)
-                    + ", p_paddr=" + Integer.toHexString(p_paddr)
-                    + ", p_filesz=" + Integer.toHexString(p_filesz)
-                    + ", p_memsz=" + Integer.toHexString(p_memsz)
                     + ", p_flags=" + Integer.toHexString(p_flags)
-                    + ", p_align=" + Integer.toHexString(p_align)
+                    + ", p_offset=" + Long.toHexString(p_offset)
+                    + ", p_vaddr=" + Long.toHexString(p_vaddr)
+                    + ", p_paddr=" + Long.toHexString(p_paddr)
+                    + ", p_filesz=" + Long.toHexString(p_filesz)
+                    + ", p_memsz=" + Long.toHexString(p_memsz)
+                    + ", p_align=" + Long.toHexString(p_align)
                     + '}';
         }
         
@@ -111,28 +111,28 @@ public class Elf32File
     {
         int     sh_name;
         int     sh_type;
-        int     sh_flags;
-        int     sh_addr;
-        int     sh_offset;
-        int     sh_size;
+        long    sh_flags;
+        long    sh_addr;
+        long    sh_offset;
+        long    sh_size;
         int     sh_link;
         int     sh_info;
-        int     sh_addralign;
-        int     sh_entsize;
+        long    sh_addralign;
+        long    sh_entsize;
 
         @Override
         public String toString() {
             return "SectionHeader{"
                     + "sh_name=" + Integer.toHexString(sh_name)
                     + ", sh_type=" + Integer.toHexString(sh_type)
-                    + ", sh_flags=" + Integer.toHexString(sh_flags)
-                    + ", sh_addr=" + Integer.toHexString(sh_addr)
-                    + ", sh_offset=" + Integer.toHexString(sh_offset)
-                    + ", sh_size=" + Integer.toHexString(sh_size)
+                    + ", sh_flags=" + Long.toHexString(sh_flags)
+                    + ", sh_addr=" + Long.toHexString(sh_addr)
+                    + ", sh_offset=" + Long.toHexString(sh_offset)
+                    + ", sh_size=" + Long.toHexString(sh_size)
                     + ", sh_link=" + Integer.toHexString(sh_link)
                     + ", sh_info=" + Integer.toHexString(sh_info)
-                    + ", sh_addralign=" + Integer.toHexString(sh_addralign)
-                    + ", sh_entsize=" + Integer.toHexString(sh_entsize)
+                    + ", sh_addralign=" + Long.toHexString(sh_addralign)
+                    + ", sh_entsize=" + Long.toHexString(sh_entsize)
                     + '}';
         }
         
@@ -188,7 +188,7 @@ public class Elf32File
             return false;
         }
         
-        if ( ! isElf32() )
+        if ( ! isElf64() )
         {
             return false;
         }
@@ -214,14 +214,14 @@ public class Elf32File
         {
             if ( isBigEndian || isLittleEndian )
             {
-                byte[] buff = new byte[4];
+                byte[] buff = new byte[8];
 
                 header.e_type       = Util.read2byte( buff, input, isLittleEndian );
                 header.e_machine    = Util.read2byte( buff, input, isLittleEndian );
                 header.e_version    = Util.read4byte( buff, input, isLittleEndian );
-                header.e_entry      = Util.read4byte( buff, input, isLittleEndian );
-                header.e_phoff      = Util.read4byte( buff, input, isLittleEndian );
-                header.e_shoff      = Util.read4byte( buff, input, isLittleEndian );
+                header.e_entry      = Util.read8byte( buff, input, isLittleEndian );
+                header.e_phoff      = Util.read8byte( buff, input, isLittleEndian );
+                header.e_shoff      = Util.read8byte( buff, input, isLittleEndian );
                 header.e_flags      = Util.read4byte( buff, input, isLittleEndian );
                 header.e_ehsize     = Util.read2byte( buff, input, isLittleEndian );
                 header.e_phentsize  = Util.read2byte( buff, input, isLittleEndian );
@@ -244,7 +244,7 @@ public class Elf32File
             return false;
         }
         
-        if ( ! isElf32() )
+        if ( ! isElf64() )
         {
             return false;
         }
@@ -277,16 +277,16 @@ public class Elf32File
             {
                 ProgramHeader   programHeader = new ProgramHeader();
                 {
-                    byte[] buff = new byte[4];
+                    byte[] buff = new byte[8];
 
                     programHeader.p_type = Util.read4byte( buff, input, isLittleEndian );
-                    programHeader.p_offset = Util.read4byte( buff, input, isLittleEndian );
-                    programHeader.p_vaddr = Util.read4byte( buff, input, isLittleEndian );
-                    programHeader.p_paddr = Util.read4byte( buff, input, isLittleEndian );
-                    programHeader.p_filesz = Util.read4byte( buff, input, isLittleEndian );
-                    programHeader.p_memsz = Util.read4byte( buff, input, isLittleEndian );
                     programHeader.p_flags = Util.read4byte( buff, input, isLittleEndian );
-                    programHeader.p_align = Util.read4byte( buff, input, isLittleEndian );
+                    programHeader.p_offset = Util.read8byte( buff, input, isLittleEndian );
+                    programHeader.p_vaddr = Util.read8byte( buff, input, isLittleEndian );
+                    programHeader.p_paddr = Util.read8byte( buff, input, isLittleEndian );
+                    programHeader.p_filesz = Util.read8byte( buff, input, isLittleEndian );
+                    programHeader.p_memsz = Util.read8byte( buff, input, isLittleEndian );
+                    programHeader.p_align = Util.read8byte( buff, input, isLittleEndian );
                 }
                 //System.out.println( programHeader.toString() );
                 programHeaders[index] = programHeader;
@@ -299,7 +299,7 @@ public class Elf32File
 
     protected   SectionHeader[] sectionHeaders = null;
     protected   String[] sectionHeaderStrings = null;
-    protected   int offsetSectionHeader_StringTable = -1;
+    protected   long offsetSectionHeader_StringTable = -1;
     public boolean readSectionHeader( final RandomAccessFile input )
             throws IOException
     {
@@ -308,7 +308,7 @@ public class Elf32File
             return false;
         }
         
-        if ( ! isElf32() )
+        if ( ! isElf64() )
         {
             return false;
         }
@@ -341,18 +341,18 @@ public class Elf32File
             {
                 SectionHeader   sectionHeader = new SectionHeader();
                 {
-                    byte[] buff = new byte[4];
+                    byte[] buff = new byte[8];
 
                     sectionHeader.sh_name = Util.read4byte( buff, input, isLittleEndian );
                     sectionHeader.sh_type = Util.read4byte( buff, input, isLittleEndian );
-                    sectionHeader.sh_flags = Util.read4byte( buff, input, isLittleEndian );
-                    sectionHeader.sh_addr = Util.read4byte( buff, input, isLittleEndian );
-                    sectionHeader.sh_offset = Util.read4byte( buff, input, isLittleEndian );
-                    sectionHeader.sh_size = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_flags = Util.read8byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_addr = Util.read8byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_offset = Util.read8byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_size = Util.read8byte( buff, input, isLittleEndian );
                     sectionHeader.sh_link = Util.read4byte( buff, input, isLittleEndian );
                     sectionHeader.sh_info = Util.read4byte( buff, input, isLittleEndian );
-                    sectionHeader.sh_addralign = Util.read4byte( buff, input, isLittleEndian );
-                    sectionHeader.sh_entsize = Util.read4byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_addralign = Util.read8byte( buff, input, isLittleEndian );
+                    sectionHeader.sh_entsize = Util.read8byte( buff, input, isLittleEndian );
                 }
                 //System.out.println( sectionHeader.toString() );
                 sectionHeaders[index] = sectionHeader;
@@ -376,7 +376,8 @@ public class Elf32File
                 final int index = header.e_shstrndx;
                 if ( 0 <= index && index < sectionHeaders.length )
                 {
-                    stringTable = new byte[sectionHeaders[index].sh_size];
+                    assert sectionHeaders[index].sh_size < Integer.MAX_VALUE : "sh_size=" + sectionHeaders[index].sh_size;
+                    stringTable = new byte[(int)sectionHeaders[index].sh_size];
                     input.seek( sectionHeaders[index].sh_offset );
                     input.read(stringTable);
                 }
@@ -444,7 +445,7 @@ public class Elf32File
             return false;
         }
         
-        if ( ! isElf32() )
+        if ( ! isElf64() )
         {
             return false;
         }
@@ -462,14 +463,14 @@ public class Elf32File
         }
 
         {
-            byte[] buff = new byte[4];
+            byte[] buff = new byte[8];
 
             Util.write2byte( buff, header.e_type, output, isLittleEndian );
             Util.write2byte( buff, header.e_machine, output, isLittleEndian );
             Util.write4byte( buff, header.e_version, output, isLittleEndian );
-            Util.write4byte( buff, header.e_entry, output, isLittleEndian );
-            Util.write4byte( buff, header.e_phoff, output, isLittleEndian );
-            Util.write4byte( buff, header.e_shoff, output, isLittleEndian );
+            Util.write8byte( buff, header.e_entry, output, isLittleEndian );
+            Util.write8byte( buff, header.e_phoff, output, isLittleEndian );
+            Util.write8byte( buff, header.e_shoff, output, isLittleEndian );
             Util.write4byte( buff, header.e_flags, output, isLittleEndian );
             Util.write2byte( buff, header.e_ehsize, output, isLittleEndian );
             Util.write2byte( buff, header.e_phentsize, output, isLittleEndian );
@@ -490,7 +491,7 @@ public class Elf32File
             return false;
         }
         
-        if ( ! isElf32() )
+        if ( ! isElf64() )
         {
             return false;
         }
@@ -511,16 +512,16 @@ public class Elf32File
         {
             final ProgramHeader progHeader = this.programHeaders[index];
 
-            byte[] buff = new byte[4];
+            byte[] buff = new byte[8];
 
             Util.write4byte( buff, progHeader.p_type, output, isLittleEndian);
-            Util.write4byte( buff, progHeader.p_offset, output, isLittleEndian);
-            Util.write4byte( buff, progHeader.p_vaddr, output, isLittleEndian);
-            Util.write4byte( buff, progHeader.p_paddr, output, isLittleEndian);
-            Util.write4byte( buff, progHeader.p_filesz, output, isLittleEndian);
-            Util.write4byte( buff, progHeader.p_memsz, output, isLittleEndian);
             Util.write4byte( buff, progHeader.p_flags, output, isLittleEndian);
-            Util.write4byte( buff, progHeader.p_align, output, isLittleEndian);
+            Util.write8byte( buff, progHeader.p_offset, output, isLittleEndian);
+            Util.write8byte( buff, progHeader.p_vaddr, output, isLittleEndian);
+            Util.write8byte( buff, progHeader.p_paddr, output, isLittleEndian);
+            Util.write8byte( buff, progHeader.p_filesz, output, isLittleEndian);
+            Util.write8byte( buff, progHeader.p_memsz, output, isLittleEndian);
+            Util.write8byte( buff, progHeader.p_align, output, isLittleEndian);
         }
 
         return true;
@@ -534,7 +535,7 @@ public class Elf32File
             return false;
         }
         
-        if ( ! isElf32() )
+        if ( ! isElf64() )
         {
             return false;
         }
@@ -580,18 +581,18 @@ public class Elf32File
         {
             final SectionHeader secHeader = this.sectionHeaders[index];
 
-            byte[] buff = new byte[4];
+            byte[] buff = new byte[8];
 
             Util.write4byte( buff, secHeader.sh_name, output, isLittleEndian);
             Util.write4byte( buff, secHeader.sh_type, output, isLittleEndian);
-            Util.write4byte( buff, secHeader.sh_flags, output, isLittleEndian);
-            Util.write4byte( buff, secHeader.sh_addr, output, isLittleEndian);
-            Util.write4byte( buff, secHeader.sh_offset, output, isLittleEndian);
-            Util.write4byte( buff, secHeader.sh_size, output, isLittleEndian);
+            Util.write8byte( buff, secHeader.sh_flags, output, isLittleEndian);
+            Util.write8byte( buff, secHeader.sh_addr, output, isLittleEndian);
+            Util.write8byte( buff, secHeader.sh_offset, output, isLittleEndian);
+            Util.write8byte( buff, secHeader.sh_size, output, isLittleEndian);
             Util.write4byte( buff, secHeader.sh_link, output, isLittleEndian);
             Util.write4byte( buff, secHeader.sh_info, output, isLittleEndian);
-            Util.write4byte( buff, secHeader.sh_addralign, output, isLittleEndian);
-            Util.write4byte( buff, secHeader.sh_entsize, output, isLittleEndian);
+            Util.write8byte( buff, secHeader.sh_addralign, output, isLittleEndian);
+            Util.write8byte( buff, secHeader.sh_entsize, output, isLittleEndian);
         }
 
         return true;

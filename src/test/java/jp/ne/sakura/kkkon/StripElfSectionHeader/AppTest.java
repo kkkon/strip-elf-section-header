@@ -178,4 +178,29 @@ public class AppTest {
         };
         App.main(args);
     }
+
+    @Test
+    public void testMainAndroidArm64SingleFile() {
+        System.out.println("mainAndroidSingleFile");
+        String[] args = {
+            "-B"
+            , "--android"
+            , "target/test-classes/elf/android/hello-jni_ndk-r10e/libs/arm64-v8a/libhello-jni.so"
+            , "-o target/test-classes/elf-stripSingle/android/hello-jni_ndk-r10e/libs/arm64-v8a/libhello-jni.so"
+        };
+        App.main(args);
+    }
+
+    @Test
+    public void testMainAndroidArm64SingleFileStripAndroidO() {
+        System.out.println("AndroidSingleFileStripAndroidO");
+        String[] args = {
+            "-B"
+            , "--android-O"
+            , "target/test-classes/elf/android/hello-jni_ndk-r10e/libs/arm64-v8a/libhello-jni_rwx.so"
+            , "-o target/test-classes/elf-stripSingle/android/hello-jni_ndk-r10e/libs/arm64-v8a/libhello-jni_rwx.so"
+        };
+        App.main(args);
+    }
+
 }

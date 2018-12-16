@@ -176,6 +176,16 @@ public class ElfFileUtil
                 }
             }
 
+            if ( option.isAndroidO() )
+            {
+                input.seek( elfFile.getElfHeaderProgramHeaderOffset() + elfFile.getElfHeaderProgramHeaderSize() );
+
+                assert elfFile.getElfHeaderHeaderSize() == output.getFilePointer();
+
+                elfFile.fixProgramFlagAndroidO();
+                elfFile.writeProgramHeader( output );
+            }
+
             long size = elfFile.getElfHeaderSectionHeaderOffset();
             final long fileSize = file.length();
             if ( size < 0 || fileSize < size )
@@ -192,6 +202,12 @@ public class ElfFileUtil
                 size = offsetSectionHeader_StringTable;
             }
             size -= elfHeaderHeaderSize;
+
+            if ( option.isAndroidO() )
+            {
+                size -= elfFile.getElfHeaderProgramHeaderSize();
+            }
+
 
             byte[] temp = new byte[(int)size];
             input.read( temp );

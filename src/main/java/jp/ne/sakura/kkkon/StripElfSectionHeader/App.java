@@ -188,5 +188,21 @@ public class App
                 }
             }
         }
+
+        if ( appOpt.isAndroid() )
+        {
+            final String lineSeparator = System.getProperty("line.separator");
+            final StringBuilder sb = new StringBuilder();
+            sb.append("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            sb.append(lineSeparator);
+            sb.append("!!  If you build apk by android gradle's version 2.3 higher,   !!");
+            sb.append(lineSeparator);
+            sb.append("!!   you must set 'packagingOptions.doNotStrip'                !!");
+            sb.append(lineSeparator);
+            sb.append("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            sb.append(lineSeparator);
+            //sb.append();
+            System.out.println( sb.toString() );
+        }
     }
 }

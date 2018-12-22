@@ -545,4 +545,11 @@ public class ElfFile
     static final String ELF_SYMTAB          = ".symtab";
     static final String ELF_TEXT            = ".text";
 
+    static final String[] mAndroidRequireSectionArray = {
+        ELF_DYNAMIC,
+        // ELF_DYNSYM,
+        ELF_DYNSTR,
+        ELF_SHSTRTAB,
+    };
+
 }

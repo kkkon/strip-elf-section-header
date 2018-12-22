@@ -683,18 +683,11 @@ public class Elf32File
         }
 
         {
-            final String[] needSectionNameArray = {
-                ElfFile.ELF_DYNAMIC
-                //, ElfFile.ELF_DYNSYM
-                , ElfFile.ELF_DYNSTR
-                , ElfFile.ELF_SHSTRTAB
-            };
-
             for ( int index = 0; index < this.sectionHeaders.length; ++index )
             {
-                for ( int i = 0; i < needSectionNameArray.length; ++ i )
+                for ( int i = 0; i < ElfFile.mAndroidRequireSectionArray.length; ++ i )
                 {
-                    if ( 0 == needSectionNameArray[i].compareTo( this.sectionHeaderStrings[index] ) )
+                    if ( 0 == ElfFile.mAndroidRequireSectionArray[i].compareTo( this.sectionHeaderStrings[index] ) )
                     {
                         listHeaderName.add( this.sectionHeaderStrings[index] );
                         listHeader.add( this.sectionHeaders[index] );

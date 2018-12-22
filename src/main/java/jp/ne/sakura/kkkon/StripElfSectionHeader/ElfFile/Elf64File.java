@@ -756,8 +756,8 @@ public class Elf64File
             this.sectionHeaders[this.sectionHeaders.length-1].sh_size = (int)stringTableSize;
             this.header.e_shoff = this.offsetSectionHeader_StringTable + (int)stringTableSize;
 
-            // 4 byte alignment
-            this.header.e_shoff = (this.header.e_shoff + (4-1)) & (~(4-1));
+            // 8 byte alignment
+            this.header.e_shoff = (this.header.e_shoff + (8-1)) & (~(8-1));
         }
 
         return true;
